@@ -1,0 +1,28 @@
+# Web framework
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+
+# Database
+sqlalchemy==2.0.35
+asyncpg==0.29.0          # driver async per PostgreSQL
+alembic==1.13.3
+
+# Config & validation
+pydantic==2.9.2
+pydantic-settings==2.5.2
+
+# Auth
+python-jose[cryptography]==3.3.0   # JWT
+passlib[bcrypt]==1.7.4             # hashing password
+
+# Azure SDK
+azure-cognitiveservices-vision-computervision==0.9.0  # Vision / OCR
+azure-storage-blob==12.23.0                           # Blob Storage
+openai==1.51.0                                        # Azure OpenAI client
+
+# AI / ML
+sentence-transformers==3.1.1   # embeddings per similarità vini
+scikit-learn==1.5.2            # cosine_similarity
+
+# Utils
+python-multipart==0.0.12       # upload file in FastAPI
