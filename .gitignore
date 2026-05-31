@@ -1,0 +1,16 @@
+# Environment
+.env
+.env.*
+
+# Dataset
+datasets/
+
+# Python
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/
+
+# Office
+*.docx
