@@ -4,7 +4,7 @@ from typing import Optional
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-from EnotecaSisDis.enotecaBackend.app.config.settings import get_settings
+from app.config.settings import get_settings
 
 settings = get_settings()
 

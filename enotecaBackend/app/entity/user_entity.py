@@ -1,7 +1,11 @@
 """
-User -- tabella per gestire l'autenticazione.
-Il ruolo ADMIN è l'unico autorizzato ad aggiungere, modificare o eliminare vini dal catalogo.
+Entity User — gestione utenti sincronizzati da Azure Entra External ID.
 
+Con Azure Entra:
+  - Le credenziali (password) sono gestite interamente da Azure
+  - Il nostro DB conserva solo i dati applicativi: ruolo, last_login, is_active
+  - L'identificatore univoco è azure_oid (Object ID di Azure), non l'email
+  - hashed_password rimane nel modello per compatibilità SQLAlchemy ma è sempre ""
 """
 import uuid
 from datetime import datetime
@@ -16,67 +20,82 @@ from app.db.session import Base
 
 
 class UserRole(str, enum.Enum):
-    ADMIN = "admin"   # può scrivere sul catalogo
-    USER = "user"     # sola lettura + funzionalità AI
+    ADMIN = "admin"   # ruolo assegnato su portale Azure → Enoteca.Admin
+    USER  = "user"    # ruolo di default per tutti gli altri utenti
 
 
 class User(Base):
     __tablename__ = "users"
 
-    # Chiave primaria
+    # --- Chiave primaria interna ---
     id: Mapped[str] = mapped_column(
         CHAR(36),
         primary_key=True,
         default=lambda: str(uuid.uuid4()),
-        comment="Identificatore utente",
+        comment="Identificatore interno (UUID v4)",
     )
 
-    # Credenziali
-    email: Mapped[str] = mapped_column(
+    # --- Identificatore Azure ---
+    azure_oid: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
         unique=True,
         index=True,
-        comment="Email (usata come username per il login)",
+        comment="Object ID di Azure Entra — identificatore univoco Microsoft, immutabile",
     )
-    password: Mapped[str] = mapped_column(
+
+    # --- Profilo (sincronizzato da Azure al login) ---
+    email: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
-        comment="Password hashata (bcrypt)"
+        index=True,
+        comment="Email dell'utente — sincronizzata da Azure, può cambiare",
     )
-
-    # Profilo
-    nome_utente: Mapped[Optional[str]] = mapped_column(
-        String(100),
+    nome: Mapped[Optional[str]] = mapped_column(
+        String(255),
         nullable=True,
-        comment="Nome visualizzato dell'utente",
+        comment="Nome completo — sincronizzato dal campo 'name' del token Azure",
     )
 
-    # Ruolo
-    ruolo: Mapped[UserRole] = mapped_column(
+    # --- Ruolo applicativo ---
+    role: Mapped[UserRole] = mapped_column(
         SAEnum(UserRole, name="user_role"),
         nullable=False,
         default=UserRole.USER,
-        comment="Ruolo: admin (scrittura catalogo) o user (sola lettura)",
+        comment="Ruolo: sincronizzato dagli App Roles di Azure Entra ad ogni login",
     )
 
-   
-    # --- Metadati di sistema ---
-    data_registrazione: Mapped[datetime] = mapped_column(
+    # --- Stato account ---
+    is_active: Mapped[bool] = mapped_column(
+        Boolean,
+        nullable=False,
+        default=True,
+        comment="False = account disabilitato a livello applicativo (indipendente da Azure)",
+    )
+
+    # --- Campo legacy — non usato con Azure Entra ---
+    hashed_password: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False,
+        default="",
+        comment="Non usato con Azure Entra — mantenuto per compatibilità schema",
+    )
+
+    # --- Metadati ---
+    created_at: Mapped[datetime] = mapped_column(
         DateTime,
         server_default=func.now(),
-        comment="Data registrazione",
+        comment="Data primo accesso (creazione record)",
     )
-    ultimo_accesso: Mapped[Optional[datetime]] = mapped_column(
+    last_login: Mapped[Optional[datetime]] = mapped_column(
         DateTime,
         nullable=True,
-        comment="Ultimo accesso riuscito",
+        comment="Data ultimo accesso verificato",
     )
 
     @property
     def is_admin(self) -> bool:
-        """Shortcut per verificare il ruolo admin nei service e controller."""
-        return self.ruolo == UserRole.ADMIN
+        return self.role == UserRole.ADMIN
 
     def __repr__(self) -> str:
-        return f"<User id={self.id} email='{self.email}' role={self.ruolo.value}>"
+        return f"<User oid={self.azure_oid} email='{self.email}' role={self.role.value}>"

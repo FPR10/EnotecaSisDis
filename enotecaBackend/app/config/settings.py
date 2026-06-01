@@ -8,19 +8,20 @@ class Settings(BaseSettings):
     app_version: str = "1.0.0"
     debug: bool = False
 
-    # --- Database (Azure PostgreSQL Flexible Server) ---
-    database_url: str  # es. postgresql+asyncpg://user:pass@host:5432/enoteca
+    # --- Database (MySQL) ---
+    database_url: str
 
-    # --- JWT Authentication ---
-    jwt_secret: str
-    jwt_algorithm: str = "HS256"
-    jwt_expire_minutes: int = 60 * 24  # 24 ore
+    # --- Azure Entra External ID (autenticazione) ---
+    # Trovati su: portale Azure → App registrations → la tua app
+    azure_entra_tenant_id: str        # es. "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    azure_entra_client_id: str        # Application (client) ID della tua app registration
+    azure_entra_admin_role: str = "Enoteca.Admin"  # nome dell'App Role per gli admin
 
     # --- Azure AI Vision (OCR etichette) ---
     azure_vision_endpoint: str = ""
     azure_vision_key: str = ""
 
-    # --- Azure OpenAI (abbinamenti cibo-vino, descrizioni) ---
+    # --- Azure OpenAI (abbinamenti cibo-vino) ---
     azure_openai_endpoint: str = ""
     azure_openai_key: str = ""
     azure_openai_deployment: str = "gpt-4o"
@@ -37,8 +38,4 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_settings() -> Settings:
-    """
-    Restituisce un'istanza singleton di Settings.
-    Il decoratore lru_cache garantisce che il .env venga letto una sola volta.
-    """
     return Settings()
