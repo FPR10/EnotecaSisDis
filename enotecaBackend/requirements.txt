@@ -4,25 +4,27 @@ uvicorn[standard]==0.30.6
 
 # Database
 sqlalchemy==2.0.35
-asyncpg==0.29.0          # driver async per PostgreSQL
+aiomysql==0.2.0
 alembic==1.13.3
+pymysql==1.1.1
 
 # Config & validation
 pydantic==2.9.2
 pydantic-settings==2.5.2
+email-validator==2.2.0      # necessario per EmailStr in Pydantic
 
-# Auth
-python-jose[cryptography]==3.3.0   # JWT
-passlib[bcrypt]==1.7.4             # hashing password
+# Auth — Azure Entra External ID
+python-jose[cryptography]==3.3.0   # verifica JWT firmati da Azure (RS256)
+httpx==0.27.2                      # download asincrono chiavi pubbliche JWKS
 
 # Azure SDK
-azure-cognitiveservices-vision-computervision==0.9.0  # Vision / OCR
-azure-storage-blob==12.23.0                           # Blob Storage
-openai==1.51.0                                        # Azure OpenAI client
+azure-cognitiveservices-vision-computervision==0.9.0
+azure-storage-blob==12.23.0
+openai==1.51.0                     # Azure OpenAI client
 
 # AI / ML
-sentence-transformers==3.1.1   # embeddings per similarità vini
-scikit-learn==1.5.2            # cosine_similarity
+sentence-transformers==3.1.1
+scikit-learn==1.5.2
 
 # Utils
-python-multipart==0.0.12       # upload file in FastAPI
+python-multipart==0.0.12

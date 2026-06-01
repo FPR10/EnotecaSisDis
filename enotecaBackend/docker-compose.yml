@@ -16,21 +16,23 @@ services:
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
   db:
-    image: postgres:16-alpine
+    image: mysql:8.4
     container_name: enoteca_db
     environment:
-      POSTGRES_DB: enoteca
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: secret
+      MYSQL_DATABASE: enoteca
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: rootsecret
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d enoteca"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "admin", "-psecret"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
 
 volumes:
-  postgres_data:
+  mysql_data:
