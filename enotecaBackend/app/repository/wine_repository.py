@@ -50,6 +50,8 @@ class WineRepository:
             query = query.where(Wine.annata <= filters.annata_max)
         if filters.prezzo_max:
             query = query.where(Wine.prezzo <= filters.prezzo_max)
+        if filters.popolarita_min:
+            query = query.where(Wine.popolarita >= filters.popolarita_min)
         if filters.q:
             # Ricerca testuale su nome, produttore e vitigno
             pattern = f"%{filters.q}%"
