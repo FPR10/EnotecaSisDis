@@ -58,7 +58,7 @@ class User(Base):
     )
 
     # --- Ruolo applicativo ---
-    role: Mapped[UserRole] = mapped_column(
+    ruolo: Mapped[UserRole] = mapped_column(
         SAEnum(UserRole, name="user_role"),
         nullable=False,
         default=UserRole.USER,
@@ -95,7 +95,7 @@ class User(Base):
 
     @property
     def is_admin(self) -> bool:
-        return self.role == UserRole.ADMIN
+        return self.ruolo == UserRole.ADMIN
 
     def __repr__(self) -> str:
-        return f"<User oid={self.azure_oid} email='{self.email}' role={self.role.value}>"
+        return f"<User oid={self.azure_oid} email='{self.email}' role={self.ruolo.value}>"

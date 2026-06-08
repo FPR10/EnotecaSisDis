@@ -44,12 +44,11 @@ class TipoVino (str, enum.Enum):
 class Wine(Base):
   __tablename__ = "vini"
   
-  #Id del vino è identificativo -> Chiave 
+  # --- Chiave primaria (UUID generato da noi, indipendente dall'id del dataset) ---
   id: Mapped[str] = mapped_column(
-        CHAR(36),
-        primary_key=True,
+        CHAR(36), primary_key=True,
         default=lambda: str(uuid.uuid4()),
-        comment="Identificatore univoco del vino",
+        comment="UUID generato internamente — l'id del dataset viene ignorato",
     )
   
   #Campi della traccia
@@ -127,6 +126,16 @@ class Wine(Base):
             "Oggetto JSON con proprietà sensoriali. "
             "Esempio: {colore: 'rosso rubino', profumo: ['ciliegia', 'vaniglia'], gusto: 'secco, tannico'}"
         ),
+    )
+  
+   # --- Campi aggiuntivi dal dataset ---
+  popolarita: Mapped[Optional[int]] = mapped_column(
+        Integer, nullable=True,
+        comment="Punteggio popolarità 1-5 dal dataset",
+    )
+  scorte: Mapped[Optional[int]] = mapped_column(
+        Integer, nullable=True,
+        comment="Unità disponibili in magazzino. Se 0 → disponibile viene impostato a False",
     )
 
     # Dati per logging del sistema 
