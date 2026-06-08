@@ -11,20 +11,23 @@ pymysql==1.1.1
 # Config & validation
 pydantic==2.9.2
 pydantic-settings==2.5.2
-email-validator==2.2.0      # necessario per EmailStr in Pydantic
+email-validator==2.2.0
 
 # Auth — Azure Entra External ID
-python-jose[cryptography]==3.3.0   # verifica JWT firmati da Azure (RS256)
-httpx==0.27.2                      # download asincrono chiavi pubbliche JWKS
+python-jose[cryptography]==3.3.0
+httpx==0.27.2
 
 # Azure SDK
 azure-cognitiveservices-vision-computervision==0.9.0
+msrest==0.7.1                      # autenticazione SDK Azure Vision
 azure-storage-blob==12.23.0
-openai==1.51.0                     # Azure OpenAI client
+openai==1.51.0
 
 # AI / ML
 sentence-transformers==3.1.1
 scikit-learn==1.5.2
+numpy==1.26.4
+rapidfuzz==3.9.7                   # fuzzy matching testo etichette OCR
 
 # Utils
 python-multipart==0.0.12
