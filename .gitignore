@@ -9,9 +9,21 @@ datasets/
 __pycache__/
 *.pyc
 
+#Angular
+node_modules/
+.angular/
+
 # VS Code
 .vscode/
 
 # Office
 *.docx
 *.pdf
+
+#Immagini
+*.png
+*.jpeg
+
+#Markdown
+*.md
+.claude/
