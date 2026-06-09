@@ -1,0 +1,25 @@
+<nav class="navbar">
+  <div class="logo-area" (click)="goHome()" role="button" aria-label="Torna alla home">
+
+    <!-- Immagine del logo -->
+    <div class="logo-icon">
+      <img src="assets/LogoCantina.png" alt="Ciao" class="logo-img">
+    </div>
+    <div class="logo-text">
+      <p class="title">Cantina Ruffo</p>
+      <p class="subtitle">Un brindisi d'eccellenza</p>
+    </div>
+  </div>
+
+  <div class="navbar-actions">
+
+    <button class="btn-add" (click)="onAddWine()">
+      <i class="ti ti-plus" aria-hidden="true"></i>
+      Aggiungi vino (admin)
+    </button>
+    <button class="btn-contact" (click)="contactUS()">
+      <i class="ti ti-mail" aria-hidden="true"></i>
+      Contattaci
+    </button>
+  </div>
+</nav>

@@ -1,0 +1,33 @@
+<aside class="sidebar">
+
+  <div class="category" *ngFor="let cat of categories">
+    <div class="category-header" (click)="toggleCategory(cat)">
+      <span class="left">
+        <span class="dot" [style.background]="cat.color"></span>
+        {{ cat.name }}
+      </span>
+      <i class="ti"
+         [class.ti-chevron-down]="!cat.expanded"
+         [class.ti-chevron-up]="cat.expanded"
+         aria-hidden="true">
+      </i>
+    </div>
+
+    <div class="subcategories" *ngIf="cat.expanded">
+      <div
+        class="subitem"
+        *ngFor="let region of cat.regions"
+        (click)="selectRegion(cat.name, region)">
+        {{ region }}
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-divider"></div>
+
+  <button class="btn-map" (click)="openMap()">
+    <i class="ti ti-map-2" aria-hidden="true"></i>
+    Mappa dei vini
+  </button>
+
+</aside>

@@ -1,0 +1,153 @@
+<main class="home">
+
+  <div class="section-title">
+    <i class="ti ti-star" aria-hidden="true"></i>
+    Vini consigliati
+  </div>
+
+  <div class="wine-grid">
+    <div class="wine-card" *ngFor="let wine of featuredWines">
+      <div class="card-img" [style.background]="getCardBg(wine.type)">
+        <i class="ti ti-bottle" [style.color]="getBottleColor(wine.type)" aria-hidden="true"></i>
+      </div>
+      <div class="card-body">
+        <div class="card-name">{{ wine.name }}</div>
+        <div class="card-meta">{{ wine.producer }} · {{ wine.region }}</div>
+        <span class="badge" [ngClass]="getBadgeClass(wine.type)">{{ wine.type }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Abbinamento cibo-vino -->
+  <div class="ai-box">
+    <div class="ai-box-title">
+      <i class="ti ti-sparkles" aria-hidden="true"></i>
+      Abbinamento cibo-vino
+    </div>
+    <p class="ai-box-sub">Descrivi il piatto e suggeriremo il vino ideale dal catalogo</p>
+    <div class="ai-input-row">
+      <input
+        class="ai-input"
+        type="text"
+        placeholder="es. carbonara, risotto, ..."
+        [(ngModel)]="foodQuery"
+        (keyup.enter)="onPairing()"
+      />
+      <button class="ai-btn" (click)="onPairing()" [disabled]="isLoadingPairing">
+        <i class="ti ti-switch-horizontal" aria-hidden="true"></i>
+        {{ isLoadingPairing ? 'Ricerca...' : 'Abbina' }}
+      </button>
+    </div>
+    <p class="pairing-result" *ngIf="pairingResult">{{ pairingResult }}</p>
+  </div>
+
+  <!-- Barra di ricerca -->
+  <div class="search-box">
+    <div class="search-box-title">
+      <i class="ti ti-search" aria-hidden="true"></i>
+      Cerca un vino
+    </div>
+
+    <!-- Bottoni di selezione del tipo di ricerca -> TESTO/IMMAGINE -->
+    <div class="search-tabs">
+      <button class="search-tab" [class.active]="searchTab === 'text'" (click)="searchTab = 'text'">
+        <i class="ti ti-text-size" aria-hidden="true"></i>
+        Per testo
+      </button>
+      <button class="search-tab" [class.active]="searchTab === 'image'" (click)="searchTab = 'image'">
+        <i class="ti ti-photo-scan" aria-hidden="true"></i>
+        Per immagine
+      </button>
+    </div>
+
+    <!-- Ricerca testuale -->
+    <div class="search-text-section" *ngIf="searchTab === 'text'">
+      <p class="search-sub">Scegli il campo e inserisci il testo di ricerca</p>
+      <div class="search-row">
+        <select class="search-select" [(ngModel)]="searchField" (change)="searchQuery = ''; hasSearched = false">
+          <option value="q">Tutti i campi</option>
+          <option value="nome">Nome / Produttore</option>
+          <option value="tipo">Tipo</option>
+          <option value="regione">Regione</option>
+          <option value="denominazione">Denominazione</option>
+        </select>
+        <select *ngIf="searchField === 'tipo'" class="search-input" [(ngModel)]="searchQuery">
+          <option value="">Seleziona...</option>
+          <option value="Rosso">Rosso</option>
+          <option value="Bianco">Bianco</option>
+          <option value="Rosato">Rosato</option>
+          <option value="Bollicine">Bollicine</option>
+        </select>
+        <input
+          *ngIf="searchField !== 'tipo'"
+          class="search-input"
+          type="text"
+          [placeholder]="getSearchPlaceholder()"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+        />
+        <button class="search-btn" (click)="onSearch()" [disabled]="isLoadingSearch || !searchQuery.trim()">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          {{ isLoadingSearch ? 'Ricerca...' : 'Cerca' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Ricerca per immagine -->
+    <div class="search-image-section" *ngIf="searchTab === 'image'">
+      <p class="search-sub">Carica una foto dell'etichetta per trovare il vino</p>
+      <div
+        class="image-dropzone"
+        [class.has-image]="imagePreview"
+        (click)="fileInput.click()"
+        (dragover)="$event.preventDefault()"
+        (drop)="onImageDrop($event)"
+      >
+        <input
+          #fileInput
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          (change)="onImageSelected($event)"
+          style="display:none"
+        />
+        <ng-container *ngIf="!imagePreview">
+          <i class="ti ti-upload" aria-hidden="true"></i>
+          <span class="dropzone-label">Carica etichetta</span>
+          <span class="dropzone-hint">JPG, PNG, WEBP · clicca o trascina</span>
+        </ng-container>
+        <img *ngIf="imagePreview" [src]="imagePreview" class="dropzone-preview" alt="Anteprima etichetta" />
+      </div>
+      <div class="image-actions">
+        <button class="search-btn secondary" (click)="clearImage()" *ngIf="imagePreview">
+          <i class="ti ti-x" aria-hidden="true"></i>
+          Rimuovi
+        </button>
+        <button class="search-btn" (click)="onImageSearch()" [disabled]="!imageFile || isLoadingSearch">
+          <i class="ti ti-scan" aria-hidden="true"></i>
+          {{ isLoadingSearch ? 'Analisi...' : 'Cerca per etichetta' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Risultati -->
+    <div class="search-results" *ngIf="hasSearched">
+      <div class="search-results-empty" *ngIf="searchResults.length === 0">
+        <i class="ti ti-mood-empty" aria-hidden="true"></i>
+        Nessun risultato trovato.
+      </div>
+      <div class="search-result-grid" *ngIf="searchResults.length > 0">
+        <div class="result-item" *ngFor="let wine of searchResults">
+          <div class="result-icon" [style.background]="getCardBg(wine.type)">
+            <i class="ti ti-bottle" [style.color]="getBottleColor(wine.type)" aria-hidden="true"></i>
+          </div>
+          <div class="result-info">
+            <span class="result-name">{{ wine.name }}</span>
+            <span class="result-meta">{{ wine.producer }} · {{ wine.region }}</span>
+          </div>
+          <span class="badge" [ngClass]="getBadgeClass(wine.type)">{{ wine.type }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>

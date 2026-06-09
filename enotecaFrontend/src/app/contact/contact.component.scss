@@ -1,0 +1,163 @@
+:host {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+.contact-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.contact-hero {
+  text-align: center;
+  margin-bottom: 48px;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: #6b7280;
+    font-size: 1rem;
+  }
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+
+  .info-icon { font-size: 1.5rem; }
+
+  h4 {
+    font-weight: 600;
+    color: #222;
+    margin: 8px 0 4px;
+    font-size: 0.9rem;
+  }
+
+  p {
+    color: #6b7280;
+    font-size: 0.85rem;
+  }
+}
+
+.contact-form-wrapper {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 40px;
+}
+
+.contact-form {
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 24px;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #374151;
+  }
+
+  input, textarea {
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+    font-family: inherit;
+    outline: none;
+
+    &:focus { border-color: #222; }
+    &::placeholder { color: #9ca3af; }
+  }
+
+  textarea { resize: vertical; }
+}
+
+.btn-submit {
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+  margin-top: 8px;
+
+  &:hover { background: #e63946; }
+  &:disabled { background: #9ca3af; cursor: not-allowed; }
+}
+
+.success-message {
+  text-align: center;
+  padding: 60px 40px;
+
+  span { font-size: 3rem; }
+
+  h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #222;
+    margin: 16px 0 8px;
+  }
+
+  p { color: #6b7280; margin-bottom: 24px; }
+}
+
+.btn-reset {
+  background: none;
+  border: 1px solid #222;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+
+  &:hover { background: #222; color: #fff; }
+}
