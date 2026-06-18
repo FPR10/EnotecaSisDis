@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
@@ -12,6 +12,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  constructor(private router: Router) {}
+
   onAddWine(): void {
     // Aprirà una modale / navigherà a una form di inserimento
     console.log('Aggiungi vino');
@@ -23,6 +25,6 @@ export class AppComponent {
   }
 
   onMapClick(): void {
-    console.log('Apri mappa');
+    this.router.navigate(['/mappa']);
   }
 }

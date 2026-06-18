@@ -14,10 +14,10 @@ export class SidebarComponent {
   @Output() mapClick = new EventEmitter<void>();
 
   categories: Category[] = [
-    { name: 'Rosso',     color: '#e05252', regions: ['Toscana', 'Piemonte', 'Sicilia', 'Calabria'], expanded: true },
-    { name: 'Bianco',    color: '#e0b852', regions: ['Campania', 'Friuli', 'Sicilia'],               expanded: false },
-    { name: 'Rosato',    color: '#e07c52', regions: ['Abruzzo', 'Puglia'],                           expanded: false },
-    { name: 'Bollicine', color: '#52b0e0', regions: ['Lombardia', 'Trentino'],                       expanded: false },
+    { name: 'Rosso',     color: '#e05252', regions: ['regione1', 'regione2'], expanded: true },
+    { name: 'Bianco',    color: '#e0b852', regions: ['regione1', 'regione2'],               expanded: false },
+    { name: 'Rosato',    color: '#e07c52', regions: ['regione1', 'regione2'],                           expanded: false },
+    { name: 'Bollicine', color: '#52b0e0', regions: ['regione1', 'regione2'],                       expanded: false },
   ];
 
   toggleCategory(cat: Category): void {
