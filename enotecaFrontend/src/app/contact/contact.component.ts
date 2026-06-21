@@ -3,6 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import emailjs from '@emailjs/browser';
 
+// Configurazione EmailJS (dashboard: https://dashboard.emailjs.com)
+const EMAILJS_SERVICE_ID = 'service_n00520h';   // account email collegato (riceve i messaggi)
+const EMAILJS_TEMPLATE_ID = 'template_lwymhtf'; // template con i placeholder name/email/subject/message/time
+const EMAILJS_PUBLIC_KEY = '6E7zw6qRiBTSL5z8W'; // chiave pubblica dell'account EmailJS
+
 @Component({
   selector: 'app-contact',
   standalone: true,
@@ -22,8 +27,8 @@ export class ContactComponent {
     this.loading = true;
 
     emailjs.send(
-      'service_xskqjum',
-      'template_lwymhtf',
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
       {
         name:    this.form.name,
         email:   this.form.email,
@@ -31,7 +36,7 @@ export class ContactComponent {
         message: this.form.message,
         time:    new Date().toLocaleTimeString('it-IT')
       },
-      '6E7zw6qRiBTSL5z8W'
+      EMAILJS_PUBLIC_KEY
     )
       .then(() => {
         this.submitted = true;
