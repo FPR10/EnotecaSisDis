@@ -1,7 +1,7 @@
 """
 OCR service - primo stadio della pipeline di riconoscimento dell'immagine.
 
-In questa classe di legge il testo dalle etichette mediante Azure AI Visione
+In questa classe di legge il testo dalle etichette mediante Azure AI Vision
 """
 
 import asyncio

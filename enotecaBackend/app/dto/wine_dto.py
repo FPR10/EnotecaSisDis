@@ -10,13 +10,14 @@ WineSimilarItem   → vino + score similarità
 SemanticSearchItem→ vino + score ricerca semantica
 OcrSearchOut      → testo estratto + risultati ricerca OCR
 BulkImportResult  → esito import massivo CSV/JSON
+AbbinamentoCiboIn → body POST per richiedere l'abbinamento (descrizione del piatto)
 AbbinamentoOut    → risposta abbinamenti cibo-vino (AI generativa)
 """
 
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from app.entity.wine_entity import TipoVino
 
@@ -165,7 +166,23 @@ class BulkImportResult(BaseModel):
 
 # ── AI: abbinamenti cibo-vino ──────────────────────────────────────────────────
 
+class AbbinamentoCiboIn(BaseModel):
+    cibo: str = Field(..., min_length=1, description="Descrizione del piatto da abbinare")
+
+    @field_validator("cibo")
+    @classmethod
+    def cibo_non_vuoto(cls, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise ValueError("Descrizione del piatto vuota")
+        return value
+
+
+class VinoSuggerito(BaseModel):
+    wine:        WineOut
+    motivazione: str = Field(description="Spiegazione dell'abbinamento generata da un LLM (Groq, modello Llama)")
+
+
 class AbbinamentoOut(BaseModel):
-    wine_id:     str
-    wine_nome:   str
-    abbinamenti: str = Field(description="Suggerimenti cibo-vino generati da Azure OpenAI")
+    cibo:          str
+    suggerimenti: list[VinoSuggerito] = Field(description="Vini del catalogo più adatti al piatto, in ordine di adeguatezza")

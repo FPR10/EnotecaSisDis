@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config.settings import get_settings
 from app.config.logging import setup_logging, get_logger
-from app.controller import wine_router, auth_router
+from app.controller import auth_router, ocr_router, pairing_router, wine_router
 
 settings = get_settings()
 setup_logging(debug=settings.debug)
@@ -37,8 +37,10 @@ app.add_middleware(
 )
 
 # --- Router ---
-app.include_router(auth_router,  prefix="/api/v1/auth",  tags=["auth"])
-app.include_router(wine_router,  prefix="/api/v1/wines", tags=["wines"])
+app.include_router(auth_router,    prefix="/api/v1/auth",    tags=["auth"])
+app.include_router(wine_router,    prefix="/api/v1/wines",   tags=["wines"])
+app.include_router(pairing_router, prefix="/api/v1/pairing", tags=["pairing"])
+app.include_router(ocr_router,     prefix="/api/v1/ocr",     tags=["ocr"])
 
 
 @app.get("/health", tags=["system"])

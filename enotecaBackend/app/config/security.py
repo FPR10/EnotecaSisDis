@@ -21,6 +21,7 @@ from app.config.settings import get_settings
 from app.db.session import get_db
 from app.entity.user_entity import User, UserRole
 from app.repository.user_repository import UserRepository
+from app.service.authentication_service import AuthenticationService
 
 settings = get_settings()
 
@@ -109,15 +110,10 @@ async def get_current_user(
         else UserRole.USER
     )
 
-    repo = UserRepository(db)
-    user = await repo.find_by_azure_id(oid)
-
-    if user is None:
-        user = User(azure_oid=oid, email=email, nome=nome, ruolo=ruolo)
-        user = await repo.save(user)
-    else:
-        user.ruolo = ruolo
-        await repo.update_last_login(user)
+    auth_service = AuthenticationService(UserRepository(db))
+    user = await auth_service.sincronizza_da_azure(
+        azure_oid=oid, email=email, nome=nome, ruolo=ruolo
+    )
 
     if not user.is_active:
         raise HTTPException(status.HTTP_403_FORBIDDEN, "Account disabilitato")

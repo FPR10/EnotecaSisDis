@@ -21,10 +21,9 @@ class Settings(BaseSettings):
     azure_vision_endpoint: str = ""
     azure_vision_key: str = ""
 
-    # --- Azure OpenAI (abbinamenti cibo-vino) ---
-    azure_openai_endpoint: str = ""
-    azure_openai_key: str = ""
-    azure_openai_deployment: str = "gpt-4o"
+    # --- Groq (AI generativa: abbinamenti cibo-vino) ---
+    groq_api_key: str = ""
+    groq_model: str = "llama-3.3-70b-versatile"
 
     # --- Azure Blob Storage (immagini etichette) ---
     azure_storage_connection_string: str = ""
