@@ -22,8 +22,7 @@ class WineRepository:
     '''
     
     #Ricerca vino tramite id
-    
-    #MODIFICA: con Optional gestisco il caso in cui è NONE perchè il vino non c'è
+    # con Optional gestisco il caso in cui è NONE perchè il vino non c'è
     async def find_by_id (self, wine_id: str) -> Optional[Wine]:
         return await self.session.get(Wine, wine_id)
     
@@ -78,8 +77,19 @@ class WineRepository:
         query = select(Wine).where(Wine.regione == regione).order_by(Wine.tipo, Wine.nome)
         result = await self.session.execute(query)
         return list(result.scalars().all())
-    
-    
+
+
+    async def find_all_for_matching(self) -> list[Wine]:
+        """
+        Restituisce l'intero catalogo, senza paginazione.
+        Usato dal text_processing_service come insieme di candidati su cui
+        eseguire il confronto fuzzy (RapidFuzz) col testo OCR delle etichette.
+        """
+        query = select(Wine)
+        result = await self.session.execute(query)
+        return list(result.scalars().all())
+
+
     '''
     OPERAZIONI DI LETTURA PER FRONTEND
     '''

@@ -4,7 +4,7 @@ Entity User — gestione utenti sincronizzati da Azure Entra External ID.
 Con Azure Entra:
   - Le credenziali (password) sono gestite interamente da Azure
   - Il nostro DB conserva solo i dati applicativi: ruolo, last_login, is_active
-  - L'identificatore univoco è azure_oid (Object ID di Azure), non l'email
+  - L'identificatore univoco è azure_oid (Object ID di Azure)
   - hashed_password rimane nel modello per compatibilità SQLAlchemy ma è sempre ""
 """
 import uuid
@@ -27,7 +27,7 @@ class UserRole(str, enum.Enum):
 class User(Base):
     __tablename__ = "users"
 
-    # --- Chiave primaria interna ---
+    # Chiave primaria interna
     id: Mapped[str] = mapped_column(
         CHAR(36),
         primary_key=True,
@@ -35,7 +35,7 @@ class User(Base):
         comment="Identificatore interno (UUID v4)",
     )
 
-    # --- Identificatore Azure ---
+    # Identificatore azure
     azure_oid: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
@@ -44,7 +44,7 @@ class User(Base):
         comment="Object ID di Azure Entra — identificatore univoco Microsoft, immutabile",
     )
 
-    # --- Profilo (sincronizzato da Azure al login) ---
+    # Profilo (sincronizzato da Azure al login) 
     email: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
@@ -57,7 +57,7 @@ class User(Base):
         comment="Nome completo — sincronizzato dal campo 'name' del token Azure",
     )
 
-    # --- Ruolo applicativo ---
+    # Ruolo
     ruolo: Mapped[UserRole] = mapped_column(
         SAEnum(UserRole, name="user_role"),
         nullable=False,
@@ -65,7 +65,7 @@ class User(Base):
         comment="Ruolo: sincronizzato dagli App Roles di Azure Entra ad ogni login",
     )
 
-    # --- Stato account ---
+    # Stato account
     is_active: Mapped[bool] = mapped_column(
         Boolean,
         nullable=False,
@@ -73,7 +73,7 @@ class User(Base):
         comment="False = account disabilitato a livello applicativo (indipendente da Azure)",
     )
 
-    # --- Campo legacy — non usato con Azure Entra ---
+    # Campo legacy — non usato con Azure Entra 
     hashed_password: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
@@ -81,7 +81,7 @@ class User(Base):
         comment="Non usato con Azure Entra — mantenuto per compatibilità schema",
     )
 
-    # --- Metadati ---
+    # Metadati extra
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         server_default=func.now(),

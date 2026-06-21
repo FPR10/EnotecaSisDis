@@ -1,7 +1,7 @@
 from app.dto.wine_dto import WineCreate, WineUpdate, WineOut, WineFilter, CaratteristicheOrganolettiche
-from app.dto.authentication_dto import LoginRequest, Token, UserCreate, UserOut
+from app.dto.authentication_dto import UserOut
 
 __all__ = [
     "WineCreate", "WineUpdate", "WineOut", "WineFilter", "CaratteristicheOrganolettiche",
-    "LoginRequest", "Token", "UserCreate", "UserOut",
+    "UserOut",
 ]

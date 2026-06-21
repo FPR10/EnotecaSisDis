@@ -33,7 +33,8 @@ from app.db.session import Base
 
 class TipoVino (str, enum.Enum):
   """
-  Categorizzazione usata poi nel menù del frontend
+  Enum delle categorie di vini disponibili: ROSSO, BIANCO, ROSATO, BOLLICINE.
+  Usata poi nel menù a sx del frontend
   """
   ROSSO = "rosso"
   BIANCO = "bianco"
@@ -44,7 +45,7 @@ class TipoVino (str, enum.Enum):
 class Wine(Base):
   __tablename__ = "vini"
   
-  # --- Chiave primaria (UUID generato da noi, indipendente dall'id del dataset) ---
+  # Chiave primaria (viene generato un ID interno, ignorando quello del dataset)
   id: Mapped[str] = mapped_column(
         CHAR(36), primary_key=True,
         default=lambda: str(uuid.uuid4()),
@@ -128,7 +129,7 @@ class Wine(Base):
         ),
     )
   
-   # --- Campi aggiuntivi dal dataset ---
+  #Campi aggiuntivi inferiti da LLM e inseriti nel dataset
   popolarita: Mapped[Optional[int]] = mapped_column(
         Integer, nullable=True,
         comment="Punteggio popolarità 1-5 dal dataset",
@@ -138,7 +139,7 @@ class Wine(Base):
         comment="Unità disponibili in magazzino. Se 0 → disponibile viene impostato a False",
     )
 
-    # Dati per logging del sistema 
+  # Dati per logging del sistema 
   dati_creazione: Mapped[datetime] = mapped_column(
         DateTime,
         server_default=func.now(),
@@ -152,4 +153,4 @@ class Wine(Base):
     )
 
   def __repr__(self) -> str:
-      return f"<Wine id={self.id} nome='{self.nome}' annata={self.annata} tipo={self.tipo.value}>"
+      return f" <Wine id={self.id} nome='{self.nome}' annata={self.annata} tipo={self.tipo.value}>"
