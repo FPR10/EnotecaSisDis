@@ -23,7 +23,7 @@ export class MappaComponent implements AfterViewInit, OnDestroy {
     this.map = L.map('mappa-leaflet').setView(ITALY_CENTER, ITALY_ZOOM);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap',
+      attribution: ' OpenStreetMap',
       maxZoom: 19
     }).addTo(this.map);
 

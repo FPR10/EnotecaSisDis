@@ -28,15 +28,17 @@ interface WineFormModel {
   templateUrl: './aggiungi-vino.component.html',
   styleUrl: './aggiungi-vino.component.scss'
 })
+
+
 export class AggiungiVinoComponent {
 
   readonly types: WineType[] = ['Rosso', 'Bianco', 'Rosato', 'Bollicine'];
 
   readonly regions: string[] = [
-    'Piemonte', 'Valle d\'Aosta', 'Lombardia', 'Trentino-Alto Adige', 'Veneto',
-    'Friuli-Venezia Giulia', 'Liguria', 'Emilia-Romagna', 'Toscana', 'Umbria',
-    'Marche', 'Lazio', 'Abruzzo', 'Molise', 'Campania', 'Puglia',
-    'Basilicata', 'Calabria', 'Sicilia', 'Sardegna'
+  'Abruzzo', 'Basilicata', 'Calabria', 'Campania', 'Emilia-Romagna',
+  'Friuli-Venezia Giulia', 'Lazio', 'Liguria', 'Lombardia', 'Marche',
+  'Molise', 'Piemonte', 'Puglia', 'Sardegna', 'Sicilia',
+  'Toscana', 'Trentino-Alto Adige', 'Umbria', 'Valle d\'Aosta', 'Veneto'
   ];
 
   form: WineFormModel = {
