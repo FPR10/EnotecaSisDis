@@ -1,0 +1,194 @@
+<div class="aggiungi-vino-container">
+
+  <div class="breadcrumb">
+    <span>Catalogo</span>
+    <i class="ti ti-chevron-right"></i>
+    <span class="current">Aggiungi vino</span>
+  </div>
+
+  <form #wineForm="ngForm" (ngSubmit)="onSubmit(wineForm)" class="form-layout">
+
+    <div class="form-main">
+
+      <section class="card">
+        <h2><i class="ti ti-info-circle"></i> Informazioni principali</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome del vino *</label>
+            <input type="text" name="name" [(ngModel)]="form.name" required placeholder="es. Barolo Riserva">
+          </div>
+          <div class="form-group">
+            <label>Produttore / Cantina *</label>
+            <input type="text" name="producer" [(ngModel)]="form.producer" required placeholder="es. Marchesi di Barolo">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group form-group-sm">
+            <label>Annata</label>
+            <input type="number" name="year" [(ngModel)]="form.year" placeholder="es. 2019">
+          </div>
+          <div class="form-group">
+            <label>Tipologia *</label>
+            <select name="type" [(ngModel)]="form.type" required>
+              <option value="" disabled selected>Seleziona...</option>
+              @for (t of types; track t) {
+                <option [value]="t">{{ t }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Denominazione (DOC/DOCG)</label>
+            <input type="text" name="denomination" [(ngModel)]="form.denomination" placeholder="es. Barolo DOCG">
+          </div>
+          <div class="form-group">
+            <label>Vitigno / Uvaggio</label>
+            <input type="text" name="grapeVariety" [(ngModel)]="form.grapeVariety" placeholder="es. Nebbiolo 100%">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group form-group-sm">
+            <label>Regione *</label>
+            <select name="region" [(ngModel)]="form.region" required>
+              <option value="" disabled selected>Seleziona...</option>
+              @for (r of regions; track r) {
+                <option [value]="r">{{ r }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Paese</label>
+            <input type="text" name="country" [(ngModel)]="form.country" placeholder="Italia">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Descrizione / Note organolettiche</label>
+          <textarea name="description" [(ngModel)]="form.description" rows="3" placeholder="Colore, profumi, gusto, struttura, abbinamenti consigliati..."></textarea>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2><i class="ti ti-tag"></i> Prezzo e disponibilità</h2>
+
+        <div class="form-row form-row-price">
+          <div class="form-group form-group-sm">
+            <label>Prezzo (€) *</label>
+            <input type="number" name="price" [(ngModel)]="form.price" required min="0" step="0.01" placeholder="0.00">
+          </div>
+          <div class="form-group form-group-sm">
+            <label>Quantità in magazzino</label>
+            <input type="number" name="quantity" [(ngModel)]="form.quantity" min="0" placeholder="es. 24">
+          </div>
+          <div class="form-group toggle-group">
+            <label>Disponibile alla vendita</label>
+            <div class="toggle-row">
+              <button type="button" class="toggle" [class.on]="form.available" (click)="form.available = !form.available">
+                <span class="toggle-knob"></span>
+              </button>
+              <span>{{ form.available ? 'Sì, disponibile' : 'Non disponibile' }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2><i class="ti ti-upload"></i> Caricamento massivo</h2>
+        <p class="card-sub">In alternativa al form manuale, importa più vini contemporaneamente tramite file CSV o JSON.</p>
+
+        <div class="dropzone disabled">
+          <i class="ti ti-file-upload"></i>
+          <p class="dropzone-title">Trascina qui il file o clicca per sfogliare</p>
+          <p class="dropzone-sub">Formati supportati: .csv · .json — max 10 MB (disponibile a breve)</p>
+        </div>
+
+        <label class="columns-label">Colonne CSV attese</label>
+        <div class="columns-chips">
+          @for (c of ['nome','produttore','annata','tipologia','denominazione','regione','vitigno','prezzo','quantità','descrizione','immagine_url']; track c) {
+            <span class="chip">{{ c }}</span>
+          }
+        </div>
+      </section>
+
+    </div>
+
+    <div class="form-side">
+
+      <section class="card">
+        <h2><i class="ti ti-photo"></i> Etichetta</h2>
+
+        <div class="label-preview" (dragover)="$event.preventDefault()" (drop)="onImageDrop($event)">
+          @if (imagePreview) {
+            <img [src]="imagePreview" alt="Anteprima etichetta">
+          } @else {
+            <span class="placeholder">Anteprima immagine</span>
+          }
+        </div>
+
+        <label class="upload-zone" for="labelImageInput">
+          <i class="ti ti-file-upload"></i>
+          <span class="upload-title">Carica immagine</span>
+          <span class="upload-sub">JPG, PNG, WEBP (opzionale)</span>
+        </label>
+        <input id="labelImageInput" type="file" accept="image/jpeg,image/png,image/webp" hidden (change)="onImageSelected($event)">
+
+        @if (imagePreview) {
+          <button type="button" class="btn-clear-image" (click)="clearImage()">
+            <i class="ti ti-x"></i> Rimuovi immagine
+          </button>
+        }
+
+        <button type="button" class="btn-ocr" disabled title="Disponibile in una versione futura">
+          <i class="ti ti-scan"></i> Riconosci con OCR
+        </button>
+      </section>
+
+      <div class="ai-suggestion">
+        <i class="ti ti-sparkles"></i>
+        <p>Completa la descrizione per migliorare i suggerimenti di abbinamento cibo-vino e la ricerca per somiglianza.</p>
+      </div>
+
+      <section class="card">
+        <h2><i class="ti ti-clipboard-check"></i> Completezza scheda</h2>
+
+        <ul class="checklist">
+          @for (item of checklist; track item.label) {
+            <li [class.done]="item.done">
+              <span class="check-dot">
+                @if (item.done) { <i class="ti ti-check"></i> }
+              </span>
+              {{ item.label }}
+            </li>
+          }
+        </ul>
+
+        <hr>
+        <label class="progress-label">Indicatore avanzamento</label>
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="completenessPercent"></div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="form-actions">
+      @if (formError) {
+        <span class="form-error">{{ formError }}</span>
+      }
+      <button type="button" class="btn-cancel" (click)="onCancel()">
+        <i class="ti ti-arrow-left"></i> Annulla
+      </button>
+      <button type="submit" class="btn-save">
+        <i class="ti ti-check"></i> Salva vino
+      </button>
+    </div>
+
+  </form>
+</div>

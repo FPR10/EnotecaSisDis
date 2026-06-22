@@ -8,7 +8,7 @@ from sqlalchemy import distinct, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.entity.wine_entity import Wine, TipoVino
-from app.dto.wine_dto import WineCreate, WineUpdate, WineFilter
+from app.dto.wine_dto import WineUpdate, WineFilter
 
 
 class WineRepository:

@@ -15,8 +15,7 @@ export class AppComponent {
   constructor(private router: Router) {}
 
   onAddWine(): void {
-    // Aprirà una modale / navigherà a una form di inserimento
-    console.log('Aggiungi vino');
+    this.router.navigate(['/aggiungi-vino']);
   }
 
   onFilterChange(filter: { type: string; region?: string }): void {

@@ -1,5 +1,545 @@
 (self["webpackChunkcantina_ruffo"] = self["webpackChunkcantina_ruffo"] || []).push([[792],{
 
+/***/ 6355:
+/*!*********************************************************!*\
+  !*** ./src/app/aggiungiVino/aggiungi-vino.component.ts ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   AggiungiVinoComponent: () => (/* binding */ AggiungiVinoComponent)
+/* harmony export */ });
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ 316);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ 4456);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 7580);
+/* harmony import */ var _shared_services_wine_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../shared/services/wine.service */ 6057);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ 5072);
+
+
+
+
+
+
+const _forTrack0 = ($index, $item) => $item.label;
+const _c0 = () => ["nome", "produttore", "annata", "tipologia", "denominazione", "regione", "vitigno", "prezzo", "quantit\u00E0", "descrizione", "immagine_url"];
+function AggiungiVinoComponent_For_35_Template(rf, ctx) {
+  if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "option", 17);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+  }
+  if (rf & 2) {
+    const t_r3 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("value", t_r3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](t_r3);
+  }
+}
+function AggiungiVinoComponent_For_54_Template(rf, ctx) {
+  if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "option", 17);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+  }
+  if (rf & 2) {
+    const r_r4 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("value", r_r4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](r_r4);
+  }
+}
+function AggiungiVinoComponent_For_100_Template(rf, ctx) {
+  if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "span", 39);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+  }
+  if (rf & 2) {
+    const c_r5 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](c_r5);
+  }
+}
+function AggiungiVinoComponent_Conditional_107_Template(rf, ctx) {
+  if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "img", 43);
+  }
+  if (rf & 2) {
+    const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("src", ctx_r5.imagePreview, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsanitizeUrl"]);
+  }
+}
+function AggiungiVinoComponent_Conditional_108_Template(rf, ctx) {
+  if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "span", 65);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](1, "Anteprima immagine");
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+  }
+}
+function AggiungiVinoComponent_Conditional_116_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r7 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "button", 66);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("click", function AggiungiVinoComponent_Conditional_116_Template_button_click_0_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r7);
+      const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"](ctx_r5.clearImage());
+    });
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](1, "i", 67);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](2, " Rimuovi immagine ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+  }
+}
+function AggiungiVinoComponent_For_130_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "i", 64);
+  }
+}
+function AggiungiVinoComponent_For_130_Template(rf, ctx) {
+  if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "li")(1, "span", 68);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](2, AggiungiVinoComponent_For_130_Conditional_2_Template, 1, 0, "i", 64);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+  }
+  if (rf & 2) {
+    const item_r8 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵclassProp"]("done", item_r8.done);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵconditional"](2, item_r8.done ? 2 : -1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate1"](" ", item_r8.label, " ");
+  }
+}
+function AggiungiVinoComponent_Conditional_137_Template(rf, ctx) {
+  if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "span", 60);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+  }
+  if (rf & 2) {
+    const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](ctx_r5.formError);
+  }
+}
+let AggiungiVinoComponent = /*#__PURE__*/(() => {
+  class AggiungiVinoComponent {
+    constructor(wineService, router) {
+      this.wineService = wineService;
+      this.router = router;
+      this.types = ['Rosso', 'Bianco', 'Rosato', 'Bollicine'];
+      this.regions = ['Piemonte', 'Valle d\'Aosta', 'Lombardia', 'Trentino-Alto Adige', 'Veneto', 'Friuli-Venezia Giulia', 'Liguria', 'Emilia-Romagna', 'Toscana', 'Umbria', 'Marche', 'Lazio', 'Abruzzo', 'Molise', 'Campania', 'Puglia', 'Basilicata', 'Calabria', 'Sicilia', 'Sardegna'];
+      this.form = {
+        name: '',
+        producer: '',
+        year: null,
+        type: '',
+        denomination: '',
+        grapeVariety: '',
+        region: '',
+        country: 'Italia',
+        description: '',
+        price: null,
+        quantity: null,
+        available: true,
+        imageUrl: ''
+      };
+      this.imagePreview = null;
+      this.formError = '';
+    }
+    get checklist() {
+      return [{
+        label: 'Nome vino',
+        done: !!this.form.name.trim()
+      }, {
+        label: 'Produttore',
+        done: !!this.form.producer.trim()
+      }, {
+        label: 'Annata',
+        done: !!this.form.year
+      }, {
+        label: 'Descrizione',
+        done: !!this.form.description.trim()
+      }, {
+        label: 'Immagine etichetta',
+        done: !!this.imagePreview
+      }];
+    }
+    get completenessPercent() {
+      const items = this.checklist;
+      const done = items.filter(i => i.done).length;
+      return Math.round(done / items.length * 100);
+    }
+    onImageSelected(event) {
+      const input = event.target;
+      const file = input.files?.[0];
+      if (file) this.loadImageFile(file);
+    }
+    onImageDrop(event) {
+      event.preventDefault();
+      const file = event.dataTransfer?.files[0];
+      if (file && ['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+        this.loadImageFile(file);
+      }
+    }
+    loadImageFile(file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        this.imagePreview = e.target?.result;
+        this.form.imageUrl = this.imagePreview;
+      };
+      reader.readAsDataURL(file);
+    }
+    clearImage() {
+      this.imagePreview = null;
+      this.form.imageUrl = '';
+    }
+    onSubmit(wineForm) {
+      if (wineForm.invalid || !this.form.type) {
+        this.formError = 'Compila tutti i campi obbligatori (*) prima di salvare.';
+        return;
+      }
+      this.formError = '';
+      const wine = {
+        id: crypto.randomUUID(),
+        name: this.form.name.trim(),
+        producer: this.form.producer.trim(),
+        winery: this.form.producer.trim(),
+        year: this.form.year ?? undefined,
+        type: this.form.type,
+        denomination: this.form.denomination.trim() || undefined,
+        grapeVariety: this.form.grapeVariety.trim() || undefined,
+        region: this.form.region,
+        country: this.form.country.trim() || undefined,
+        description: this.form.description.trim() || undefined,
+        price: this.form.price ?? undefined,
+        quantity: this.form.quantity ?? undefined,
+        available: this.form.available,
+        imageUrl: this.form.imageUrl || undefined
+      };
+      this.wineService.add(wine);
+      this.router.navigate(['/']);
+    }
+    onCancel() {
+      this.router.navigate(['/']);
+    }
+    static {
+      this.ɵfac = function AggiungiVinoComponent_Factory(t) {
+        return new (t || AggiungiVinoComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_shared_services_wine_service__WEBPACK_IMPORTED_MODULE_0__.WineService), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_2__.Router));
+      };
+    }
+    static {
+      this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
+        type: AggiungiVinoComponent,
+        selectors: [["app-aggiungi-vino"]],
+        standalone: true,
+        features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
+        decls: 144,
+        vars: 20,
+        consts: [["wineForm", "ngForm"], [1, "aggiungi-vino-container"], [1, "breadcrumb"], [1, "ti", "ti-chevron-right"], [1, "current"], [1, "form-layout", 3, "ngSubmit"], [1, "form-main"], [1, "card"], [1, "ti", "ti-info-circle"], [1, "form-row"], [1, "form-group"], ["type", "text", "name", "name", "required", "", "placeholder", "es. Barolo Riserva", 3, "ngModelChange", "ngModel"], ["type", "text", "name", "producer", "required", "", "placeholder", "es. Marchesi di Barolo", 3, "ngModelChange", "ngModel"], [1, "form-group", "form-group-sm"], ["type", "number", "name", "year", "placeholder", "es. 2019", 3, "ngModelChange", "ngModel"], ["name", "type", "required", "", 3, "ngModelChange", "ngModel"], ["value", "", "disabled", "", "selected", ""], [3, "value"], ["type", "text", "name", "denomination", "placeholder", "es. Barolo DOCG", 3, "ngModelChange", "ngModel"], ["type", "text", "name", "grapeVariety", "placeholder", "es. Nebbiolo 100%", 3, "ngModelChange", "ngModel"], ["name", "region", "required", "", 3, "ngModelChange", "ngModel"], ["type", "text", "name", "country", "placeholder", "Italia", 3, "ngModelChange", "ngModel"], ["name", "description", "rows", "3", "placeholder", "Colore, profumi, gusto, struttura, abbinamenti consigliati...", 3, "ngModelChange", "ngModel"], [1, "ti", "ti-tag"], [1, "form-row", "form-row-price"], ["type", "number", "name", "price", "required", "", "min", "0", "step", "0.01", "placeholder", "0.00", 3, "ngModelChange", "ngModel"], ["type", "number", "name", "quantity", "min", "0", "placeholder", "es. 24", 3, "ngModelChange", "ngModel"], [1, "form-group", "toggle-group"], [1, "toggle-row"], ["type", "button", 1, "toggle", 3, "click"], [1, "toggle-knob"], [1, "ti", "ti-upload"], [1, "card-sub"], [1, "dropzone", "disabled"], [1, "ti", "ti-file-upload"], [1, "dropzone-title"], [1, "dropzone-sub"], [1, "columns-label"], [1, "columns-chips"], [1, "chip"], [1, "form-side"], [1, "ti", "ti-photo"], [1, "label-preview", 3, "dragover", "drop"], ["alt", "Anteprima etichetta", 3, "src"], ["for", "labelImageInput", 1, "upload-zone"], [1, "upload-title"], [1, "upload-sub"], ["id", "labelImageInput", "type", "file", "accept", "image/jpeg,image/png,image/webp", "hidden", "", 3, "change"], ["type", "button", 1, "btn-clear-image"], ["type", "button", "disabled", "", "title", "Disponibile in una versione futura", 1, "btn-ocr"], [1, "ti", "ti-scan"], [1, "ai-suggestion"], [1, "ti", "ti-sparkles"], [1, "ti", "ti-clipboard-check"], [1, "checklist"], [3, "done"], [1, "progress-label"], [1, "progress-bar"], [1, "progress-fill"], [1, "form-actions"], [1, "form-error"], ["type", "button", 1, "btn-cancel", 3, "click"], [1, "ti", "ti-arrow-left"], ["type", "submit", 1, "btn-save"], [1, "ti", "ti-check"], [1, "placeholder"], ["type", "button", 1, "btn-clear-image", 3, "click"], [1, "ti", "ti-x"], [1, "check-dot"]],
+        template: function AggiungiVinoComponent_Template(rf, ctx) {
+          if (rf & 1) {
+            const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵgetCurrentView"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "div", 1)(1, "div", 2)(2, "span");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](3, "Catalogo");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](4, "i", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](5, "span", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](6, "Aggiungi vino");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](7, "form", 5, 0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("ngSubmit", function AggiungiVinoComponent_Template_form_ngSubmit_7_listener() {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              const wineForm_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵreference"](8);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"](ctx.onSubmit(wineForm_r2));
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](9, "div", 6)(10, "section", 7)(11, "h2");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](12, "i", 8);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](13, " Informazioni principali");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](14, "div", 9)(15, "div", 10)(16, "label");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](17, "Nome del vino *");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](18, "input", 11);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayListener"]("ngModelChange", function AggiungiVinoComponent_Template_input_ngModelChange_18_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayBindingSet"](ctx.form.name, $event) || (ctx.form.name = $event);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"]($event);
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](19, "div", 10)(20, "label");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](21, "Produttore / Cantina *");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](22, "input", 12);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayListener"]("ngModelChange", function AggiungiVinoComponent_Template_input_ngModelChange_22_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayBindingSet"](ctx.form.producer, $event) || (ctx.form.producer = $event);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"]($event);
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](23, "div", 9)(24, "div", 13)(25, "label");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](26, "Annata");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](27, "input", 14);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayListener"]("ngModelChange", function AggiungiVinoComponent_Template_input_ngModelChange_27_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayBindingSet"](ctx.form.year, $event) || (ctx.form.year = $event);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"]($event);
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](28, "div", 10)(29, "label");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](30, "Tipologia *");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](31, "select", 15);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayListener"]("ngModelChange", function AggiungiVinoComponent_Template_select_ngModelChange_31_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayBindingSet"](ctx.form.type, $event) || (ctx.form.type = $event);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"]($event);
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](32, "option", 16);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](33, "Seleziona...");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrepeaterCreate"](34, AggiungiVinoComponent_For_35_Template, 2, 2, "option", 17, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrepeaterTrackByIdentity"]);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](36, "hr");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](37, "div", 9)(38, "div", 10)(39, "label");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](40, "Denominazione (DOC/DOCG)");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](41, "input", 18);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayListener"]("ngModelChange", function AggiungiVinoComponent_Template_input_ngModelChange_41_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayBindingSet"](ctx.form.denomination, $event) || (ctx.form.denomination = $event);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"]($event);
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](42, "div", 10)(43, "label");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](44, "Vitigno / Uvaggio");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](45, "input", 19);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayListener"]("ngModelChange", function AggiungiVinoComponent_Template_input_ngModelChange_45_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayBindingSet"](ctx.form.grapeVariety, $event) || (ctx.form.grapeVariety = $event);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"]($event);
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](46, "div", 9)(47, "div", 13)(48, "label");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](49, "Regione *");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](50, "select", 20);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayListener"]("ngModelChange", function AggiungiVinoComponent_Template_select_ngModelChange_50_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayBindingSet"](ctx.form.region, $event) || (ctx.form.region = $event);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"]($event);
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](51, "option", 16);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](52, "Seleziona...");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrepeaterCreate"](53, AggiungiVinoComponent_For_54_Template, 2, 2, "option", 17, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrepeaterTrackByIdentity"]);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](55, "div", 10)(56, "label");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](57, "Paese");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](58, "input", 21);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayListener"]("ngModelChange", function AggiungiVinoComponent_Template_input_ngModelChange_58_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayBindingSet"](ctx.form.country, $event) || (ctx.form.country = $event);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"]($event);
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](59, "div", 10)(60, "label");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](61, "Descrizione / Note organolettiche");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](62, "textarea", 22);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayListener"]("ngModelChange", function AggiungiVinoComponent_Template_textarea_ngModelChange_62_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayBindingSet"](ctx.form.description, $event) || (ctx.form.description = $event);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"]($event);
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](63, "section", 7)(64, "h2");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](65, "i", 23);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](66, " Prezzo e disponibilit\u00E0");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](67, "div", 24)(68, "div", 13)(69, "label");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](70, "Prezzo (\u20AC) *");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](71, "input", 25);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayListener"]("ngModelChange", function AggiungiVinoComponent_Template_input_ngModelChange_71_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayBindingSet"](ctx.form.price, $event) || (ctx.form.price = $event);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"]($event);
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](72, "div", 13)(73, "label");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](74, "Quantit\u00E0 in magazzino");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](75, "input", 26);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayListener"]("ngModelChange", function AggiungiVinoComponent_Template_input_ngModelChange_75_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayBindingSet"](ctx.form.quantity, $event) || (ctx.form.quantity = $event);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"]($event);
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](76, "div", 27)(77, "label");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](78, "Disponibile alla vendita");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](79, "div", 28)(80, "button", 29);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("click", function AggiungiVinoComponent_Template_button_click_80_listener() {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"](ctx.form.available = !ctx.form.available);
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](81, "span", 30);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](82, "span");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](83);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()()()()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](84, "section", 7)(85, "h2");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](86, "i", 31);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](87, " Caricamento massivo");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](88, "p", 32);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](89, "In alternativa al form manuale, importa pi\u00F9 vini contemporaneamente tramite file CSV o JSON.");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](90, "div", 33);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](91, "i", 34);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](92, "p", 35);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](93, "Trascina qui il file o clicca per sfogliare");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](94, "p", 36);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](95, "Formati supportati: .csv \u00B7 .json \u2014 max 10 MB (disponibile a breve)");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](96, "label", 37);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](97, "Colonne CSV attese");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](98, "div", 38);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrepeaterCreate"](99, AggiungiVinoComponent_For_100_Template, 2, 1, "span", 39, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrepeaterTrackByIdentity"]);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](101, "div", 40)(102, "section", 7)(103, "h2");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](104, "i", 41);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](105, " Etichetta");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](106, "div", 42);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("dragover", function AggiungiVinoComponent_Template_div_dragover_106_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"]($event.preventDefault());
+            })("drop", function AggiungiVinoComponent_Template_div_drop_106_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"](ctx.onImageDrop($event));
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](107, AggiungiVinoComponent_Conditional_107_Template, 1, 1, "img", 43)(108, AggiungiVinoComponent_Conditional_108_Template, 2, 0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](109, "label", 44);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](110, "i", 34);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](111, "span", 45);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](112, "Carica immagine");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](113, "span", 46);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](114, "JPG, PNG, WEBP (opzionale)");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](115, "input", 47);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("change", function AggiungiVinoComponent_Template_input_change_115_listener($event) {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"](ctx.onImageSelected($event));
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](116, AggiungiVinoComponent_Conditional_116_Template, 3, 0, "button", 48);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](117, "button", 49);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](118, "i", 50);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](119, " Riconosci con OCR ");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](120, "div", 51);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](121, "i", 52);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](122, "p");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](123, "Completa la descrizione per migliorare i suggerimenti di abbinamento cibo-vino e la ricerca per somiglianza.");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](124, "section", 7)(125, "h2");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](126, "i", 53);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](127, " Completezza scheda");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](128, "ul", 54);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrepeaterCreate"](129, AggiungiVinoComponent_For_130_Template, 4, 4, "li", 55, _forTrack0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](131, "hr");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](132, "label", 56);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](133, "Indicatore avanzamento");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](134, "div", 57);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](135, "div", 58);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()()();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](136, "div", 59);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](137, AggiungiVinoComponent_Conditional_137_Template, 2, 1, "span", 60);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](138, "button", 61);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("click", function AggiungiVinoComponent_Template_button_click_138_listener() {
+              _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrestoreView"](_r1);
+              return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresetView"](ctx.onCancel());
+            });
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](139, "i", 62);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](140, " Annulla ");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](141, "button", 63);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](142, "i", 64);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](143, " Salva vino ");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()()()();
+          }
+          if (rf & 2) {
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](18);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayProperty"]("ngModel", ctx.form.name);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayProperty"]("ngModel", ctx.form.producer);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayProperty"]("ngModel", ctx.form.year);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayProperty"]("ngModel", ctx.form.type);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrepeater"](ctx.types);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](7);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayProperty"]("ngModel", ctx.form.denomination);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayProperty"]("ngModel", ctx.form.grapeVariety);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayProperty"]("ngModel", ctx.form.region);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrepeater"](ctx.regions);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayProperty"]("ngModel", ctx.form.country);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayProperty"]("ngModel", ctx.form.description);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](9);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayProperty"]("ngModel", ctx.form.price);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayProperty"]("ngModel", ctx.form.quantity);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](5);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵclassProp"]("on", ctx.form.available);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](ctx.form.available ? "S\u00EC, disponibile" : "Non disponibile");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](16);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrepeater"](_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpureFunction0"](19, _c0));
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](8);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵconditional"](107, ctx.imagePreview ? 107 : 108);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](9);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵconditional"](116, ctx.imagePreview ? 116 : -1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](13);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵrepeater"](ctx.checklist);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](6);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵstyleProp"]("width", ctx.completenessPercent, "%");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵconditional"](137, ctx.formError ? 137 : -1);
+          }
+        },
+        dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_3__.CommonModule, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.FormsModule, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgSelectOption, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["ɵNgSelectMultipleOption"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NumberValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.SelectControlValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.RequiredValidator, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.MinValidator, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgModel, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgForm],
+        styles: ["[_nghost-%COMP%] {\n  display: block;\n  flex: 1;\n  min-width: 0;\n  overflow-y: auto;\n  background: #fff;\n}\n\n.aggiungi-vino-container[_ngcontent-%COMP%] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 24px 24px 0;\n}\n\n.breadcrumb[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 13px;\n  color: #999;\n  margin-bottom: 20px;\n}\n.breadcrumb[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 12px;\n}\n.breadcrumb[_ngcontent-%COMP%]   .current[_ngcontent-%COMP%] {\n  color: #1a1a1a;\n  font-weight: 600;\n}\n\n.form-layout[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 320px;\n  gap: 20px;\n  align-items: start;\n}\n@media (max-width: 900px) {\n  .form-layout[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n\n.form-main[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n.form-side[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.card[_ngcontent-%COMP%] {\n  background: #fff;\n  border: 1px solid #e8e8e8;\n  border-radius: 12px;\n  padding: 20px 24px;\n}\n.card[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  font-size: 15px;\n  font-weight: 600;\n  color: #1a1a1a;\n  margin: 0 0 18px;\n}\n.card[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 17px;\n  color: #7f77dd;\n}\n.card[_ngcontent-%COMP%]   .card-sub[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: #999;\n  margin: -8px 0 14px;\n}\n.card[_ngcontent-%COMP%]   hr[_ngcontent-%COMP%] {\n  border: none;\n  border-top: 1px solid #eee;\n  margin: 16px 0;\n}\n\n.form-row[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 16px;\n}\n.form-row.form-row-price[_ngcontent-%COMP%] {\n  grid-template-columns: 150px 150px 1fr;\n}\n@media (max-width: 600px) {\n  .form-row.form-row-price[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n@media (max-width: 600px) {\n  .form-row[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n}\n\n.form-group[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  margin-bottom: 14px;\n  min-width: 0;\n}\n.form-group.form-group-sm[_ngcontent-%COMP%] {\n  max-width: 220px;\n}\n.form-group[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 12px;\n  font-weight: 500;\n  color: #666;\n}\n.form-group[_ngcontent-%COMP%]   input[_ngcontent-%COMP%], .form-group[_ngcontent-%COMP%]   select[_ngcontent-%COMP%], .form-group[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%] {\n  border: 1px solid #ddd;\n  border-radius: 8px;\n  padding: 9px 12px;\n  font-size: 13.5px;\n  font-family: inherit;\n  color: #1a1a1a;\n  outline: none;\n  transition: border-color 0.2s;\n  background: #fff;\n}\n.form-group[_ngcontent-%COMP%]   input[_ngcontent-%COMP%]:focus, .form-group[_ngcontent-%COMP%]   select[_ngcontent-%COMP%]:focus, .form-group[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%]:focus {\n  border-color: #7f77dd;\n}\n.form-group[_ngcontent-%COMP%]   input[_ngcontent-%COMP%]::placeholder, .form-group[_ngcontent-%COMP%]   select[_ngcontent-%COMP%]::placeholder, .form-group[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%]::placeholder {\n  color: #b0b0b0;\n}\n.form-group[_ngcontent-%COMP%]   textarea[_ngcontent-%COMP%] {\n  resize: vertical;\n}\n\n.toggle-group[_ngcontent-%COMP%] {\n  justify-content: center;\n}\n\n.toggle-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  height: 35px;\n}\n.toggle-row[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: #1a1a1a;\n}\n\n.toggle[_ngcontent-%COMP%] {\n  width: 38px;\n  height: 21px;\n  border-radius: 11px;\n  border: none;\n  background: #ccc;\n  position: relative;\n  cursor: pointer;\n  padding: 0;\n  transition: background 0.2s;\n  flex-shrink: 0;\n}\n.toggle.on[_ngcontent-%COMP%] {\n  background: #7f77dd;\n}\n.toggle[_ngcontent-%COMP%]   .toggle-knob[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 17px;\n  height: 17px;\n  border-radius: 50%;\n  background: #fff;\n  transition: transform 0.2s;\n}\n.toggle.on[_ngcontent-%COMP%]   .toggle-knob[_ngcontent-%COMP%] {\n  transform: translateX(17px);\n}\n\n.dropzone[_ngcontent-%COMP%] {\n  border: 1.5px dashed #ccc;\n  border-radius: 10px;\n  padding: 24px;\n  text-align: center;\n  margin-bottom: 16px;\n}\n.dropzone.disabled[_ngcontent-%COMP%] {\n  opacity: 0.55;\n  cursor: not-allowed;\n}\n.dropzone[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 22px;\n  color: #999;\n}\n.dropzone[_ngcontent-%COMP%]   .dropzone-title[_ngcontent-%COMP%] {\n  font-size: 13px;\n  font-weight: 600;\n  color: #1a1a1a;\n  margin: 8px 0 2px;\n}\n.dropzone[_ngcontent-%COMP%]   .dropzone-sub[_ngcontent-%COMP%] {\n  font-size: 11.5px;\n  color: #999;\n  margin: 0;\n}\n\n.columns-label[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 12px;\n  font-weight: 500;\n  color: #666;\n  margin-bottom: 8px;\n}\n\n.columns-chips[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 6px;\n}\n.columns-chips[_ngcontent-%COMP%]   .chip[_ngcontent-%COMP%] {\n  background: #eeedfe;\n  color: #26215c;\n  font-size: 11px;\n  font-weight: 500;\n  padding: 4px 10px;\n  border-radius: 999px;\n}\n\n.label-preview[_ngcontent-%COMP%] {\n  height: 170px;\n  border: 1px solid #ddd;\n  border-radius: 8px;\n  margin-bottom: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  overflow: hidden;\n  background: #fafafa;\n}\n.label-preview[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n.label-preview[_ngcontent-%COMP%]   .placeholder[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: #999;\n}\n\n.upload-zone[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  border: 1.5px dashed #ccc;\n  border-radius: 8px;\n  padding: 14px;\n  cursor: pointer;\n  transition: border-color 0.2s, background 0.2s;\n}\n.upload-zone[_ngcontent-%COMP%]:hover {\n  border-color: #7f77dd;\n  background: #f9f9ff;\n}\n.upload-zone[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 18px;\n  color: #7f77dd;\n}\n.upload-zone[_ngcontent-%COMP%]   .upload-title[_ngcontent-%COMP%] {\n  font-size: 13px;\n  font-weight: 600;\n  color: #1a1a1a;\n  margin-top: 6px;\n}\n.upload-zone[_ngcontent-%COMP%]   .upload-sub[_ngcontent-%COMP%] {\n  font-size: 11px;\n  color: #999;\n  margin-top: 2px;\n}\n\n.btn-clear-image[_ngcontent-%COMP%] {\n  width: 100%;\n  margin-top: 10px;\n  background: none;\n  border: 1px solid #ddd;\n  border-radius: 8px;\n  padding: 8px;\n  font-size: 12px;\n  color: #c0392b;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-clear-image[_ngcontent-%COMP%]:hover {\n  background: #fde8e8;\n}\n\n.btn-ocr[_ngcontent-%COMP%] {\n  width: 100%;\n  margin-top: 10px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  background: #f5f5f5;\n  border: 1px solid #e0e0e0;\n  border-radius: 8px;\n  padding: 9px;\n  font-size: 12.5px;\n  color: #999;\n  cursor: not-allowed;\n}\n.btn-ocr[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 15px;\n}\n\n.ai-suggestion[_ngcontent-%COMP%] {\n  background: #f5f4ff;\n  border: 1px solid #e3e1ff;\n  border-radius: 12px;\n  padding: 14px 16px;\n  display: flex;\n  gap: 10px;\n}\n.ai-suggestion[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: #7f77dd;\n  flex-shrink: 0;\n  margin-top: 1px;\n}\n.ai-suggestion[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 12.5px;\n  color: #5a55a3;\n  margin: 0;\n  line-height: 1.4;\n}\n\n.checklist[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0 0 16px;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n.checklist[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  font-size: 13px;\n  color: #999;\n}\n.checklist[_ngcontent-%COMP%]   li.done[_ngcontent-%COMP%] {\n  color: #1a1a1a;\n}\n.checklist[_ngcontent-%COMP%]   .check-dot[_ngcontent-%COMP%] {\n  width: 18px;\n  height: 18px;\n  border-radius: 50%;\n  border: 1.5px solid #ddd;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n.checklist[_ngcontent-%COMP%]   .check-dot[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 11px;\n  color: #04342c;\n}\n.checklist[_ngcontent-%COMP%]   li.done[_ngcontent-%COMP%]   .check-dot[_ngcontent-%COMP%] {\n  background: #9fe1cb;\n  border-color: #9fe1cb;\n}\n\n.progress-label[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 12px;\n  font-weight: 500;\n  color: #666;\n  margin-bottom: 8px;\n}\n\n.progress-bar[_ngcontent-%COMP%] {\n  height: 8px;\n  border-radius: 5px;\n  border: 1px solid #e0e0e0;\n  overflow: hidden;\n}\n\n.progress-fill[_ngcontent-%COMP%] {\n  height: 100%;\n  background: #5dcaa5;\n  transition: width 0.3s;\n}\n\n.form-actions[_ngcontent-%COMP%] {\n  grid-column: 1/-1;\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 12px;\n  padding: 24px 0 32px;\n}\n.form-actions[_ngcontent-%COMP%]   .form-error[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: #c0392b;\n  margin-right: auto;\n}\n\n.btn-cancel[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  background: #fff;\n  border: 1px solid #ccc;\n  border-radius: 8px;\n  padding: 10px 20px;\n  font-size: 13.5px;\n  color: #1a1a1a;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-cancel[_ngcontent-%COMP%]:hover {\n  background: #f5f5f5;\n}\n\n.btn-save[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  background: #7f77dd;\n  border: none;\n  border-radius: 8px;\n  padding: 10px 22px;\n  font-size: 13.5px;\n  font-weight: 600;\n  color: #fff;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-save[_ngcontent-%COMP%]:hover {\n  background: #6a61cf;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8uL3NyYy9hcHAvYWdnaXVuZ2lWaW5vL2FnZ2l1bmdpLXZpbm8uY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxjQUFBO0VBQ0EsT0FBQTtFQUNBLFlBQUE7RUFDQSxnQkFBQTtFQUNBLGdCQUFBO0FBQ0Y7O0FBRUE7RUFDRSxpQkFBQTtFQUNBLGNBQUE7RUFDQSxvQkFBQTtBQUNGOztBQUVBO0VBQ0UsYUFBQTtFQUNBLG1CQUFBO0VBQ0EsUUFBQTtFQUNBLGVBQUE7RUFDQSxXQUFBO0VBQ0EsbUJBQUE7QUFDRjtBQUNFO0VBQUksZUFBQTtBQUVOO0FBQUU7RUFDRSxjQUFBO0VBQ0EsZ0JBQUE7QUFFSjs7QUFFQTtFQUNFLGFBQUE7RUFDQSxnQ0FBQTtFQUNBLFNBQUE7RUFDQSxrQkFBQTtBQUNGO0FBQ0U7RUFORjtJQU9JLDBCQUFBO0VBRUY7QUFDRjs7QUFDQTtFQUNFLGFBQUE7RUFDQSxzQkFBQTtFQUNBLFNBQUE7QUFFRjs7QUFDQTtFQUNFLGFBQUE7RUFDQSxzQkFBQTtFQUNBLFNBQUE7QUFFRjs7QUFDQTtFQUNFLGdCQUFBO0VBQ0EseUJBQUE7RUFDQSxtQkFBQTtFQUNBLGtCQUFBO0FBRUY7QUFBRTtFQUNFLGFBQUE7RUFDQSxtQkFBQTtFQUNBLFFBQUE7RUFDQSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSxjQUFBO0VBQ0EsZ0JBQUE7QUFFSjtBQUFJO0VBQUksZUFBQTtFQUFpQixjQUFBO0FBSXpCO0FBREU7RUFDRSxlQUFBO0VBQ0EsV0FBQTtFQUNBLG1CQUFBO0FBR0o7QUFBRTtFQUNFLFlBQUE7RUFDQSwwQkFBQTtFQUNBLGNBQUE7QUFFSjs7QUFFQTtFQUNFLGFBQUE7RUFDQSw4QkFBQTtFQUNBLFNBQUE7QUFDRjtBQUNFO0VBQ0Usc0NBQUE7QUFDSjtBQUNJO0VBSEY7SUFJSSwwQkFBQTtFQUVKO0FBQ0Y7QUFDRTtFQWJGO0lBY0ksMEJBQUE7RUFFRjtBQUNGOztBQUNBO0VBQ0UsYUFB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QUFBO0FBa0JGO0FBaEJFO0VBQVUsbUJBQUE7QUFtQlo7O0FBaEJBO0VBQ0UsYUFBQTtFQUNBLG1CQUFBO0VBQ0EsUUFBQTtFQUNBLG1CQUFBO0VBQ0EsWUFBQTtFQUNBLGtCQUFBO0VBQ0Esa0JBQUE7RUFDQSxpQkFBQTtFQUNBLGdCQUFBO0VBQ0EsV0FBQTtFQUNBLGVBQUE7RUFDQSwyQkFBQTtBQW1CRjtBQWpCRTtFQUFVLG1CQUFBO0FBb0JaIiwic291cmNlc0NvbnRlbnQiOlsiOmhvc3Qge1xuICBkaXNwbGF5OiBibG9jaztcbiAgZmxleDogMTtcbiAgbWluLXdpZHRoOiAwO1xuICBvdmVyZmxvdy15OiBhdXRvO1xuICBiYWNrZ3JvdW5kOiAjZmZmO1xufVxuXG4uYWdnaXVuZ2ktdmluby1jb250YWluZXIge1xuICBtYXgtd2lkdGg6IDEyMDBweDtcbiAgbWFyZ2luOiAwIGF1dG87XG4gIHBhZGRpbmc6IDI0cHggMjRweCAwO1xufVxuXG4uYnJlYWRjcnVtYiB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGdhcDogNnB4O1xuICBmb250LXNpemU6IDEzcHg7XG4gIGNvbG9yOiAjOTk5O1xuICBtYXJnaW4tYm90dG9tOiAyMHB4O1xuXG4gIGkgeyBmb250LXNpemU6IDEycHg7IH1cblxuICAuY3VycmVudCB7XG4gICAgY29sb3I6ICMxYTFhMWE7XG4gICAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgfVxufVxuXG4uZm9ybS1sYXlvdXQge1xuICBkaXNwbGF5OiBncmlkO1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IDFmciAzMjBweDtcbiAgZ2FwOiAyMHB4O1xuICBhbGlnbi1pdGVtczogc3RhcnQ7XG5cbiAgQG1lZGlhIChtYXgtd2lkdGg6IDkwMHB4KSB7XG4gICAgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiAxZnI7XG4gIH1cbn1cblxuLmZvcm0tbWFpbiB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIGdhcDogMjBweDtcbn1cblxuLmZvcm0tc2lkZSB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIGdhcDogMTZweDtcbn1cblxuLmNhcmQge1xuICBiYWNrZ3JvdW5kOiAjZmZmO1xuICBib3JkZXI6IDFweCBzb2xpZCAjZThlOGU4O1xuICBib3JkZXItcmFkaXVzOiAxMnB4O1xuICBwYWRkaW5nOiAyMHB4IDI0cHg7XG5cbiAgaDIge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICBnYXA6IDhweDtcbiAgICBmb250LXNpemU6IDE1cHg7XG4gICAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgICBjb2xvcjogIzFhMWExYTtcbiAgICBtYXJnaW46IDAgMCAxOHB4O1xuXG4gICAgaSB7IGZvbnQtc2l6ZTogMTdweDsgY29sb3I6ICM3Zjc3ZGQ7IH1cbiAgfVxuXG4gIC5jYXJkLXN1YiB7XG4gICAgZm9udC1zaXplOiAxM3B4O1xuICAgIGNvbG9yOiAjOTk5O1xuICAgIG1hcmdpbjogLThweCAwIDE0cHg7XG4gIH1cblxuICBociB7XG4gICAgYm9yZGVyOiBub25lO1xuICAgIGJvcmRlci10b3A6IDFweCBzb2xpZCAjZWVlO1xuICAgIG1hcmdpbjogMTZweCAwO1xuICB9XG59XG5cbi5mb3JtLXJvdyB7XG4gIGRpc3BsYXk6IGdyaWQ7XG4gIGdyaWQtdGVtcGxhdGUtY29sdW1uczogMWZyIDFmcjtcbiAgZ2FwOiAxNnB4O1xuXG4gICYuZm9ybS1yb3ctcHJpY2Uge1xuICAgIGdyaWQtdGVtcGxhdGUtY29sdW1uczogMTUwcHggMTUwcHggMWZyO1xuXG4gICAgQG1lZGlhIChtYXgtd2lkdGg6IDYwMHB4KSB7XG4gICAgICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IDFmcjtcbiAgICB9XG4gIH1cblxuICBAbWVkaWEgKG1heC13aWR0aDogNjAwcHgpIHtcbiAgICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IDFmcjtcbiAgfVxufVxuXG4uZm9ybS1ncm91cCB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIGdhcDogNnB4O1xuICBtYXJnaW4tYm90dG9tOiAxNHB4O1xuICBtaW4td2lkdGg6IDA7XG5cbiAgJi5mb3JtLWdyb3VwLXNtIHtcbiAgICBtYXgtd2lkdGg6IDIyMHB4O1xuICB9XG5cbiAgbGFiZWwge1xuICAgIGZvbnQtc2l6ZTogMTJweDtcbiAgICBmb250LXdlaWdodDogNTAwO1xuICAgIGNvbG9yOiAjNjY2O1xuICB9XG5cbiAgaW5wdXQsIHNlbGVjdCwgdGV4dGFyZWEge1xuICAgIGJvcmRlcjogMXB4IHNvbGlkICNkZGQ7XG4gICAgYm9yZGVyLXJhZGl1czogOHB4O1xuICAgIHBhZGRpbmc6IDlweCAxMnB4O1xuICAgIGZvbnQtc2l6ZTogMTMuNXB4O1xuICAgIGZvbnQtZmFtaWx5OiBpbmhlcml0O1xuICAgIGNvbG9yOiAjMWExYTFhO1xuICAgIG91dGxpbmU6IG5vbmU7XG4gICAgdHJhbnNpdGlvbjogYm9yZGVyLWNvbG9yIDAuMnM7XG4gICAgYmFja2dyb3VuZDogI2ZmZjtcblxuICAgICY6Zm9jdXMgeyBib3JkZXItY29sb3I6ICM3Zjc3ZGQ7IH1cbiAgICAmOjpwbGFjZWhvbGRlciB7IGNvbG9yOiAjYjBiMGIwOyB9XG4gIH1cblxuICB0ZXh0YXJlYSB7IHJlc2l6ZTogdmVydGljYWw7IH1cbn1cblxuLnRvZ2dsZS1ncm91cCB7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xufVxuXG4udG9nZ2xlLXJvdyB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGdhcDogMTBweDtcbiAgaGVpZ2h0OiAzNXB4O1xuXG4gIHNwYW4geyBmb250LXNpemU6IDEzcHg7IGNvbG9yOiAjMWExYTFhOyB9XG59XG5cbi50b2dnbGUge1xuICB3aWR0aDogMzhweDtcbiAgaGVpZ2h0OiAyMXB4O1xuICBib3JkZXItcmFkaXVzOiAxMXB4O1xuICBib3JkZXI6IG5vbmU7XG4gIGJhY2tncm91bmQ6ICNjY2M7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgY3Vyc29yOiBwb2ludGVyO1xuICBwYWRkaW5nOiAwO1xuICB0cmFuc2l0aW9uOiBiYWNrZ3JvdW5kIDAuMnM7XG4gIGZsZXgtc2hyaW5rOiAwO1xuXG4gICYub24geyBiYWNrZ3JvdW5kOiAjN2Y3N2RkOyB9XG5cbiAgLnRvZ2dsZS1rbm9iIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAycHg7XG4gICAgbGVmdDogMnB4O1xuICAgIHdpZHRoOiAxN3B4O1xuICAgIGhlaWdodDogMTdweDtcbiAgICBib3JkZXItcmFkaXVzOiA1MCU7XG4gICAgYmFja2dyb3VuZDogI2ZmZjtcbiAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4ycztcbiAgfVxuXG4gICYub24gLnRvZ2dsZS1rbm9iIHsgdHJhbnNmb3JtOiB0cmFuc2xhdGVYKDE3cHgpOyB9XG59XG5cbi5kcm9wem9uZSB7XG4gIGJvcmRlcjogMS41cHggZGFzaGVkICNjY2M7XG4gIGJvcmRlci1yYWRpdXM6IDEwcHg7XG4gIHBhZGRpbmc6IDI0cHg7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgbWFyZ2luLWJvdHRvbTogMTZweDtcblxuICAmLmRpc2FibGVkIHsgb3BhY2l0eTogMC41NTsgY3Vyc29yOiBub3QtYWxsb3dlZDsgfVxuXG4gIGkgeyBmb250LXNpemU6IDIycHg7IGNvbG9yOiAjOTk5OyB9XG5cbiAgLmRyb3B6b25lLXRpdGxlIHtcbiAgICBmb250LXNpemU6IDEzcHg7XG4gICAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgICBjb2xvcjogIzFhMWExYTtcbiAgICBtYXJnaW46IDhweCAwIDJweDtcbiAgfVxuXG4gIC5kcm9wem9uZS1zdWIge1xuICAgIGZvbnQtc2l6ZTogMTEuNXB4O1xuICAgIGNvbG9yOiAjOTk5O1xuICAgIG1hcmdpbjogMDtcbiAgfVxufVxuXG4uY29sdW1ucy1sYWJlbCB7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICBmb250LXNpemU6IDEycHg7XG4gIGZvbnQtd2VpZ2h0OiA1MDA7XG4gIGNvbG9yOiAjNjY2O1xuICBtYXJnaW4tYm90dG9tOiA4cHg7XG59XG5cbi5jb2x1bW5zLWNoaXBzIHtcbiAgZGlzcGxheTogZmxleDtcbiAgZmxleC13cmFwOiB3cmFwO1xuICBnYXA6IDZweDtcblxuICAuY2hpcCB7XG4gICAgYmFja2dyb3VuZDogI2VlZWRmZTtcbiAgICBjb2xvcjogIzI2MjE1YztcbiAgICBmb250LXNpemU6IDExcHg7XG4gICAgZm9udC13ZWlnaHQ6IDUwMDtcbiAgICBwYWRkaW5nOiA0cHggMTBweDtcbiAgICBib3JkZXItcmFkaXVzOiA5OTlweDtcbiAgfVxufVxuXG4ubGFiZWwtcHJldmlldyB7XG4gIGhlaWdodDogMTcwcHg7XG4gIGJvcmRlcjogMXB4IHNvbGlkICNkZGQ7XG4gIGJvcmRlci1yYWRpdXM6IDhweDtcbiAgbWFyZ2luLWJvdHRvbTogMTJweDtcbiAgZGlzcGxheTogZmxleDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIG92ZXJmbG93OiBoaWRkZW47XG4gIGJhY2tncm91bmQ6ICNmYWZhZmE7XG5cbiAgaW1nIHsgd2lkdGg6IDEwMCU7IGhlaWdodDogMTAwJTsgb2JqZWN0LWZpdDogY292ZXI7IH1cblxuICAucGxhY2Vob2xkZXIgeyBmb250LXNpemU6IDEzcHg7IGNvbG9yOiAjOTk5OyB9XG59XG5cbi51cGxvYWQtem9uZSB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGJvcmRlcjogMS41cHggZGFzaGVkICNjY2M7XG4gIGJvcmRlci1yYWRpdXM6IDhweDtcbiAgcGFkZGluZzogMTRweDtcbiAgY3Vyc29yOiBwb2ludGVyO1xuICB0cmFuc2l0aW9uOiBib3JkZXItY29sb3IgMC4ycywgYmFja2dyb3VuZCAwLjJzO1xuXG4gICY6aG92ZXIgeyBib3JkZXItY29sb3I6ICM3Zjc3ZGQ7IGJhY2tncm91bmQ6ICNmOWY5ZmY7IH1cblxuICBpIHsgZm9udC1zaXplOiAxOHB4OyBjb2xvcjogIzdmNzdkZDsgfVxuXG4gIC51cGxvYWQtdGl0bGUge1xuICAgIGZvbnQtc2l6ZTogMTNweDtcbiAgICBmb250LXdlaWdodDogNjAwO1xuICAgIGNvbG9yOiAjMWExYTFhO1xuICAgIG1hcmdpbi10b3A6IDZweDtcbiAgfVxuXG4gIC51cGxvYWQtc3ViIHtcbiAgICBmb250LXNpemU6IDExcHg7XG4gICAgY29sb3I6ICM5OTk7XG4gICAgbWFyZ2luLXRvcDogMnB4O1xuICB9XG59XG5cbi5idG4tY2xlYXItaW1hZ2Uge1xuICB3aWR0aDogMTAwJTtcbiAgbWFyZ2luLXRvcDogMTBweDtcbiAgYmFja2dyb3VuZDogbm9uZTtcbiAgYm9yZGVyOiAxcHggc29saWQgI2RkZDtcbiAgYm9yZGVyLXJhZGl1czogOHB4O1xuICBwYWRkaW5nOiA4cHg7XG4gIGZvbnQtc2l6ZTogMTJweDtcbiAgY29sb3I6ICNjMDM5MmI7XG4gIGN1cnNvcjogcG9pbnRlcjtcbiAgdHJhbnNpdGlvbjogYmFja2dyb3VuZCAwLjJzO1xuXG4gICY6aG92ZXIgeyBiYWNrZ3JvdW5kOiAjZmRlOGU4OyB9XG59XG5cbi5idG4tb2NyIHtcbiAgd2lkdGg6IDEwMCU7XG4gIG1hcmdpbi10b3A6IDEwcHg7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICBnYXA6IDZweDtcbiAgYmFja2dyb3VuZDogI2Y1ZjVmNTtcbiAgYm9yZGVyOiAxcHggc29saWQgI2UwZTBlMDtcbiAgYm9yZGVyLXJhZGl1czogOHB4O1xuICBwYWRkaW5nOiA5cHg7XG4gIGZvbnQtc2l6ZTogMTIuNXB4O1xuICBjb2xvcjogIzk5OTtcbiAgY3Vyc29yOiBub3QtYWxsb3dlZDtcblxuICBpIHsgZm9udC1zaXplOiAxNXB4OyB9XG59XG5cbi5haS1zdWdnZXN0aW9uIHtcbiAgYmFja2dyb3VuZDogI2Y1ZjRmZjtcbiAgYm9yZGVyOiAxcHggc29saWQgI2UzZTFmZjtcbiAgYm9yZGVyLXJhZGl1czogMTJweDtcbiAgcGFkZGluZzogMTRweCAxNnB4O1xuICBkaXNwbGF5OiBmbGV4O1xuICBnYXA6IDEwcHg7XG5cbiAgaSB7IGZvbnQtc2l6ZTogMTZweDsgY29sb3I6ICM3Zjc3ZGQ7IGZsZXgtc2hyaW5rOiAwOyBtYXJnaW4tdG9wOiAxcHg7IH1cblxuICBwIHtcbiAgICBmb250LXNpemU6IDEyLjVweDtcbiAgICBjb2xvcjogIzVhNTVhMztcbiAgICBtYXJnaW46IDA7XG4gICAgbGluZS1oZWlnaHQ6IDEuNDtcbiAgfVxufVxuXG4uY2hlY2tsaXN0IHtcbiAgbGlzdC1zdHlsZTogbm9uZTtcbiAgbWFyZ2luOiAwIDAgMTZweDtcbiAgcGFkZGluZzogMDtcbiAgZGlzcGxheTogZmxleDtcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgZ2FwOiAxMHB4O1xuXG4gIGxpIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgZ2FwOiAxMHB4O1xuICAgIGZvbnQtc2l6ZTogMTNweDtcbiAgICBjb2xvcjogIzk5OTtcblxuICAgICYuZG9uZSB7IGNvbG9yOiAjMWExYTFhOyB9XG4gIH1cblxuICAuY2hlY2stZG90IHtcbiAgICB3aWR0aDogMThweDtcbiAgICBoZWlnaHQ6IDE4cHg7XG4gICAgYm9yZGVyLXJhZGl1czogNTAlO1xuICAgIGJvcmRlcjogMS41cHggc29saWQgI2RkZDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgZmxleC1zaHJpbms6IDA7XG5cbiAgICBpIHsgZm9udC1zaXplOiAxMXB4OyBjb2xvcjogIzA0MzQyYzsgfVxuICB9XG5cbiAgbGkuZG9uZSAuY2hlY2stZG90IHtcbiAgICBiYWNrZ3JvdW5kOiAjOWZlMWNiO1xuICAgIGJvcmRlci1jb2xvcjogIzlmZTFjYjtcbiAgfVxufVxuXG4ucHJvZ3Jlc3MtbGFiZWwge1xuICBkaXNwbGF5OiBibG9jaztcbiAgZm9udC1zaXplOiAxMnB4O1xuICBmb250LXdlaWdodDogNTAwO1xuICBjb2xvcjogIzY2NjtcbiAgbWFyZ2luLWJvdHRvbTogOHB4O1xufVxuXG4ucHJvZ3Jlc3MtYmFyIHtcbiAgaGVpZ2h0OiA4cHg7XG4gIGJvcmRlci1yYWRpdXM6IDVweDtcbiAgYm9yZGVyOiAxcHggc29saWQgI2UwZTBlMDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbn1cblxuLnByb2dyZXNzLWZpbGwge1xuICBoZWlnaHQ6IDEwMCU7XG4gIGJhY2tncm91bmQ6ICM1ZGNhYTU7XG4gIHRyYW5zaXRpb246IHdpZHRoIDAuM3M7XG59XG5cbi5mb3JtLWFjdGlvbnMge1xuICBncmlkLWNvbHVtbjogMSAvIC0xO1xuICBkaXNwbGF5OiBmbGV4O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGZsZXgtZW5kO1xuICBnYXA6IDEycHg7XG4gIHBhZGRpbmc6IDI0cHggMCAzMnB4O1xuXG4gIC5mb3JtLWVycm9yIHtcbiAgICBmb250LXNpemU6IDEzcHg7XG4gICAgY29sb3I6ICNjMDM5MmI7XG4gICAgbWFyZ2luLXJpZ2h0OiBhdXRvO1xuICB9XG59XG5cbi5idG4tY2FuY2VsIHtcbiAgZGlzcGxheTogZmxleDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgZ2FwOiA2cHg7XG4gIGJhY2tncm91bmQ6ICNmZmY7XG4gIGJvcmRlcjogMXB4IHNvbGlkICNjY2M7XG4gIGJvcmRlci1yYWRpdXM6IDhweDtcbiAgcGFkZGluZzogMTBweCAyMHB4O1xuICBmb250LXNpemU6IDEzLjVweDtcbiAgY29sb3I6ICMxYTFhMWE7XG4gIGN1cnNvcjogcG9pbnRlcjtcbiAgdHJhbnNpdGlvbjogYmFja2dyb3VuZCAwLjJzO1xuXG4gICY6aG92ZXIgeyBiYWNrZ3JvdW5kOiAjZjVmNWY1OyB9XG59XG5cbi5idG4tc2F2ZSB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGdhcDogNnB4O1xuICBiYWNrZ3JvdW5kOiAjN2Y3N2RkO1xuICBib3JkZXI6IG5vbmU7XG4gIGJvcmRlci1yYWRpdXM6IDhweDtcbiAgcGFkZGluZzogMTBweCAyMnB4O1xuICBmb250LXNpemU6IDEzLjVweDtcbiAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgY29sb3I6ICNmZmY7XG4gIGN1cnNvcjogcG9pbnRlcjtcbiAgdHJhbnNpdGlvbjogYmFja2dyb3VuZCAwLjJzO1xuXG4gICY6aG92ZXIgeyBiYWNrZ3JvdW5kOiAjNmE2MWNmOyB9XG59XG4iXSwic291cmNlUm9vdCI6IiJ9 */"]
+      });
+    }
+  }
+  return AggiungiVinoComponent;
+})();
+
+/***/ }),
+
 /***/ 92:
 /*!**********************************!*\
   !*** ./src/app/app.component.ts ***!
@@ -28,8 +568,7 @@ let AppComponent = /*#__PURE__*/(() => {
       this.router = router;
     }
     onAddWine() {
-      // Aprirà una modale / navigherà a una form di inserimento
-      console.log('Aggiungi vino');
+      this.router.navigate(['/aggiungi-vino']);
     }
     onFilterChange(filter) {
       console.log('Filtro applicato:', filter);
@@ -91,18 +630,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   appConfig: () => (/* binding */ appConfig)
 /* harmony export */ });
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ 5072);
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ 6443);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ 5072);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common/http */ 6443);
 /* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./home/home.component */ 7824);
 /* harmony import */ var _contact_contact_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./contact/contact.component */ 8712);
 /* harmony import */ var _mappa_mappa_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mappa/mappa.component */ 3552);
+/* harmony import */ var _aggiungiVino_aggiungi_vino_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./aggiungiVino/aggiungi-vino.component */ 6355);
+
 
 
 
 
 
 const appConfig = {
-  providers: [(0,_angular_router__WEBPACK_IMPORTED_MODULE_3__.provideRouter)([{
+  providers: [(0,_angular_router__WEBPACK_IMPORTED_MODULE_4__.provideRouter)([{
     path: '',
     component: _home_home_component__WEBPACK_IMPORTED_MODULE_0__.HomeComponent
   }, {
@@ -111,7 +652,10 @@ const appConfig = {
   }, {
     path: 'mappa',
     component: _mappa_mappa_component__WEBPACK_IMPORTED_MODULE_2__.MappaComponent
-  }]), (0,_angular_common_http__WEBPACK_IMPORTED_MODULE_4__.provideHttpClient)()]
+  }, {
+    path: 'aggiungi-vino',
+    component: _aggiungiVino_aggiungi_vino_component__WEBPACK_IMPORTED_MODULE_3__.AggiungiVinoComponent
+  }]), (0,_angular_common_http__WEBPACK_IMPORTED_MODULE_5__.provideHttpClient)()]
 };
 
 /***/ }),
@@ -182,7 +726,7 @@ function ContactComponent_Conditional_38_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](2, "Invia un messaggio");
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](3, "div", 15)(4, "div", 16)(5, "label");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](6, "Nome *");
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](6, "Nome e Cognome*");
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](7, "input", 17);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtwoWayListener"]("ngModelChange", function ContactComponent_Conditional_38_Template_input_ngModelChange_7_listener($event) {
@@ -245,6 +789,10 @@ function ContactComponent_Conditional_38_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵconditional"](21, ctx_r1.loading ? 21 : 22);
   }
 }
+// Configurazione EmailJS (dashboard: https://dashboard.emailjs.com)
+const EMAILJS_SERVICE_ID = 'service_n00520h'; // account email collegato (riceve i messaggi)
+const EMAILJS_TEMPLATE_ID = 'template_lwymhtf'; // template con i placeholder name/email/subject/message/time
+const EMAILJS_PUBLIC_KEY = '6E7zw6qRiBTSL5z8W'; // chiave pubblica dell'account EmailJS
 let ContactComponent = /*#__PURE__*/(() => {
   class ContactComponent {
     constructor(cdr) {
@@ -261,13 +809,13 @@ let ContactComponent = /*#__PURE__*/(() => {
     }
     onSubmit() {
       this.loading = true;
-      _emailjs_browser__WEBPACK_IMPORTED_MODULE_0__["default"].send('service_xskqjum', 'template_lwymhtf', {
+      _emailjs_browser__WEBPACK_IMPORTED_MODULE_0__["default"].send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
         name: this.form.name,
         email: this.form.email,
         subject: this.form.subject,
         message: this.form.message,
         time: new Date().toLocaleTimeString('it-IT')
-      }, '6E7zw6qRiBTSL5z8W').then(() => {
+      }, EMAILJS_PUBLIC_KEY).then(() => {
         this.submitted = true;
         this.loading = false;
         this.cdr.detectChanges();
@@ -300,7 +848,7 @@ let ContactComponent = /*#__PURE__*/(() => {
         features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵStandaloneFeature"]],
         decls: 39,
         vars: 1,
-        consts: [[1, "contact-container"], [1, "contact-hero"], [1, "contact-layout"], [1, "contact-info"], [1, "info-card"], [1, "info-icon"], [1, "fa-regular", "fa-envelope"], [1, "fa-solid", "fa-phone"], [1, "fa-solid", "fa-location-dot"], [1, "fa-regular", "fa-clock"], [1, "contact-form-wrapper"], [1, "success-message"], [1, "fa-solid", "fa-circle-check"], [1, "btn-reset", 3, "click"], [1, "contact-form", 3, "ngSubmit"], [1, "form-row"], [1, "form-group"], ["type", "text", "name", "name", "placeholder", "Il tuo nome", "required", "", 3, "ngModelChange", "ngModel"], ["type", "email", "name", "email", "placeholder", "la-tua@email.com", "required", "", 3, "ngModelChange", "ngModel"], ["type", "text", "name", "subject", "placeholder", "Di cosa hai bisogno?", 3, "ngModelChange", "ngModel"], ["name", "message", "rows", "6", "placeholder", "Scrivi il tuo messaggio...", "required", "", 3, "ngModelChange", "ngModel"], ["type", "submit", 1, "btn-submit", 3, "disabled"], [1, "fa-solid", "fa-arrow-right"]],
+        consts: [[1, "contact-container"], [1, "contact-hero"], [1, "contact-layout"], [1, "contact-info"], [1, "info-card"], [1, "info-icon"], [1, "fa-regular", "fa-envelope"], [1, "fa-solid", "fa-phone"], [1, "fa-solid", "fa-location-dot"], [1, "fa-regular", "fa-clock"], [1, "contact-form-wrapper"], [1, "success-message"], [1, "fa-solid", "fa-circle-check"], [1, "btn-reset", 3, "click"], [1, "contact-form", 3, "ngSubmit"], [1, "form-row"], [1, "form-group"], ["type", "text", "name", "name", "placeholder", "Nome e cognome", "required", "", 3, "ngModelChange", "ngModel"], ["type", "email", "name", "email", "placeholder", "la-tua@email.com", "required", "", 3, "ngModelChange", "ngModel"], ["type", "text", "name", "subject", "placeholder", "Di cosa hai bisogno?", 3, "ngModelChange", "ngModel"], ["name", "message", "rows", "6", "placeholder", "Scrivi il tuo messaggio...", "required", "", 3, "ngModelChange", "ngModel"], ["type", "submit", 1, "btn-submit", 3, "disabled"], [1, "fa-solid", "fa-arrow-right"]],
         template: function ContactComponent_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "div", 0)(1, "div", 1)(2, "h1");
@@ -934,15 +1482,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const CALABRIA_CENTER = [39.3, 16.3];
-const CALABRIA_ZOOM = 9;
+//Apertura della mappa al centro tra nord e sud
+const ITALY_CENTER = [42.8, 12.8];
+//Regola lo zoom dell'inquadratura della mappa
+const ITALY_ZOOM = 6;
 let MappaComponent = /*#__PURE__*/(() => {
   class MappaComponent {
     constructor() {
       this.map = null;
     }
     ngAfterViewInit() {
-      this.map = leaflet__WEBPACK_IMPORTED_MODULE_0__.map('mappa-leaflet').setView(CALABRIA_CENTER, CALABRIA_ZOOM);
+      this.map = leaflet__WEBPACK_IMPORTED_MODULE_0__.map('mappa-leaflet').setView(ITALY_CENTER, ITALY_ZOOM);
       leaflet__WEBPACK_IMPORTED_MODULE_0__.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap',
         maxZoom: 19
@@ -973,7 +1523,7 @@ let MappaComponent = /*#__PURE__*/(() => {
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](3, "Mappa dei vini");
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](4, "p");
-            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](5, "Esplora la Calabria, terra di vitigni e cantine storiche.");
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](5, "Naviga sulla mappa e lasciati guidare alla scoperta delle eccellenze vinicole italiane.");
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](6, "div", 2);
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();

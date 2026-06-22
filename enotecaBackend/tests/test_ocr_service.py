@@ -6,7 +6,7 @@ i test non fanno alcuna chiamata di rete e non richiedono credenziali reali.
 """
 
 from types import SimpleNamespace
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 from azure.core.exceptions import HttpResponseError

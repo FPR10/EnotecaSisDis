@@ -19,7 +19,6 @@ import os
 # Aggiunge la root del progetto al path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import AsyncSessionLocal
 from app.entity.user_entity import User, UserRole
 
@@ -38,7 +37,7 @@ async def seed():
         existing = result.scalar_one_or_none()
 
         if existing:
-            print(f"Admin già presente: {existing.email} (role={existing.role.value})")
+            print(f"Admin già presente: {existing.email} (role={existing.ruolo.value})")
             return
 
         admin = User(
@@ -46,7 +45,7 @@ async def seed():
             azure_oid=ADMIN_AZURE_OID,
             email=ADMIN_EMAIL,
             nome=ADMIN_NOME,
-            role=UserRole.ADMIN,
+            ruolo=UserRole.ADMIN,
             is_active=True,
             hashed_password="",
         )
