@@ -25,9 +25,10 @@ class Settings(BaseSettings):
     groq_api_key: str = ""
     groq_model: str = "llama-3.3-70b-versatile"
 
-    # --- Azure Blob Storage (immagini etichette) ---
+    # --- Azure Blob Storage (immagini etichette + audit import massivo) ---
     azure_storage_connection_string: str = ""
-    azure_storage_container: str = "etichette"
+    azure_storage_container_etichette: str = "etichette"
+    azure_storage_container_audit: str = "import-audit"
 
     class Config:
         env_file = ".env"

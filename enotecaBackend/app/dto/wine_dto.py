@@ -6,8 +6,6 @@ WineUpdate        → body PUT /wines/{id} (admin, tutti i campi opzionali)
 WineOut           → risposta JSON al client
 WineFilter        → query params per ricerca/filtro
 WinePageOut       → lista paginata
-WineSimilarItem   → vino + score similarità
-SemanticSearchItem→ vino + score ricerca semantica
 OcrSearchOut      → testo estratto + risultati ricerca OCR
 BulkImportResult  → esito import massivo CSV/JSON
 AbbinamentoCiboIn → body POST per richiedere l'abbinamento (descrizione del piatto)
@@ -136,18 +134,6 @@ class WinePageOut(BaseModel):
     total: int
     skip:  int
     limit: int
-
-
-# ── AI: similarità e ricerca semantica ────────────────────────────────────────
-
-class WineSimilarItem(BaseModel):
-    wine:  WineOut
-    score: float = Field(ge=0.0, le=1.0, description="Score similarità 0-1")
-
-
-class SemanticSearchItem(BaseModel):
-    wine:  WineOut
-    score: float = Field(ge=0.0, le=1.0, description="Score corrispondenza 0-1")
 
 
 # ── AI: OCR ────────────────────────────────────────────────────────────────────

@@ -7,6 +7,7 @@ from app.db.session import get_db
 from app.repository.user_repository import UserRepository
 from app.repository.wine_repository import WineRepository
 from app.service.authentication_service import AuthenticationService
+from app.service.blob_storage_service import BlobStorageService
 from app.service.ocr_service import OcrService
 from app.service.pairing_service import PairingService
 from app.service.text_processing_service import TextProcessingService
@@ -47,3 +48,7 @@ def get_text_processing_service(
 
 def get_ocr_service() -> OcrService:
     return OcrService()
+
+
+def get_blob_storage_service() -> BlobStorageService:
+    return BlobStorageService()

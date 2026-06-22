@@ -68,17 +68,6 @@ class WineRepository:
         return list(ret.scalars().all()) #estraggo la prima colonna e trasformo in lista 
     
     
-    async def find_by_tipo(self, tipo: TipoVino) -> list[Wine]:
-        query = select(Wine).where(Wine.tipo == tipo).order_by(Wine.regione, Wine.nome)
-        result = await self.session.execute(query)
-        return list(result.scalars().all())
-
-    async def find_by_regione(self, regione: str) -> list[Wine]:
-        query = select(Wine).where(Wine.regione == regione).order_by(Wine.tipo, Wine.nome)
-        result = await self.session.execute(query)
-        return list(result.scalars().all())
-
-
     async def find_all_for_matching(self) -> list[Wine]:
         """
         Restituisce l'intero catalogo, senza paginazione.

@@ -25,9 +25,6 @@ azure-storage-blob==12.23.0
 groq==0.11.0
 
 # AI / ML
-sentence-transformers==3.1.1
-scikit-learn==1.5.2
-numpy==2.1.3
 rapidfuzz==3.9.7                   # fuzzy matching testo etichette OCR
 spacy==3.7.5                       # NER sul testo OCR (produttore, denominazione, luoghi)
 keybert==0.8.5                     # estrazione parole chiave salienti dal testo OCR
