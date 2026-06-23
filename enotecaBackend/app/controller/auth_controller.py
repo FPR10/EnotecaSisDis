@@ -1,9 +1,8 @@
-"""Auth controller — profilo dell'utente autenticato.
+"""Controller per la gestione del profilo dell'utente autenticato.
 
-Login e registrazione sono gestiti interamente da Azure Entra External ID
-(MSAL lato frontend): qui esponiamo solo la lettura del profilo locale,
-sincronizzato automaticamente al primo accesso dalla dependency
-get_current_user (vedi app.config.security).
+L'autenticazione (login e registrazione) è gestita da Azure Entra ID tramite MSAL sul frontend. 
+Questo controller espone soltanto il profilo locale,sincronizzato automaticamente al primo accesso dalla dependency
+ `get_current_user` ( `app.config.security`).
 """
 
 from fastapi import APIRouter, Depends
@@ -16,6 +15,11 @@ router = APIRouter()
 
 
 @router.get("/me", response_model=UserOut)
-async def get_profilo(current_user: User = Depends(get_current_user)) -> User:
-    """Profilo dell'utente autenticato (creato/sincronizzato al login tramite Azure Entra)."""
+async def get_current_user_profile(current_user: User = Depends(get_current_user),) -> User:
+    """
+    Restituisce il profilo dell'utente autenticato.
+
+    L'utente viene creato o sincronizzato automaticamente al primo accesso
+    tramite Azure Entra External ID.
+    """
     return current_user

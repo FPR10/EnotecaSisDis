@@ -39,7 +39,22 @@
         {{ isLoadingPairing ? 'Ricerca...' : 'Abbina' }}
       </button>
     </div>
-    <p class="pairing-result" *ngIf="pairingResult">{{ pairingResult }}</p>
+    <p class="pairing-error" *ngIf="pairingError">{{ pairingError }}</p>
+    <div class="pairing-suggestions" *ngIf="pairingSuggestions.length > 0">
+      <div class="pairing-suggestion" *ngFor="let suggerimento of pairingSuggestions">
+        <div class="pairing-suggestion-header">
+          <span class="result-icon" [style.background]="getCardBg(capitalize(suggerimento.wine.tipo))">
+            <i class="ti ti-bottle" [style.color]="getBottleColor(capitalize(suggerimento.wine.tipo))" aria-hidden="true"></i>
+          </span>
+          <div class="pairing-suggestion-info">
+            <span class="result-name">{{ suggerimento.wine.nome }}</span>
+            <span class="result-meta">{{ suggerimento.wine.produttore }} · {{ suggerimento.wine.regione }}</span>
+          </div>
+          <span class="badge" [ngClass]="getBadgeClass(capitalize(suggerimento.wine.tipo))">{{ capitalize(suggerimento.wine.tipo) }}</span>
+        </div>
+        <p class="pairing-result">{{ suggerimento.motivazione }}</p>
+      </div>
+    </div>
   </div>
 
   <!-- Barra di ricerca -->
@@ -128,10 +143,15 @@
           {{ isLoadingSearch ? 'Analisi...' : 'Cerca per etichetta' }}
         </button>
       </div>
+      <p class="search-error" *ngIf="imageSearchError">{{ imageSearchError }}</p>
     </div>
 
     <!-- Risultati -->
     <div class="search-results" *ngIf="hasSearched">
+      <p class="extracted-text" *ngIf="extractedText">
+        <i class="ti ti-quote" aria-hidden="true"></i>
+        Testo riconosciuto: «{{ extractedText }}»
+      </p>
       <div class="search-results-empty" *ngIf="searchResults.length === 0">
         <i class="ti ti-mood-empty" aria-hidden="true"></i>
         Nessun risultato trovato.

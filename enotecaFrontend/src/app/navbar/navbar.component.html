@@ -9,13 +9,24 @@
 
   <div class="navbar-actions">
 
+    <!-- Aggiunta vino -->
     <button class="btn-add" (click)="onAddWine()">
       <i class="ti ti-plus" aria-hidden="true"></i>
       Aggiungi vino (admin)
     </button>
+
+    <!-- Logout (quando c'è login) -->
+    <button class="btn-logout" *ngIf="isLoggedIn" (click)="logout()">
+      <i class="ti ti-logout" aria-hidden="true"></i>
+      Logout
+    </button>
+
+    <!-- Contattaci -->
     <button class="btn-contact" (click)="contactUS()">
       <i class="ti ti-mail" aria-hidden="true"></i>
       Contattaci
     </button>
+
+    
   </div>
 </nav>

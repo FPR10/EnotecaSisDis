@@ -1,8 +1,22 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Wine } from '../models/wine.model';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { Wine, WineApi, wineFromApi } from '../models/wine.model';
+
+interface WinePageApi {
+  items: WineApi[];
+  total: number;
+  skip: number;
+  limit: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class WineService {
+  private readonly baseUrl = `${environment.apiBaseUrl}/wines`;
+
+  constructor(private http: HttpClient) {}
 
   //Vini presenti nella sezione sezione "Consigliati"
   private wines: Wine[] = [
@@ -138,5 +152,15 @@ export class WineService {
 
   add(wine: Wine): void {
     this.wines.push(wine);
+  }
+
+  /** Recupera dal backend l'intero catalogo (tutte le pagine), per usi come la distribuzione in mappa. */
+  getAllFromApi(): Observable<Wine[]> {
+    return this.http.get<WinePageApi>(this.baseUrl, { params: { skip: 0, limit: 1 } }).pipe(
+      switchMap(firstPage =>
+        this.http.get<WinePageApi>(this.baseUrl, { params: { skip: 0, limit: firstPage.total || 1 } })
+      ),
+      map(page => page.items.map(wineFromApi))
+    );
   }
 }

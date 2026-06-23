@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Wine } from '../shared/models/wine.model';
+import { Wine, wineFromApi } from '../shared/models/wine.model';
 import { WineService } from '../shared/services/wine.service';
+import { PairingService } from '../shared/services/pairing.service';
+import { VinoSuggerito } from '../shared/models/pairing.model';
+import { OcrService } from '../shared/services/ocr.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +19,8 @@ export class HomeComponent implements OnInit {
 
   // abbinamento cibo-vino
   foodQuery = '';
-  pairingResult = '';
+  pairingSuggestions: VinoSuggerito[] = [];
+  pairingError = '';
   isLoadingPairing = false;
 
   // ricerca testuale
@@ -30,8 +34,14 @@ export class HomeComponent implements OnInit {
   // ricerca per immagine
   imageFile: File | null = null;
   imagePreview: string | null = null;
+  imageSearchError = '';
+  extractedText = '';
 
-  constructor(private wineService: WineService) {}
+  constructor(
+    private wineService: WineService,
+    private pairingService: PairingService,
+    private ocrService: OcrService
+  ) {}
 
   ngOnInit(): void {
     this.featuredWines = this.wineService.getFeatured().slice(0, 3);
@@ -80,10 +90,22 @@ export class HomeComponent implements OnInit {
   onPairing(): void {
     if (!this.foodQuery.trim()) return;
     this.isLoadingPairing = true;
-    setTimeout(() => {
-      this.pairingResult = `Per "${this.foodQuery}" suggeriamo il Barolo Riserva 2018 — struttura tannica e note speziate ideali per piatti saporiti.`;
-      this.isLoadingPairing = false;
-    }, 800);
+    this.pairingError = '';
+    this.pairingSuggestions = [];
+    this.pairingService.abbina(this.foodQuery.trim()).subscribe({
+      next: (risposta) => {
+        this.pairingSuggestions = risposta.suggerimenti;
+        this.isLoadingPairing = false;
+      },
+      error: (err) => {
+        this.pairingError = err?.error?.detail ?? 'Abbinamento non disponibile al momento. Riprova più tardi.';
+        this.isLoadingPairing = false;
+      }
+    });
+  }
+
+  capitalize(value: string): string {
+    return value ? value.charAt(0).toUpperCase() + value.slice(1) : value;
   }
 
   onSearch(): void {
@@ -114,6 +136,8 @@ export class HomeComponent implements OnInit {
     this.imageFile = file;
     this.hasSearched = false;
     this.searchResults = [];
+    this.imageSearchError = '';
+    this.extractedText = '';
     const reader = new FileReader();
     reader.onload = e => { this.imagePreview = e.target?.result as string; };
     reader.readAsDataURL(file);
@@ -122,12 +146,21 @@ export class HomeComponent implements OnInit {
   onImageSearch(): void {
     if (!this.imageFile) return;
     this.isLoadingSearch = true;
-    // Placeholder: in futuro chiamerà POST /wines/search/ocr del backend
-    setTimeout(() => {
-      this.searchResults = this.wineService.getFeatured().slice(0, 2);
-      this.hasSearched = true;
-      this.isLoadingSearch = false;
-    }, 1000);
+    this.imageSearchError = '';
+    this.extractedText = '';
+    this.ocrService.riconosciEtichetta(this.imageFile).subscribe({
+      next: (risposta) => {
+        this.extractedText = risposta.extracted_text;
+        this.searchResults = risposta.results.map(wineFromApi);
+        this.hasSearched = true;
+        this.isLoadingSearch = false;
+      },
+      error: (err) => {
+        this.imageSearchError = err?.error?.detail ?? 'Riconoscimento etichetta non disponibile al momento. Riprova più tardi.';
+        this.hasSearched = false;
+        this.isLoadingSearch = false;
+      }
+    });
   }
 
   clearImage(): void {
@@ -135,5 +168,7 @@ export class HomeComponent implements OnInit {
     this.imagePreview = null;
     this.searchResults = [];
     this.hasSearched = false;
+    this.imageSearchError = '';
+    this.extractedText = '';
   }
 }

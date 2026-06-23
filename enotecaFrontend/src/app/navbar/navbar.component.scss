@@ -98,6 +98,28 @@
       }
     }
 
+    .btn-logout {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: #5a2d2d;
+      border: 1px solid #7a3d3d;
+      border-radius: 8px;
+      color: #f0f0f0;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #6e3737;
+      }
+
+      i {
+        font-size: 16px;
+      }
+    }
+
     .btn-menu {
       background: transparent;
       border: none;
