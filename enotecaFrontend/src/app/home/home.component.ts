@@ -92,24 +92,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     return map[type] ?? 'badge-rosso';
   }
 
-  getCardBg(type: string): string {
+  /** Immagine fissa per tipologia di vino (non l'etichetta del singolo vino, sempre la stessa per tipo). */
+  getCardImage(type: string): string {
     const map: Record<string, string> = {
-      'Rosso':     '#fde8e8',
-      'Bianco':    '#fdf6e3',
-      'Rosato':    '#fde8e0',
-      'Bollicine': '#e3f0fd',
+      'Rosso':     'assets/wine-types/rosso.jpg',
+      'Bianco':    'assets/wine-types/bianco.jpg',
+      'Rosato':    'assets/wine-types/rosato.jpg',
+      'Bollicine': 'assets/wine-types/bollicine.jpg',
     };
-    return map[type] ?? '#f5f5f5';
-  }
-
-  getBottleColor(type: string): string {
-    const map: Record<string, string> = {
-      'Rosso':     '#c0392b',
-      'Bianco':    '#a07820',
-      'Rosato':    '#c05020',
-      'Bollicine': '#1a6bad',
-    };
-    return map[type] ?? '#aaa';
+    return map[type] ?? 'assets/wine-types/rosso.jpg';
   }
 
   getSearchPlaceholder(): string {

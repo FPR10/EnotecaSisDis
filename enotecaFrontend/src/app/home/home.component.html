@@ -8,8 +8,8 @@
 
   <div class="wine-grid">
     <div class="wine-card" *ngFor="let wine of featuredWines">
-      <div class="card-img" [style.background]="getCardBg(wine.type)">
-        <i class="ti ti-bottle" [style.color]="getBottleColor(wine.type)" aria-hidden="true"></i>
+      <div class="card-img">
+        <img [src]="getCardImage(wine.type)" [alt]="wine.type" />
       </div>
       <div class="card-body">
         <div class="card-name">{{ wine.name }}</div>
@@ -31,8 +31,8 @@
     </div>
     <div class="search-result-grid" *ngIf="sidebarFilterResults.length > 0">
       <div class="result-item" *ngFor="let wine of sidebarFilterResults">
-        <div class="result-icon" [style.background]="getCardBg(wine.type)">
-          <i class="ti ti-bottle" [style.color]="getBottleColor(wine.type)" aria-hidden="true"></i>
+        <div class="result-icon">
+          <img [src]="getCardImage(wine.type)" [alt]="wine.type" />
         </div>
         <div class="result-info">
           <span class="result-name">{{ wine.name }}</span>
@@ -67,8 +67,8 @@
     <div class="pairing-suggestions" *ngIf="pairingSuggestions.length > 0">
       <div class="pairing-suggestion" *ngFor="let suggerimento of pairingSuggestions">
         <div class="pairing-suggestion-header">
-          <span class="result-icon" [style.background]="getCardBg(capitalize(suggerimento.wine.tipo))">
-            <i class="ti ti-bottle" [style.color]="getBottleColor(capitalize(suggerimento.wine.tipo))" aria-hidden="true"></i>
+          <span class="result-icon">
+            <img [src]="getCardImage(capitalize(suggerimento.wine.tipo))" [alt]="suggerimento.wine.tipo" />
           </span>
           <div class="pairing-suggestion-info">
             <span class="result-name">{{ suggerimento.wine.nome }}</span>
@@ -182,8 +182,8 @@
       </div>
       <div class="search-result-grid" *ngIf="searchResults.length > 0">
         <div class="result-item" *ngFor="let wine of searchResults">
-          <div class="result-icon" [style.background]="getCardBg(wine.type)">
-            <i class="ti ti-bottle" [style.color]="getBottleColor(wine.type)" aria-hidden="true"></i>
+          <div class="result-icon">
+            <img [src]="getCardImage(wine.type)" [alt]="wine.type" />
           </div>
           <div class="result-info">
             <span class="result-name">{{ wine.name }}</span>
