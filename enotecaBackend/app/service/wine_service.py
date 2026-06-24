@@ -11,6 +11,7 @@ import io
 import json
 
 from pydantic import ValidationError
+from sqlalchemy.exc import DBAPIError
 
 from app.config.logging import get_logger
 from app.entity.wine_entity import TipoVino, Wine
@@ -62,7 +63,18 @@ class WineService:
     async def crea_vino(self, dati: WineCreate) -> Wine:
         """Crea un nuovo vino nel catalogo a partire dai dati validati dal DTO."""
         vino = Wine(**dati.model_dump())
-        return await self.wine_repository.save(vino)
+        try:
+            return await self.wine_repository.save(vino)
+        except DBAPIError as exception:
+            # IntegrityError (vincoli NOT NULL/UNIQUE) e DataError (es. valore troppo
+            # lungo per la colonna) sono gli errori più comuni qui: si loggano sempre
+            # con lo stack completo, perché altrimenti la causa reale del fallimento
+            # del salvataggio si perde e in superficie resta solo un messaggio generico.
+            logger.error(f"Errore DB durante la creazione del vino: {exception}", exc_info=True)
+            raise WineServiceError(
+                "Dati del vino non validi: verifica che tutti i campi obbligatori "
+                "siano stati compilati correttamente."
+            ) from exception
 
     async def aggiorna_vino(self, wine_id: str, dati: WineUpdate) -> Wine:
         """Aggiorna un vino esistente; solleva errore se l'id non esiste in catalogo."""

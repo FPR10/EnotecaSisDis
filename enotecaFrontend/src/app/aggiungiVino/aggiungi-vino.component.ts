@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Wine, WineType } from '../shared/models/wine.model';
@@ -18,7 +19,6 @@ interface WineFormModel {
   price: number | null;
   quantity: number | null;
   available: boolean;
-  imageUrl: string;
 }
 
 @Component({
@@ -53,12 +53,13 @@ export class AggiungiVinoComponent {
     description: '',
     price: null,
     quantity: null,
-    available: true,
-    imageUrl: ''
+    available: true
   };
 
   imagePreview: string | null = null;
+  selectedImageFile: File | null = null;
   formError = '';
+  saving = false;
 
   constructor(private wineService: WineService, private router: Router) {}
 
@@ -93,17 +94,17 @@ export class AggiungiVinoComponent {
   }
 
   private loadImageFile(file: File): void {
+    this.selectedImageFile = file;
     const reader = new FileReader();
     reader.onload = e => {
       this.imagePreview = e.target?.result as string;
-      this.form.imageUrl = this.imagePreview;
     };
     reader.readAsDataURL(file);
   }
 
   clearImage(): void {
     this.imagePreview = null;
-    this.form.imageUrl = '';
+    this.selectedImageFile = null;
   }
 
   onSubmit(wineForm: NgForm): void {
@@ -127,12 +128,36 @@ export class AggiungiVinoComponent {
       description: this.form.description.trim() || undefined,
       price: this.form.price ?? undefined,
       quantity: this.form.quantity ?? undefined,
-      available: this.form.available,
-      imageUrl: this.form.imageUrl || undefined
+      available: this.form.available
     };
 
-    this.wineService.add(wine);
-    this.router.navigate(['/']);
+    this.saving = true;
+    this.wineService.add(wine).subscribe({
+      next: created => {
+        if (this.selectedImageFile) {
+          this.wineService.uploadImage(created.id, this.selectedImageFile).subscribe({
+            next: () => this.router.navigate(['/']),
+            // il vino è già stato creato: un'eventuale immagine non caricata non blocca il salvataggio
+            error: () => this.router.navigate(['/'])
+          });
+        } else {
+          this.router.navigate(['/']);
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        this.saving = false;
+        this.formError = this.extractErrorMessage(err);
+      }
+    });
+  }
+
+  private extractErrorMessage(err: HttpErrorResponse): string {
+    const detail = err.error?.detail;
+    if (typeof detail === 'string') return detail;
+    if (Array.isArray(detail)) {
+      return detail.map((d: { msg?: string }) => d.msg).filter(Boolean).join(', ');
+    }
+    return 'Impossibile salvare il vino. Riprova più tardi.';
   }
 
   onCancel(): void {

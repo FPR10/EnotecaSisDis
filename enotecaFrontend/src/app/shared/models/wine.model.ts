@@ -16,7 +16,6 @@ export interface Wine {
   available: boolean;
   type: WineType;
   imageUrl?: string;
-  featured?: boolean;
   /** Punteggio di popolarità del vino (1-5), usato ad es. per le classifiche regionali in mappa. */
   popularity?: number;
 }
@@ -27,7 +26,7 @@ export interface CaratteristicheOrganolettiche {
   gusto?: string;
 }
 
-/** Vino come restituito dal backend (WineOut) — campi in italiano, a differenza di Wine usato nei mockup. */
+/** Vino come restituito dal backend (WineOut) — campi in italiano, a differenza di Wine usato dal frontend. */
 export interface WineApi {
   id: string;
   nome: string;
@@ -56,7 +55,7 @@ const WINE_TYPE_MAP: Record<WineApi['tipo'], WineType> = {
   bollicine: 'Bollicine',
 };
 
-/** Converte un vino del backend (campi italiani) nel modello Wine usato dai componenti mockup. */
+/** Converte un vino del backend (campi italiani) nel modello Wine usato dai componenti del frontend. */
 export function wineFromApi(api: WineApi): Wine {
   return {
     id: api.id,
@@ -74,5 +73,31 @@ export function wineFromApi(api: WineApi): Wine {
     type: WINE_TYPE_MAP[api.tipo],
     imageUrl: api.immagine_etichetta,
     popularity: api.popolarita,
+  };
+}
+
+export const WINE_TYPE_TO_API: Record<WineType, WineApi['tipo']> = {
+  Rosso: 'rosso',
+  Bianco: 'bianco',
+  Rosato: 'rosato',
+  Bollicine: 'bollicine',
+};
+
+/** Converte un Wine (modello dei form) nel payload WineCreate atteso dal backend (POST /wines). */
+export function wineToApiCreate(wine: Wine): Record<string, unknown> {
+  return {
+    nome: wine.name,
+    produttore: wine.producer,
+    azienda_vinicola: wine.winery,
+    regione: wine.region,
+    tipo: WINE_TYPE_TO_API[wine.type],
+    annata: wine.year ?? null,
+    denominazione: wine.denomination ?? null,
+    descrizione: wine.description ?? null,
+    prezzo: wine.price ?? null,
+    disponibile: wine.available,
+    immagine_etichetta: wine.imageUrl ?? null,
+    vitigno: wine.grapeVariety ?? null,
+    scorte: wine.quantity ?? null,
   };
 }

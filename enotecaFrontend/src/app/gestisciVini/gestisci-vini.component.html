@@ -1,0 +1,79 @@
+<div class="gestisci-vini-container">
+
+  <div class="breadcrumb">
+    <span>Catalogo</span>
+    <i class="ti ti-chevron-right"></i>
+    <span class="current">Gestisci vini</span>
+  </div>
+
+  <div class="page-header">
+    <h1>Gestione catalogo</h1>
+    <button type="button" class="btn-add" (click)="onAddWine()">
+      <i class="ti ti-plus"></i> Aggiungi vino
+    </button>
+  </div>
+
+  @if (loading) {
+    <p class="state-msg">Caricamento catalogo...</p>
+  } @else if (loadError) {
+    <p class="state-msg error">{{ loadError }}</p>
+  } @else if (wines.length === 0) {
+    <p class="state-msg">Nessun vino in catalogo.</p>
+  } @else {
+    <div class="card table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Produttore</th>
+            <th>Tipologia</th>
+            <th>Regione</th>
+            <th>Annata</th>
+            <th>Prezzo</th>
+            <th>Disponibile</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (wine of wines; track wine.id) {
+            <tr>
+              <td>{{ wine.name }}</td>
+              <td>{{ wine.producer }}</td>
+              <td>{{ wine.type }}</td>
+              <td>{{ wine.region }}</td>
+              <td>{{ wine.year ?? '—' }}</td>
+              <td>{{ wine.price != null ? (wine.price + ' €') : '—' }}</td>
+              <td>
+                <span class="badge" [class.on]="wine.available">
+                  {{ wine.available ? 'Sì' : 'No' }}
+                </span>
+              </td>
+              <td class="actions-cell">
+                @if (confirmingId === wine.id) {
+                  <span class="confirm-row">
+                    <span>Confermi?</span>
+                    <button type="button" class="btn-confirm-yes" (click)="confirmDelete(wine.id)">Sì</button>
+                    <button type="button" class="btn-confirm-no" (click)="cancelConfirm()">No</button>
+                  </span>
+                } @else {
+                  <button
+                    type="button"
+                    class="btn-delete"
+                    [disabled]="deletingId === wine.id"
+                    (click)="askConfirm(wine.id)">
+                    <i class="ti ti-trash"></i>
+                    {{ deletingId === wine.id ? 'Eliminazione...' : 'Elimina' }}
+                  </button>
+                }
+                @if (deleteErrorId === wine.id) {
+                  <div class="row-error">{{ deleteError }}</div>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</div>

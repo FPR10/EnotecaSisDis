@@ -102,7 +102,10 @@ async def crea_vino(
     _admin: User = Depends(require_admin),
 ) -> WineOut:
     """Crea un nuovo vino nel catalogo. Riservato agli admin."""
-    vino = await wine_service.crea_vino(dati)
+    try:
+        vino = await wine_service.crea_vino(dati)
+    except WineServiceError as exception:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, str(exception)) from exception
     return WineOut.model_validate(vino)
 
 

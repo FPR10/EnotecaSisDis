@@ -11,7 +11,7 @@ import { MsalService } from '@azure/msal-angular';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  @Output() addWineClick = new EventEmitter<void>();
+  @Output() manageWinesClick = new EventEmitter<void>();
 
   constructor(private router: Router, private msalService: MsalService) {}
 
@@ -23,8 +23,8 @@ export class NavbarComponent {
     this.router.navigate(['/']);
   }
 
-  onAddWine(): void {
-    this.addWineClick.emit();
+  onManageWines(): void {
+    this.manageWinesClick.emit();
   }
 
   contactUS(): void {

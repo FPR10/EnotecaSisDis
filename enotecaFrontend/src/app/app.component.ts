@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { WineFilterService } from './shared/services/wine-filter.service';
+import { WineType } from './shared/models/wine.model';
 
 @Component({
   selector: 'app-root',
@@ -11,16 +13,19 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  constructor(private router: Router) {}
 
-  onAddWine(): void {
-    this.router.navigate(['/aggiungi-vino']);
+
+export class AppComponent {
+  constructor(private router: Router, private wineFilterService: WineFilterService) {}
+
+  onManageWines(): void {
+    this.router.navigate(['/gestisci-vini']);
   }
 
   onFilterChange(filter: { type: string; region?: string }): void {
-    console.log('Filtro applicato:', filter);
-    // Propagherà il filtro a HomeComponent (via service o @Input)
+    if (!filter.region) return;
+    this.wineFilterService.setFilter({ type: filter.type as WineType, region: filter.region });
+    this.router.navigate(['/']);
   }
 
   onMapClick(): void {

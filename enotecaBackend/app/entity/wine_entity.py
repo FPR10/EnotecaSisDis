@@ -110,7 +110,11 @@ class Wine(Base):
 
     # --- Campi per classificazione e AI ---
   tipo: Mapped[TipoVino] = mapped_column(
-        SAEnum(TipoVino, name="tipo_vino"),
+        SAEnum(
+            TipoVino,
+            name="tipo_vino",
+            values_callable=lambda enum_cls: [e.value for e in enum_cls],
+        ),
         nullable=False,
         index=True,
         comment="Tipo di vino: rosso, bianco, rosato, bollicine",

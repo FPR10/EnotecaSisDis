@@ -7,6 +7,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
+# Installa torch in versione CPU-only: keybert (via sentence-transformers) lo richiede,
+# ma di default pip scaricherebbe la build con CUDA (diversi GB) inutile per il deploy senza GPU
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+
 # Copia e installa le dipendenze Python prima del codice
 # (sfrutta la cache Docker: il layer viene ricostruito solo se requirements.txt cambia)
 COPY requirements.txt .
@@ -17,6 +21,8 @@ RUN python -m spacy download it_core_news_sm
 
 # Copia il codice sorgente
 COPY ./app ./app
+COPY alembic.ini .
+COPY ./alembic ./alembic
 
 EXPOSE 8000
 

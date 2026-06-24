@@ -59,7 +59,11 @@ class User(Base):
 
     # Ruolo
     ruolo: Mapped[UserRole] = mapped_column(
-        SAEnum(UserRole, name="user_role"),
+        SAEnum(
+            UserRole,
+            name="user_role",
+            values_callable=lambda enum_cls: [e.value for e in enum_cls],
+        ),
         nullable=False,
         default=UserRole.USER,
         comment="Ruolo: sincronizzato dagli App Roles di Azure Entra ad ogni login",

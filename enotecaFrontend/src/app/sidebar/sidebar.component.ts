@@ -1,6 +1,10 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Category } from '../shared/models/category.model';
+import { REGION_COORDINATES } from '../shared/data/region-coordinates';
+
+//Regioni italiane in ordine alfabetico, comuni a tutte le categorie di vino
+const REGIONS = Object.keys(REGION_COORDINATES).sort((a, b) => a.localeCompare(b));
 
 @Component({
   selector: 'app-sidebar',
@@ -14,10 +18,10 @@ export class SidebarComponent {
   @Output() mapClick = new EventEmitter<void>();
 
   categories: Category[] = [
-    { name: 'Rosso',     color: '#e05252', regions: ['regione1', 'regione2'], expanded: true },
-    { name: 'Bianco',    color: '#e0b852', regions: ['regione1', 'regione2'],               expanded: false },
-    { name: 'Rosato',    color: '#e07c52', regions: ['regione1', 'regione2'],                           expanded: false },
-    { name: 'Bollicine', color: '#52b0e0', regions: ['regione1', 'regione2'],                       expanded: false },
+    { name: 'Rosso',     color: '#e05252', regions: REGIONS, expanded: true },
+    { name: 'Bianco',    color: '#e0b852', regions: REGIONS, expanded: false },
+    { name: 'Rosato',    color: '#e07c52', regions: REGIONS, expanded: false },
+    { name: 'Bollicine', color: '#52b0e0', regions: REGIONS, expanded: false },
   ];
 
   toggleCategory(cat: Category): void {

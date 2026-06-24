@@ -1,7 +1,8 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.config.settings import get_settings
 from app.config.logging import setup_logging, get_logger
@@ -10,6 +11,8 @@ from app.controller import auth_router, ocr_router, pairing_router, wine_router
 settings = get_settings()
 setup_logging(debug=settings.debug)
 logger = get_logger(__name__)
+
+ALLOWED_ORIGINS = ["http://localhost:5173", "http://localhost:3000", "http://localhost:4200"]
 
 
 @asynccontextmanager
@@ -30,11 +33,31 @@ app = FastAPI(
 # --- CORS ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# --- Gestione errori non previsti ---
+# Senza questo handler, un'eccezione non gestita arriva al client come risposta
+# 500 testuale senza corpo JSON: il frontend non può estrarre alcun messaggio
+# e lo stack trace reale resta visibile solo nei log del server.
+#
+# Nota: un handler su Exception (a differenza di HTTPException) viene eseguito da
+# ServerErrorMiddleware, che sta FUORI da CORSMiddleware nello stack di Starlette.
+# Per questo la risposta non riceve gli header CORS aggiunti normalmente dal middleware,
+# e il browser la blocca prima che il frontend possa leggerla: li aggiungiamo a mano.
+@app.exception_handler(Exception)
+async def gestione_errori_non_previsti(request: Request, exception: Exception) -> JSONResponse:
+    logger.error(f"Errore non gestito su {request.method} {request.url.path}: {exception}", exc_info=True)
+    response = JSONResponse(status_code=500, content={"detail": "Errore interno del server. Riprova più tardi."})
+    origin = request.headers.get("origin")
+    if origin in ALLOWED_ORIGINS:
+        response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+    return response
+
 
 # --- Router ---
 app.include_router(auth_router,    prefix="/api/v1/auth",    tags=["auth"])
