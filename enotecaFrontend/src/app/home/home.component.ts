@@ -1,13 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { Wine, WineType, wineFromApi } from '../shared/models/wine.model';
 import { WineSearchFilter, WineService } from '../shared/services/wine.service';
 import { PairingService } from '../shared/services/pairing.service';
 import { VinoSuggerito } from '../shared/models/pairing.model';
 import { OcrService } from '../shared/services/ocr.service';
-import { SidebarFilter, WineFilterService } from '../shared/services/wine-filter.service';
 
 @Component({
   selector: 'app-home',
@@ -16,14 +14,8 @@ import { SidebarFilter, WineFilterService } from '../shared/services/wine-filter
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   featuredWines: Wine[] = [];
-
-  // filtro applicato dalla sidebar (tipo + regione)
-  sidebarFilter: SidebarFilter | null = null;
-  sidebarFilterResults: Wine[] = [];
-  isLoadingSidebarFilter = false;
-  private filterSubscription?: Subscription;
 
   // abbinamento cibo-vino
   foodQuery = '';
@@ -48,8 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private wineService: WineService,
     private pairingService: PairingService,
-    private ocrService: OcrService,
-    private wineFilterService: WineFilterService
+    private ocrService: OcrService
   ) {}
 
   ngOnInit(): void {
@@ -57,29 +48,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       next: wines => { this.featuredWines = wines; },
       error: err => console.error('Errore nel recupero dei vini consigliati', err)
     });
-
-    this.filterSubscription = this.wineFilterService.filter$.subscribe(filter => {
-      this.sidebarFilter = filter;
-      if (!filter) {
-        this.sidebarFilterResults = [];
-        return;
-      }
-      this.isLoadingSidebarFilter = true;
-      this.wineService.searchFromApi({ tipo: filter.type, regione: filter.region }).subscribe({
-        next: wines => {
-          this.sidebarFilterResults = wines;
-          this.isLoadingSidebarFilter = false;
-        },
-        error: () => {
-          this.sidebarFilterResults = [];
-          this.isLoadingSidebarFilter = false;
-        }
-      });
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.filterSubscription?.unsubscribe();
   }
 
   getBadgeClass(type: string): string {

@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Wine, WineType } from '../shared/models/wine.model';
-import { WineService } from '../shared/services/wine.service';
+import { BulkImportResult, WineService } from '../shared/services/wine.service';
 
 interface WineFormModel {
   name: string;
@@ -19,6 +19,7 @@ interface WineFormModel {
   price: number | null;
   quantity: number | null;
   available: boolean;
+  rating: number | null;
 }
 
 @Component({
@@ -53,13 +54,37 @@ export class AggiungiVinoComponent {
     description: '',
     price: null,
     quantity: null,
-    available: true
+    available: true,
+    rating: null
   };
+
+  readonly ratingOptions = [1, 2, 3, 4, 5];
 
   imagePreview: string | null = null;
   selectedImageFile: File | null = null;
   formError = '';
   saving = false;
+
+  /** Colonne riconosciute dal backend per l'import massivo (campi di WineCreate, vedi POST /wines/bulk-import). */
+  readonly bulkExpectedColumns = [
+    'nome', 'produttore', 'azienda_vinicola', 'tipo', 'regione',
+    'annata', 'denominazione', 'vitigno', 'prezzo', 'scorte',
+    'descrizione', 'disponibile', 'popolarita', 'immagine_etichetta'
+  ];
+
+  /** Sottoinsieme obbligatorio in WineCreate: nome, produttore, azienda_vinicola, regione, tipo. */
+  readonly bulkRequiredColumns = ['nome', 'produttore', 'azienda_vinicola', 'tipo', 'regione'];
+
+  get bulkRequiredHint(): string {
+    return this.bulkRequiredColumns
+      .map(c => c === 'tipo' ? 'tipo (rosso/bianco/rosato/bollicine)' : c)
+      .join(', ');
+  }
+
+  selectedBulkFile: File | null = null;
+  bulkUploading = false;
+  bulkError = '';
+  bulkResult: BulkImportResult | null = null;
 
   constructor(private wineService: WineService, private router: Router) {}
 
@@ -69,7 +94,8 @@ export class AggiungiVinoComponent {
       { label: 'Produttore', done: !!this.form.producer.trim() },
       { label: 'Annata', done: !!this.form.year },
       { label: 'Descrizione', done: !!this.form.description.trim() },
-      { label: 'Immagine etichetta', done: !!this.imagePreview }
+      { label: 'Immagine etichetta', done: !!this.imagePreview },
+      { label: 'Valutazione qualità', done: !!this.form.rating }
     ];
   }
 
@@ -108,7 +134,7 @@ export class AggiungiVinoComponent {
   }
 
   onSubmit(wineForm: NgForm): void {
-    if (wineForm.invalid || !this.form.type) {
+    if (wineForm.invalid || !this.form.type || !this.form.rating) {
       this.formError = 'Compila tutti i campi obbligatori (*) prima di salvare.';
       return;
     }
@@ -128,7 +154,8 @@ export class AggiungiVinoComponent {
       description: this.form.description.trim() || undefined,
       price: this.form.price ?? undefined,
       quantity: this.form.quantity ?? undefined,
-      available: this.form.available
+      available: this.form.available,
+      popularity: this.form.rating ?? undefined
     };
 
     this.saving = true;
@@ -147,6 +174,59 @@ export class AggiungiVinoComponent {
       error: (err: HttpErrorResponse) => {
         this.saving = false;
         this.formError = this.extractErrorMessage(err);
+      }
+    });
+  }
+
+  onBulkFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (file) this.setBulkFile(file);
+    input.value = '';
+  }
+
+  onBulkFileDrop(event: DragEvent): void {
+    event.preventDefault();
+    const file = event.dataTransfer?.files[0];
+    if (file) this.setBulkFile(file);
+  }
+
+  private setBulkFile(file: File): void {
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    if (extension !== 'csv' && extension !== 'json') {
+      this.bulkError = 'Formato non supportato: usa un file .csv o .json.';
+      return;
+    }
+    if (file.size > 25 * 1024 * 1024) {
+      this.bulkError = 'Il file supera la dimensione massima di 25 MB.';
+      return;
+    }
+    this.bulkError = '';
+    this.bulkResult = null;
+    this.selectedBulkFile = file;
+  }
+
+  clearBulkFile(): void {
+    this.selectedBulkFile = null;
+    this.bulkError = '';
+    this.bulkResult = null;
+  }
+
+  uploadBulkFile(): void {
+    if (!this.selectedBulkFile) return;
+    this.bulkUploading = true;
+    this.bulkError = '';
+    this.bulkResult = null;
+
+    this.wineService.bulkImport(this.selectedBulkFile).subscribe({
+      next: result => {
+        this.bulkUploading = false;
+        this.bulkResult = result;
+        this.selectedBulkFile = null;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.bulkUploading = false;
+        this.bulkError = this.extractErrorMessage(err);
       }
     });
   }

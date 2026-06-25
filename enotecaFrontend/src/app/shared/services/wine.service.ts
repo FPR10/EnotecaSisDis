@@ -20,6 +20,12 @@ export interface WineSearchFilter {
   q?: string;
 }
 
+/** Esito dell'import massivo (POST /wines/bulk-import): conteggio creati + righe scartate con il relativo errore. */
+export interface BulkImportResult {
+  created: number;
+  errors: { riga: number; errore: string }[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class WineService {
   private readonly baseUrl = `${environment.apiBaseUrl}/wines`;
@@ -81,6 +87,13 @@ export class WineService {
     const formData = new FormData();
     formData.append('file', file);
     return this.http.post<WineApi>(`${this.baseUrl}/${wineId}/image`, formData).pipe(map(wineFromApi));
+  }
+
+  /** Importa più vini in massa da un file CSV o JSON (POST /wines/bulk-import, riservato agli admin). */
+  bulkImport(file: File): Observable<BulkImportResult> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<BulkImportResult>(`${this.baseUrl}/bulk-import`, formData);
   }
 
   /** Recupera dal backend l'intero catalogo (tutte le pagine), per usi come la distribuzione in mappa. */

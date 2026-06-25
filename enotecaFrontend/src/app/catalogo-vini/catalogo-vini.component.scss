@@ -1,0 +1,127 @@
+:host {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.catalogo-vini-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 24px 32px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 20px;
+
+  i { font-size: 12px; }
+
+  .current {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+}
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #aaa;
+  background: #f9f9f9;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 16px 18px;
+
+  i { font-size: 16px; }
+}
+
+.wine-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wine-list-item {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 14px 18px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    border-color: #ccc;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+}
+
+.wine-list-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+
+  .wine-list-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+}
+
+.wine-list-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 8px 16px;
+}
+
+.wine-list-detail,
+.wine-list-organoleptic {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+
+  .detail-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .detail-value {
+    font-size: 13px;
+    color: #1a1a1a;
+
+    &.unavailable { color: #c0392b; }
+  }
+}
+
+.wine-list-organoleptic {
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+
+  .detail-value { line-height: 1.5; }
+}
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+
+  &.badge-rosso     { background: #fde8e8; color: #c0392b; }
+  &.badge-bianco    { background: #fdf6e3; color: #a07820; }
+  &.badge-rosato    { background: #fde8e0; color: #c05020; }
+  &.badge-bollicine { background: #e3f0fd; color: #1a6bad; }
+}

@@ -13,6 +13,7 @@ import {
 import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { MappaComponent } from './mappa/mappa.component';
+import { CatalogoViniComponent } from './catalogo-vini/catalogo-vini.component';
 import { AggiungiVinoComponent } from './aggiungiVino/aggiungi-vino.component';
 import { GestisciViniComponent } from './gestisciVini/gestisci-vini.component';
 import { AccessDeniedComponent } from './auth/access-denied.component';
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter([
       { path: '', component: HomeComponent },
+      { path: 'catalogo', component: CatalogoViniComponent },
       { path: 'contact', component: ContactComponent },
       { path: 'mappa', component: MappaComponent },
       { path: 'aggiungi-vino', component: AggiungiVinoComponent, canActivate: [MsalGuard, adminGuard] },

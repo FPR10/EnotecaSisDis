@@ -1,0 +1,64 @@
+<div class="catalogo-vini-container">
+
+  <div class="breadcrumb">
+    <span>Catalogo</span>
+    <i class="ti ti-chevron-right"></i>
+    <span class="current">{{ filter ? (filter.type + ' · ' + filter.region) : 'Vini' }}</span>
+  </div>
+
+  <div class="empty-state" *ngIf="!filter">
+    <i class="ti ti-mood-empty" aria-hidden="true"></i>
+    Seleziona una tipologia e una regione dalla barra laterale per visualizzare i vini.
+  </div>
+
+  <div class="empty-state" *ngIf="filter && !isLoading && wines.length === 0">
+    <i class="ti ti-mood-empty" aria-hidden="true"></i>
+    Non sono disponibili vini per questa regione
+  </div>
+
+  <div class="wine-list" *ngIf="wines.length > 0">
+    <div class="wine-list-item" *ngFor="let wine of wines">
+      <div class="wine-list-item-header">
+        <span class="wine-list-name">{{ wine.name }}</span>
+        <span class="badge" [ngClass]="getBadgeClass(wine.type)">{{ wine.type }}</span>
+      </div>
+
+      <div class="wine-list-details">
+        <div class="wine-list-detail">
+          <span class="detail-label">Produttore</span>
+          <span class="detail-value">{{ wine.producer }}</span>
+        </div>
+        <div class="wine-list-detail" *ngIf="wine.denomination">
+          <span class="detail-label">Denominazione</span>
+          <span class="detail-value">{{ wine.denomination }}</span>
+        </div>
+        <div class="wine-list-detail" *ngIf="wine.grapeVariety">
+          <span class="detail-label">Vitigno</span>
+          <span class="detail-value">{{ wine.grapeVariety }}</span>
+        </div>
+        <div class="wine-list-detail" *ngIf="wine.year">
+          <span class="detail-label">Annata</span>
+          <span class="detail-value">{{ wine.year }}</span>
+        </div>
+        <div class="wine-list-detail">
+          <span class="detail-label">Regione</span>
+          <span class="detail-value">{{ wine.region }}</span>
+        </div>
+        <div class="wine-list-detail" *ngIf="wine.price != null">
+          <span class="detail-label">Prezzo</span>
+          <span class="detail-value">{{ wine.price | currency:'EUR' }}</span>
+        </div>
+        <div class="wine-list-detail">
+          <span class="detail-label">Disponibilità</span>
+          <span class="detail-value" [class.unavailable]="!wine.available">{{ wine.available ? 'Disponibile' : 'Non disponibile' }}</span>
+        </div>
+      </div>
+
+      <div class="wine-list-organoleptic" *ngIf="wine.description">
+        <span class="detail-label">Caratteristiche organolettiche</span>
+        <span class="detail-value">{{ wine.description }}</span>
+      </div>
+    </div>
+  </div>
+
+</div>

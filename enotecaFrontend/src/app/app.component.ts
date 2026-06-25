@@ -25,7 +25,7 @@ export class AppComponent {
   onFilterChange(filter: { type: string; region?: string }): void {
     if (!filter.region) return;
     this.wineFilterService.setFilter({ type: filter.type as WineType, region: filter.region });
-    this.router.navigate(['/']);
+    this.router.navigate(['/catalogo']);
   }
 
   onMapClick(): void {

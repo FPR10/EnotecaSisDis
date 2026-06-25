@@ -19,30 +19,6 @@
     </div>
   </div>
 
-  <!-- Filtro sidebar (tipo + regione) -->
-  <div class="search-box" *ngIf="sidebarFilter">
-    <div class="search-box-title">
-      <i class="ti ti-filter" aria-hidden="true"></i>
-      {{ sidebarFilter.type }} · {{ sidebarFilter.region }}
-    </div>
-    <div class="search-results-empty" *ngIf="!isLoadingSidebarFilter && sidebarFilterResults.length === 0">
-      <i class="ti ti-mood-empty" aria-hidden="true"></i>
-      Non sono disponibili vini per questa regione
-    </div>
-    <div class="search-result-grid" *ngIf="sidebarFilterResults.length > 0">
-      <div class="result-item" *ngFor="let wine of sidebarFilterResults">
-        <div class="result-icon">
-          <img [src]="getCardImage(wine.type)" [alt]="wine.type" />
-        </div>
-        <div class="result-info">
-          <span class="result-name">{{ wine.name }}</span>
-          <span class="result-meta">{{ wine.producer }} · {{ wine.region }}</span>
-        </div>
-        <span class="badge" [ngClass]="getBadgeClass(wine.type)">{{ wine.type }}</span>
-      </div>
-    </div>
-  </div>
-
   <!-- Abbinamento cibo-vino -->
   <div class="ai-box">
     <div class="ai-box-title">

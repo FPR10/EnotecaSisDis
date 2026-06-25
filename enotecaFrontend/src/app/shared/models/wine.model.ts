@@ -99,5 +99,6 @@ export function wineToApiCreate(wine: Wine): Record<string, unknown> {
     immagine_etichetta: wine.imageUrl ?? null,
     vitigno: wine.grapeVariety ?? null,
     scorte: wine.quantity ?? null,
+    popolarita: wine.popularity ?? null,
   };
 }

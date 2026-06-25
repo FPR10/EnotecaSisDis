@@ -11,7 +11,7 @@ if (-not (Test-Path ".env")) {
 Write-Host "Avvio i container (API + MySQL)..."
 docker compose up -d --build
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "Errore: avvio dei container fallito. Docker Desktop è in esecuzione?" -ForegroundColor Red
+    Write-Host "Errore: avvio dei container fallito. Docker Desktop e' in esecuzione?" -ForegroundColor Red
     exit 1
 }
 
