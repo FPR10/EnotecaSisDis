@@ -1,6 +1,6 @@
 <main class="home">
   
-  <!-- Griglia con 3 vini consigliati -->
+  <!-- Griglia con 4 vini consigliati -->
   <div class="section-title">
     <i class="ti ti-star" aria-hidden="true"></i>
     Vini consigliati
@@ -60,7 +60,7 @@
   <!-- Barra di ricerca -->
   <div class="search-box">
     <div class="search-box-title">
-      <i class="ti ti-search" aria-hidden="true"></i>
+      <i class="ti ti-search" aria-hidden="true"></i>s
       Cerca un vino
     </div>
 
@@ -80,7 +80,7 @@
     <div class="search-text-section" *ngIf="searchTab === 'text'">
       <p class="search-sub">Scegli il campo e inserisci il testo di ricerca</p>
       <div class="search-row">
-        <select class="search-select" [(ngModel)]="searchField" (change)="searchQuery = ''; hasSearched = false">
+        <select class="search-select" [(ngModel)]="searchField" (change)="searchQuery = ''">
           <option value="q">Tutti i campi</option>
           <option value="nome">Nome / Produttore</option>
           <option value="tipo">Tipo</option>
@@ -107,6 +107,7 @@
           {{ isLoadingSearch ? 'Ricerca...' : 'Cerca' }}
         </button>
       </div>
+      <p class="search-error" *ngIf="searchError">{{ searchError }}</p>
     </div>
 
     <!-- Ricerca per immagine -->
@@ -144,30 +145,6 @@
         </button>
       </div>
       <p class="search-error" *ngIf="imageSearchError">{{ imageSearchError }}</p>
-    </div>
-
-    <!-- Risultati -->
-    <div class="search-results" *ngIf="hasSearched">
-      <p class="extracted-text" *ngIf="extractedText">
-        <i class="ti ti-quote" aria-hidden="true"></i>
-        Testo riconosciuto: «{{ extractedText }}»
-      </p>
-      <div class="search-results-empty" *ngIf="searchResults.length === 0">
-        <i class="ti ti-mood-empty" aria-hidden="true"></i>
-        Nessun risultato trovato.
-      </div>
-      <div class="search-result-grid" *ngIf="searchResults.length > 0">
-        <div class="result-item" *ngFor="let wine of searchResults">
-          <div class="result-icon">
-            <img [src]="getCardImage(wine.type)" [alt]="wine.type" />
-          </div>
-          <div class="result-info">
-            <span class="result-name">{{ wine.name }}</span>
-            <span class="result-meta">{{ wine.producer }} · {{ wine.region }}</span>
-          </div>
-          <span class="badge" [ngClass]="getBadgeClass(wine.type)">{{ wine.type }}</span>
-        </div>
-      </div>
     </div>
   </div>
 

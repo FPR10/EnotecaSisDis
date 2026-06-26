@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { Wine } from '../shared/models/wine.model';
 import { WineService } from '../shared/services/wine.service';
-import { SidebarFilter, WineFilterService } from '../shared/services/wine-filter.service';
+import { CatalogSource, WineFilterService } from '../shared/services/wine-filter.service';
 
 @Component({
   selector: 'app-catalogo-vini',
@@ -13,7 +13,7 @@ import { SidebarFilter, WineFilterService } from '../shared/services/wine-filter
   styleUrls: ['./catalogo-vini.component.scss']
 })
 export class CatalogoViniComponent implements OnInit, OnDestroy {
-  filter: SidebarFilter | null = null;
+  source: CatalogSource | null = null;
   wines: Wine[] = [];
   isLoading = false;
   private filterSubscription?: Subscription;
@@ -24,14 +24,19 @@ export class CatalogoViniComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.filterSubscription = this.wineFilterService.filter$.subscribe(filter => {
-      this.filter = filter;
-      if (!filter) {
+    this.filterSubscription = this.wineFilterService.filter$.subscribe(source => {
+      this.source = source;
+      if (!source) {
         this.wines = [];
         return;
       }
+      if (source.kind === 'search') {
+        this.wines = source.wines;
+        this.isLoading = false;
+        return;
+      }
       this.isLoading = true;
-      this.wineService.searchFromApi({ tipo: filter.type, regione: filter.region }).subscribe({
+      this.wineService.searchFromApi({ tipo: source.type, regione: source.region }).subscribe({
         next: wines => {
           this.wines = wines;
           this.isLoading = false;
@@ -42,6 +47,11 @@ export class CatalogoViniComponent implements OnInit, OnDestroy {
         }
       });
     });
+  }
+
+  get breadcrumbLabel(): string {
+    if (!this.source) return 'Vini';
+    return this.source.kind === 'sidebar' ? `${this.source.type} · ${this.source.region}` : this.source.label;
   }
 
   ngOnDestroy(): void {

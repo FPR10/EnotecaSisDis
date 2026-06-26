@@ -12,9 +12,6 @@ const ITALY_CENTER: L.LatLngTuple = [42.8, 12.8];
 //Regola lo zoom dell'inquadratura della mappa
 const ITALY_ZOOM = 6;
 
-//Raggio (in gradi) entro cui disperdere i puntini di uno stesso vino/regione, per il look "a nube"
-const CLOUD_JITTER_DEGREES = 0.25;
-
 //Numero di vini più popolari da mostrare nel popup di ogni regione
 const TOP_WINES_PER_REGION = 3;
 
@@ -43,7 +40,7 @@ export class MappaComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => this.map?.invalidateSize(), 0);
 
     this.wineSubscription = this.wineService.getAllFromApi().subscribe({
-      next: wines => this.renderWineCloud(wines),
+      next: wines => this.renderRegionMarkers(wines),
       error: err => console.error('Errore nel recupero dei vini per la mappa', err)
     });
   }
@@ -54,15 +51,14 @@ export class MappaComponent implements AfterViewInit, OnDestroy {
     this.map = null;
   }
 
-  private renderWineCloud(wines: Wine[]): void {
+  private renderRegionMarkers(wines: Wine[]): void {
     if (!this.map) {
       return;
     }
 
     const winesByRegion = new Map<string, Wine[]>();
     for (const wine of wines) {
-      const centroid = REGION_COORDINATES[wine.region];
-      if (!centroid) {
+      if (!REGION_COORDINATES[wine.region]) {
         continue;
       }
       const group = winesByRegion.get(wine.region) ?? [];
@@ -70,42 +66,43 @@ export class MappaComponent implements AfterViewInit, OnDestroy {
       winesByRegion.set(wine.region, group);
     }
 
-    for (const [region, regionWines] of winesByRegion) {
+    for (const region of Object.keys(REGION_COORDINATES)) {
       const centroid = REGION_COORDINATES[region];
-      const popupHtml = this.buildTopWinesPopup(region, regionWines);
+      const regionWines = winesByRegion.get(region) ?? [];
+      const popupHtml = this.buildTopWinesPopup(regionWines);
 
-      for (const wine of regionWines) {
-        const point: L.LatLngTuple = [
-          centroid[0] + (Math.random() - 0.5) * CLOUD_JITTER_DEGREES,
-          centroid[1] + (Math.random() - 0.5) * CLOUD_JITTER_DEGREES
-        ];
-
-        L.circleMarker(point, {
-          radius: 5,
-          color: '#7a1f2b',
-          weight: 1,
-          fillColor: '#b5293a',
-          fillOpacity: 0.7
-        })
-          .bindTooltip(wine.name)
-          .bindPopup(popupHtml)
-          .addTo(this.map);
-      }
+      L.circleMarker(centroid, {
+        radius: 8,
+        color: '#7a1f2b',
+        weight: 1,
+        fillColor: '#b5293a',
+        fillOpacity: 0.7
+      })
+        .bindTooltip(region)
+        .bindPopup(popupHtml)
+        .addTo(this.map);
     }
   }
 
-  private buildTopWinesPopup(region: string, regionWines: Wine[]): string {
-    const topWines = [...regionWines]
-      .sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0) || a.name.localeCompare(b.name))
+  private buildTopWinesPopup(regionWines: Wine[]): string {
+    if (regionWines.length === 0) {
+      return '<p>Nessun vino disponibile</p>';
+    }
+
+    const topWines = this.shuffle([...regionWines])
+      .sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0))
       .slice(0, TOP_WINES_PER_REGION);
 
-    const items = topWines
-      .map(wine => `<li>${wine.name} <small>(${wine.producer})</small></li>`)
-      .join('');
+    const items = topWines.map(wine => `<li>${wine.name}</li>`).join('');
 
-    return `
-      <strong>${region}</strong> — ${regionWines.length} vini
-      <ol>${items}</ol>
-    `;
+    return `<ol>${items}</ol>`;
+  }
+
+  private shuffle<T>(items: T[]): T[] {
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+    return items;
   }
 }

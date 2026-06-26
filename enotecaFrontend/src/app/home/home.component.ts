@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Wine, WineType, wineFromApi } from '../shared/models/wine.model';
 import { WineSearchFilter, WineService } from '../shared/services/wine.service';
 import { PairingService } from '../shared/services/pairing.service';
 import { VinoSuggerito } from '../shared/models/pairing.model';
 import { OcrService } from '../shared/services/ocr.service';
+import { WineFilterService } from '../shared/services/wine-filter.service';
 
 @Component({
   selector: 'app-home',
@@ -27,20 +29,20 @@ export class HomeComponent implements OnInit {
   searchTab: 'text' | 'image' = 'text';
   searchField = 'q';
   searchQuery = '';
-  searchResults: Wine[] = [];
   isLoadingSearch = false;
-  hasSearched = false;
+  searchError = '';
 
   // ricerca per immagine
   imageFile: File | null = null;
   imagePreview: string | null = null;
   imageSearchError = '';
-  extractedText = '';
 
   constructor(
     private wineService: WineService,
     private pairingService: PairingService,
-    private ocrService: OcrService
+    private ocrService: OcrService,
+    private wineFilterService: WineFilterService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -106,16 +108,16 @@ export class HomeComponent implements OnInit {
     const query = this.searchQuery.trim();
     if (!query) return;
     this.isLoadingSearch = true;
+    this.searchError = '';
     this.wineService.searchFromApi(this.buildSearchFilter(query)).subscribe({
       next: wines => {
-        this.searchResults = wines;
-        this.hasSearched = true;
         this.isLoadingSearch = false;
+        this.wineFilterService.setSearchResults(this.buildSearchLabel(query), wines);
+        this.router.navigate(['/catalogo']);
       },
       error: () => {
-        this.searchResults = [];
-        this.hasSearched = true;
         this.isLoadingSearch = false;
+        this.searchError = 'Ricerca non disponibile al momento. Riprova più tardi.';
       }
     });
   }
@@ -128,6 +130,17 @@ export class HomeComponent implements OnInit {
       case 'denominazione': return { denominazione: query };
       default: return { q: query };
     }
+  }
+
+  private buildSearchLabel(query: string): string {
+    const fieldLabel: Record<string, string> = {
+      q: 'Ricerca',
+      nome: 'Nome / Produttore',
+      tipo: 'Tipo',
+      regione: 'Regione',
+      denominazione: 'Denominazione',
+    };
+    return `${fieldLabel[this.searchField] ?? 'Ricerca'}: "${query}"`;
   }
 
   onImageSelected(event: Event): void {
@@ -146,10 +159,7 @@ export class HomeComponent implements OnInit {
 
   private loadImageFile(file: File): void {
     this.imageFile = file;
-    this.hasSearched = false;
-    this.searchResults = [];
     this.imageSearchError = '';
-    this.extractedText = '';
     const reader = new FileReader();
     reader.onload = e => { this.imagePreview = e.target?.result as string; };
     reader.readAsDataURL(file);
@@ -159,17 +169,18 @@ export class HomeComponent implements OnInit {
     if (!this.imageFile) return;
     this.isLoadingSearch = true;
     this.imageSearchError = '';
-    this.extractedText = '';
     this.ocrService.riconosciEtichetta(this.imageFile).subscribe({
       next: (risposta) => {
-        this.extractedText = risposta.extracted_text;
-        this.searchResults = risposta.results.map(wineFromApi);
-        this.hasSearched = true;
         this.isLoadingSearch = false;
+        const wines = risposta.results.map(wineFromApi);
+        const label = risposta.extracted_text
+          ? `Ricerca per etichetta: «${risposta.extracted_text}»`
+          : 'Ricerca per etichetta';
+        this.wineFilterService.setSearchResults(label, wines);
+        this.router.navigate(['/catalogo']);
       },
       error: (err) => {
         this.imageSearchError = err?.error?.detail ?? 'Riconoscimento etichetta non disponibile al momento. Riprova più tardi.';
-        this.hasSearched = false;
         this.isLoadingSearch = false;
       }
     });
@@ -178,9 +189,6 @@ export class HomeComponent implements OnInit {
   clearImage(): void {
     this.imageFile = null;
     this.imagePreview = null;
-    this.searchResults = [];
-    this.hasSearched = false;
     this.imageSearchError = '';
-    this.extractedText = '';
   }
 }

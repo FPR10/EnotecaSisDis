@@ -45,7 +45,7 @@ export class WineService {
   }
 
   /**
-   * Vini "consigliati" per la home: per ogni chiamata sceglie a caso 3 tipologie tra quelle presenti
+   * Vini "consigliati" per la home: per ogni chiamata sceglie a caso 4 tipologie tra quelle presenti
    * in catalogo e per ciascuna restituisce il vino con la valutazione (popolarità) più alta.
    */
   getFeaturedFromApi(): Observable<Wine[]> {
@@ -60,7 +60,7 @@ export class WineService {
 
         const types = Array.from(winesByType.keys())
           .sort(() => Math.random() - 0.5)
-          .slice(0, 3);
+          .slice(0, 4);
 
         return types.map(type =>
           [...winesByType.get(type)!].sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0))[0]

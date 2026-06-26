@@ -3,17 +3,17 @@
   <div class="breadcrumb">
     <span>Catalogo</span>
     <i class="ti ti-chevron-right"></i>
-    <span class="current">{{ filter ? (filter.type + ' · ' + filter.region) : 'Vini' }}</span>
+    <span class="current">{{ breadcrumbLabel }}</span>
   </div>
 
-  <div class="empty-state" *ngIf="!filter">
+  <div class="empty-state" *ngIf="!source">
     <i class="ti ti-mood-empty" aria-hidden="true"></i>
     Seleziona una tipologia e una regione dalla barra laterale per visualizzare i vini.
   </div>
 
-  <div class="empty-state" *ngIf="filter && !isLoading && wines.length === 0">
+  <div class="empty-state" *ngIf="source && !isLoading && wines.length === 0">
     <i class="ti ti-mood-empty" aria-hidden="true"></i>
-    Non sono disponibili vini per questa regione
+    {{ source.kind === 'sidebar' ? 'Non sono disponibili vini per questa regione' : 'Nessun risultato trovato per la tua ricerca.' }}
   </div>
 
   <div class="wine-list" *ngIf="wines.length > 0">
