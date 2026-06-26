@@ -22,9 +22,9 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-$seed = Read-Host "Vuoi creare l'utente admin di test? (s/n)"
-if ($seed -eq "s") {
-    docker compose exec api python seed_admin.py
-}
+#$seed = Read-Host "Vuoi creare l'utente admin di test? (s/n)"
+#if ($seed -eq "s") {
+#    docker compose exec api python seed_admin.py
+#}
 
 Write-Host "Backend pronto su http://localhost:8000 (docs su http://localhost:8000/docs)" -ForegroundColor Green
