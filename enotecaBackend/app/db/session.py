@@ -31,9 +31,6 @@ settings = get_settings()
 # In questo caso usiamo:
 #   MySQL + driver asincrono aiomysql
 #
-# Esempio URL:
-# mysql+aiomysql://user:password@localhost:3306/enoteca
-#
 engine = create_async_engine(
     settings.database_url,
 

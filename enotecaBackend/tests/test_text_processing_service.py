@@ -45,6 +45,88 @@ def service(repository):
         return TextProcessingService(repository)
 
 
+class TestCleanOcrText:
+    def test_strips_legal_boilerplate(self, service):
+        testo = (
+            "BAROLO\n"
+            "DENOMINAZIONE DI ORIGINE CONTROLLATA E GARANTITA\n"
+            "IMBOTTIGLIATO ALL'ORIGINE DA / ESTATE BOTTLED BY\n"
+            "Fratelli Alessandria\n"
+            "VERDUNO ITALIA\n"
+            "13,5% vol - 750 ml\n"
+            "CONTIENE SOLFITI\n"
+        )
+
+        risultato = service.clean_ocr_text(testo)
+
+        assert "denominazione" not in risultato.lower()
+        assert "imbottigliato" not in risultato.lower()
+        assert "estate bottled by" not in risultato.lower()
+        assert "solfiti" not in risultato.lower()
+        assert "750" not in risultato
+        assert "Fratelli Alessandria" in risultato
+        assert "VERDUNO ITALIA" in risultato
+
+    def test_leaves_normal_text_untouched(self, service):
+        testo = "Fratelli Alessandria\nVerduno 2021"
+
+        assert service.clean_ocr_text(testo) == testo
+
+
+class TestGazetteerMatches:
+    def test_finds_catalog_terms_in_cleaned_text(self, service):
+        candidati = [
+            make_wine(id="wine-1", nome="Barolo", produttore="Fratelli Alessandria", denominazione="Barolo DOCG"),
+            make_wine(id="wine-2", nome="Chianti", produttore="Altra Cantina", vitigno="Sangiovese", denominazione="DOCG"),
+        ]
+
+        risultato = service._extract_gazetteer_matches("Barolo Fratelli Alessandria Verduno 2021", candidati)
+
+        assert "Fratelli Alessandria" in risultato
+        assert "Chianti" not in risultato
+        assert "Altra Cantina" not in risultato
+
+    @pytest.mark.asyncio
+    async def test_boilerplate_does_not_cause_false_positive_match(self, service, repository):
+        """Il boilerplate legale non deve far scattare match su vini completamente estranei
+        solo perché condividono la stessa dicitura DOCG/imbottigliamento nel campo denominazione."""
+        candidati = [
+            make_wine(
+                id="wine-corretto",
+                nome="Barolo",
+                produttore="Fratelli Alessandria",
+                azienda_vinicola="Fratelli Alessandria",
+                denominazione="Barolo DOCG",
+            ),
+            make_wine(
+                id="wine-sbagliato",
+                nome="Amarone della Valpolicella",
+                produttore="Altra Cantina Veneta",
+                azienda_vinicola="Altra Cantina Veneta",
+                regione="Veneto",
+                vitigno="Corvina",
+                denominazione="Denominazione di Origine Controllata e Garantita",
+            ),
+        ]
+        repository.find_all_for_matching.return_value = candidati
+        service._nlp.return_value = SimpleNamespace(ents=[])
+        service._keybert.extract_keywords.return_value = []
+
+        testo_ocr = (
+            "BAROLO\n"
+            "DENOMINAZIONE DI ORIGINE CONTROLLATA E GARANTITA\n"
+            "IMBOTTIGLIATO ALL'ORIGINE DA / ESTATE BOTTLED BY\n"
+            "Fratelli Alessandria\n"
+            "VERDUNO ITALIA\n"
+        )
+
+        risultati = await service.match_wines(testo_ocr)
+
+        wine_ids = [match.wine.id for match in risultati]
+        assert "wine-corretto" in wine_ids
+        assert "wine-sbagliato" not in wine_ids
+
+
 class TestExtractEntities:
     def test_keeps_only_relevant_entity_labels(self, service):
         doc = SimpleNamespace(ents=[

@@ -5,11 +5,18 @@ In questa classe viene effettuata l'analisi del testo OCR e matching con il cata
 Flusso: ocr_service.py -> text_processing_service.py -> wine_repository.py
 
 Tecniche impiegate:
+    - Pulizia  : rimozione del testo legale/boilerplate ("denominazione di origine
+                 controllata e garantita", "imbottigliato da", ...) prima di ogni analisi,
+                 per evitare che venga scambiato per un'entità o inquini il fuzzy matching
+    - Gazetteer: le stringhe del catalogo (produttore, denominazione, vitigno, ...) vengono
+                 cercate direttamente nel testo ripulito (fuzzy substring matching), invece
+                 di affidarsi solo a un NER "open domain"
     - spaCy    : riconoscimento delle entità nominate nel testo (produttore,denominazione, luoghi) presente sull'etichetta
     - KeyBERT  : individuazione delle parole/frasi chiave più rilevanti, a complemento delle entità riconosciute da spaCy
     - RapidFuzz: confronto fuzzy fra le informazioni estratte e il catalogo vini, per identificare automaticamente il prodotto
 """
 
+import re
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import cast
@@ -35,6 +42,38 @@ _RELEVANT_ENTITY_LABELS = {"PER", "ORG", "LOC", "MISC"}
 
 # Sotto questa soglia (score RapidFuzz 0-100) la corrispondenza è considerata irrilevante
 _MATCH_SCORE_THRESHOLD = 60.0
+
+# Frasi legali/boilerplate ricorrenti sulle etichette di vino italiane: non sono
+# informazioni distintive del prodotto e, se lasciate nel testo, vengono scambiate
+# da spaCy per entità (ORG/LOC/MISC) e generano falsi positivi nel fuzzy matching
+# (es. "denominazione di origine controllata" compare in decine di vini diversi).
+_BOILERPLATE_PATTERNS = [
+    r"denominazione\s+di\s+origine\s+controllata(\s+e\s+garantita)?",
+    r"indicazione\s+geografica\s+tipica",
+    r"\bd\.?\s*o\.?\s*c\.?\s*g\.?\b",
+    r"\bd\.?\s*o\.?\s*c\.?\b",
+    r"\bi\.?\s*g\.?\s*t\.?\b",
+    r"imbottigliato\s+(all'?origine\s+)?(da|presso)",
+    r"estate\s+bottled\s+by",
+    r"produced?\s+and\s+bottled\s+by",
+    r"contiene\s+solfiti",
+    r"contains?\s+sulf?ites?",
+    r"product\s+of\s+italy",
+    r"prodotto\s+in\s+italia",
+    r"\bappellation\b.*?\bcontr[oô]l[ée]e\b",
+    r"\b\d{2,4}\s*m[lL]\b",
+    r"\b\d{1,2}([.,]\d)?\s*%\s*vol\.?\b",
+    r"\bgradazione\s+alcolica\b",
+]
+_BOILERPLATE_RE = re.compile("|".join(_BOILERPLATE_PATTERNS), re.IGNORECASE)
+
+# Lunghezza minima di un valore di catalogo perché sia utile come termine gazetteer
+# (evita di usare come termine di ricerca stringhe troppo corte e poco distintive)
+_GAZETTEER_MIN_TERM_LENGTH = 3
+
+# Soglia (score RapidFuzz 0-100) sopra la quale un termine di catalogo è considerato
+# presente nel testo OCR ripulito
+_GAZETTEER_MATCH_THRESHOLD = 85.0
 
 # I modelli NLP sono pesanti da caricare: una sola istanza per processo
 @lru_cache 
@@ -64,6 +103,21 @@ class TextProcessingService:
         self._nlp = _load_spacy_model()
         self._keybert = _load_keybert_model()
 
+    @staticmethod
+    def clean_ocr_text(text: str) -> str:
+        """
+        Rimuove dal testo OCR le frasi legali/boilerplate note (denominazioni, diciture
+        di imbottigliamento, allergeni, gradazione, ...) prima di passarlo a NLP e matching,
+        così da evitare che vengano scambiate per entità o inquinino il fuzzy matching.
+        """
+        cleaned_lines = []
+        for line in text.splitlines():
+            cleaned = _BOILERPLATE_RE.sub(" ", line)
+            cleaned = re.sub(r"\s+", " ", cleaned).strip()
+            if cleaned:
+                cleaned_lines.append(cleaned)
+        return "\n".join(cleaned_lines)
+
     def extract_entities(self, text: str) -> list[str]:
         """spaCy: individua le entità nominate nel testo (produttore, azienda, luoghi)."""
         doc = self._nlp(text)
@@ -81,9 +135,49 @@ class TextProcessingService:
         )
         return [keyword for keyword, _score in pairs]
 
-    def _extract_search_terms(self, text: str) -> list[str]:
-        """Combina entità (spaCy) e parole chiave (KeyBERT) nei termini di ricerca, senza duplicati."""
-        terms = self.extract_entities(text) + self.extract_keywords(text)
+    @staticmethod
+    def _gazetteer_terms(candidates: list[Wine]) -> set[str]:
+        """Valori distinti del catalogo (produttore, denominazione, vitigno, ...) usabili come gazetteer."""
+        terms: set[str] = set()
+        for wine in candidates:
+            for field in (
+                wine.nome,
+                wine.produttore,
+                wine.azienda_vinicola,
+                wine.vitigno,
+                wine.denominazione,
+                wine.regione,
+            ):
+                if field and len(field.strip()) >= _GAZETTEER_MIN_TERM_LENGTH:
+                    terms.add(field.strip())
+        return terms
+
+    def _extract_gazetteer_matches(self, cleaned_text: str, candidates: list[Wine]) -> list[str]:
+        """
+        Cerca direttamente nel testo OCR ripulito le stringhe del catalogo (fuzzy substring
+        matching), invece di lasciare che un NER "open domain" indovini cosa è rilevante:
+        il catalogo è chiuso e finito, quindi sappiamo già quali produttori/denominazioni/
+        vitigni sono possibili.
+        """
+        if not cleaned_text.strip():
+            return []
+        text_lower = cleaned_text.lower()
+        return [
+            term
+            for term in self._gazetteer_terms(candidates)
+            if fuzz.partial_ratio(term.lower(), text_lower) >= _GAZETTEER_MATCH_THRESHOLD
+        ]
+
+    def _extract_search_terms(self, cleaned_text: str, candidates: list[Wine]) -> list[str]:
+        """
+        Combina i termini di catalogo trovati nel testo (gazetteer), le entità (spaCy)
+        e le parole chiave (KeyBERT) nei termini di ricerca, senza duplicati.
+        """
+        terms = (
+            self._extract_gazetteer_matches(cleaned_text, candidates)
+            + self.extract_entities(cleaned_text)
+            + self.extract_keywords(cleaned_text)
+        )
         seen: set[str] = set()
         unique_terms = []
         for term in terms:
@@ -110,11 +204,15 @@ class TextProcessingService:
         """
         Individua i vini del catalogo che corrispondono al testo OCR dell'etichetta.
 
-        1. spaCy + KeyBERT individuano i termini salienti del testo (produttore,
-           denominazione, vitigno, ...).
-        2. RapidFuzz confronta ciascun termine con i campi testuali di ogni vino
+        1. Il testo OCR viene ripulito dal boilerplate legale (denominazioni, diciture
+           di imbottigliamento, allergeni, ...) che altrimenti verrebbe scambiato per
+           un'entità o inquinerebbe il fuzzy matching.
+        2. Il catalogo viene usato come gazetteer (fuzzy substring matching) per
+           individuare direttamente i termini di catalogo presenti nel testo, a
+           complemento di spaCy + KeyBERT che individuano i restanti termini salienti.
+        3. RapidFuzz confronta ciascun termine con i campi testuali di ogni vino
            del catalogo, tenendo per ognuno il punteggio migliore ottenuto.
-        3. I vini sono restituiti in ordine di punteggio decrescente, scartando
+        4. I vini sono restituiti in ordine di punteggio decrescente, scartando
            quelli sotto la soglia minima di somiglianza.
         """
         if not ocr_text.strip():
@@ -124,9 +222,10 @@ class TextProcessingService:
         if not candidates:
             return []
 
-        search_terms = self._extract_search_terms(ocr_text)
-        # se spaCy/KeyBERT non individuano nulla di saliente, confronta col testo OCR intero
-        queries = search_terms or [ocr_text]
+        cleaned_text = self.clean_ocr_text(ocr_text)
+        search_terms = self._extract_search_terms(cleaned_text, candidates)
+        # se gazetteer/spaCy/KeyBERT non individuano nulla di saliente, confronta col testo ripulito intero
+        queries = search_terms or [cleaned_text]
 
         blobs = {wine.id: self._wine_search_blob(wine) for wine in candidates}
         best_scores: dict[str, float] = {}
