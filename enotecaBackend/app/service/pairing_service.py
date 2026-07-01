@@ -26,6 +26,8 @@ _GENERAL_PROMT = (
     "esclusivamente tra i vini elencati nel catalogo fornito, quelli che si abbinano meglio "
     "sulla base delle loro caratteristiche organolettiche (colore, profumo, gusto, vitigno, "
     "tipo, denominazione). Non proporre mai vini che non sono nell'elenco fornito. "
+    "Ricorda che i vini 'bollicine' sono spesso l'abbinamento migliore per fritti, "
+    "antipasti, aperitivi, crudi di pesce e dolci: considerali attivamente quando il piatto rientra in queste categorie."
     "Rispondi SOLO con un oggetto JSON nella forma "
     '{"suggerimenti": [{"wine_id": "<id dal catalogo>", "motivazione": "<breve spiegazione in italiano>"}]}, '
     "senza altro testo."
