@@ -59,6 +59,50 @@
   &:hover { background: #6a61cf; }
 }
 
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-bottom: 16px;
+  max-width: 320px;
+
+  i {
+    font-size: 14px;
+    color: #999;
+  }
+
+  input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 13px;
+    color: #1a1a1a;
+    width: 100%;
+
+    &::placeholder { color: #aaa; }
+  }
+}
+
+.btn-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+
+  i { font-size: 13px; }
+}
+
 .state-msg {
   font-size: 13.5px;
   color: #999;

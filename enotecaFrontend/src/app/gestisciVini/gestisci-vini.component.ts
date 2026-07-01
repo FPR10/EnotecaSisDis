@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Wine } from '../shared/models/wine.model';
@@ -8,7 +9,7 @@ import { WineService } from '../shared/services/wine.service';
 @Component({
   selector: 'app-gestisci-vini',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './gestisci-vini.component.html',
   styleUrl: './gestisci-vini.component.scss'
 })
@@ -22,10 +23,40 @@ export class GestisciViniComponent implements OnInit {
   deleteError = '';
   confirmingId: string | null = null;
 
+  searchTerm = '';
+  priceSortDir: 'asc' | 'desc' | null = null;
+
   constructor(private wineService: WineService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadWines();
+  }
+
+  get filteredWines(): Wine[] {
+    const term = this.searchTerm.trim().toLowerCase();
+    let result = term
+      ? this.wines.filter(w => w.name?.toLowerCase().includes(term))
+      : this.wines;
+
+    if (this.priceSortDir) {
+      result = [...result].sort((a, b) => {
+        const priceA = a.price ?? 0;
+        const priceB = b.price ?? 0;
+        return this.priceSortDir === 'asc' ? priceA - priceB : priceB - priceA;
+      });
+    }
+
+    return result;
+  }
+
+  togglePriceSort(): void {
+    if (this.priceSortDir === null) {
+      this.priceSortDir = 'asc';
+    } else if (this.priceSortDir === 'asc') {
+      this.priceSortDir = 'desc';
+    } else {
+      this.priceSortDir = null;
+    }
   }
 
   loadWines(): void {

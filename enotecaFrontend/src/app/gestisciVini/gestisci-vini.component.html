@@ -20,6 +20,17 @@
   } @else if (wines.length === 0) {
     <p class="state-msg">Nessun vino in catalogo.</p>
   } @else {
+    <div class="search-bar">
+      <i class="ti ti-search"></i>
+      <input
+        type="text"
+        placeholder="Cerca vino per nome..."
+        [(ngModel)]="searchTerm">
+    </div>
+
+    @if (filteredWines.length === 0) {
+      <p class="state-msg">Nessun vino trovato.</p>
+    } @else {
     <div class="card table-card">
       <table>
         <thead>
@@ -29,13 +40,24 @@
             <th>Tipologia</th>
             <th>Regione</th>
             <th>Annata</th>
-            <th>Prezzo</th>
+            <th>
+              <button type="button" class="btn-sort" (click)="togglePriceSort()">
+                Prezzo
+                @if (priceSortDir === 'asc') {
+                  <i class="ti ti-arrow-up"></i>
+                } @else if (priceSortDir === 'desc') {
+                  <i class="ti ti-arrow-down"></i>
+                } @else {
+                  <i class="ti ti-arrows-sort"></i>
+                }
+              </button>
+            </th>
             <th>Disponibile</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          @for (wine of wines; track wine.id) {
+          @for (wine of filteredWines; track wine.id) {
             <tr>
               <td>{{ wine.name }}</td>
               <td>{{ wine.producer }}</td>
@@ -74,6 +96,7 @@
         </tbody>
       </table>
     </div>
+    }
   }
 
 </div>
