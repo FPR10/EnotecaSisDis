@@ -27,3 +27,6 @@ node_modules/
 #Markdown
 *.md
 .claude/
+
+#Script
+*.ps1
