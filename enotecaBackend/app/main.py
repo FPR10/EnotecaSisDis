@@ -12,7 +12,12 @@ settings = get_settings()
 setup_logging(debug=settings.debug)
 logger = get_logger(__name__)
 
-ALLOWED_ORIGINS = ["http://localhost:5173", "http://localhost:3000", "http://localhost:4200", "https://<URL-DEL-TUO-FRONTEND>"]
+ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://localhost:4200",
+    "https://enoteca-backend.whitebush-b41f9777.westeurope.azurecontainerapps.io"
+]
 
 
 @asynccontextmanager

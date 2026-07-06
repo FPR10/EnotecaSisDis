@@ -13,7 +13,6 @@ import { WineService } from '../shared/services/wine.service';
   templateUrl: './gestisci-vini.component.html',
   styleUrl: './gestisci-vini.component.scss'
 })
-
 export class GestisciViniComponent implements OnInit {
   wines: Wine[] = [];
   loading = false;
@@ -22,13 +21,16 @@ export class GestisciViniComponent implements OnInit {
   deleteErrorId: string | null = null;
   deleteError = '';
   confirmingId: string | null = null;
-
+  totaleVini: number | null = null;
   searchTerm = '';
   priceSortDir: 'asc' | 'desc' | null = null;
 
   constructor(private wineService: WineService, private router: Router) {}
 
   ngOnInit(): void {
+    this.wineService.getTotaleFromApi().subscribe({
+      next: totale => { this.totaleVini = totale; }
+    });
     this.loadWines();
   }
 
@@ -37,7 +39,6 @@ export class GestisciViniComponent implements OnInit {
     let result = term
       ? this.wines.filter(w => w.name?.toLowerCase().includes(term))
       : this.wines;
-
     if (this.priceSortDir) {
       result = [...result].sort((a, b) => {
         const priceA = a.price ?? 0;
@@ -45,7 +46,6 @@ export class GestisciViniComponent implements OnInit {
         return this.priceSortDir === 'asc' ? priceA - priceB : priceB - priceA;
       });
     }
-
     return result;
   }
 
@@ -87,7 +87,6 @@ export class GestisciViniComponent implements OnInit {
     this.deletingId = wineId;
     this.deleteError = '';
     this.deleteErrorId = null;
-
     this.wineService.delete(wineId).subscribe({
       next: () => {
         this.wines = this.wines.filter(w => w.id !== wineId);
@@ -103,7 +102,6 @@ export class GestisciViniComponent implements OnInit {
     });
   }
 
-  //Se si clicca sul pulsante Aggiungi vino -> apre la schermata 
   onAddWine(): void {
     this.router.navigate(['/aggiungi-vino']);
   }

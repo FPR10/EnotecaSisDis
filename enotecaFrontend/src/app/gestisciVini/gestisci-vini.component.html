@@ -1,11 +1,9 @@
 <div class="gestisci-vini-container">
-
   <div class="breadcrumb">
     <span>Catalogo</span>
     <i class="ti ti-chevron-right"></i>
     <span class="current">Gestisci vini</span>
   </div>
-
   <div class="page-header">
     <h1>Gestione catalogo</h1>
     <button type="button" class="btn-add" (click)="onAddWine()">
@@ -20,12 +18,18 @@
   } @else if (wines.length === 0) {
     <p class="state-msg">Nessun vino in catalogo.</p>
   } @else {
-    <div class="search-bar">
-      <i class="ti ti-search"></i>
-      <input
-        type="text"
-        placeholder="Cerca vino per nome..."
-        [(ngModel)]="searchTerm">
+    <div class="search-and-stats">
+      <div class="search-bar">
+        <i class="ti ti-search"></i>
+        <input
+          type="text"
+          placeholder="Cerca vino per nome..."
+          [(ngModel)]="searchTerm">
+      </div>
+      <div class="catalogo-stats" *ngIf="totaleVini !== null">
+        <i class="ti ti-database"></i>
+        {{ totaleVini | number }} vini in catalogo
+      </div>
     </div>
 
     @if (filteredWines.length === 0) {
@@ -98,5 +102,4 @@
     </div>
     }
   }
-
 </div>

@@ -5,13 +5,11 @@
   overflow-y: auto;
   background: #fff;
 }
-
 .gestisci-vini-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px 24px 32px;
 }
-
 .breadcrumb {
   display: flex;
   align-items: center;
@@ -19,21 +17,17 @@
   font-size: 13px;
   color: #999;
   margin-bottom: 20px;
-
   i { font-size: 12px; }
-
   .current {
     color: #1a1a1a;
     font-weight: 600;
   }
 }
-
 .page-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 18px;
-
   h1 {
     font-size: 19px;
     font-weight: 700;
@@ -41,7 +35,6 @@
     margin: 0;
   }
 }
-
 .btn-add {
   display: flex;
   align-items: center;
@@ -55,10 +48,22 @@
   color: #fff;
   cursor: pointer;
   transition: background 0.2s;
-
   &:hover { background: #6a61cf; }
 }
-
+.search-and-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.catalogo-stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #888;
+  i { font-size: 14px; }
+}
 .search-bar {
   display: flex;
   align-items: center;
@@ -67,14 +72,11 @@
   border: 1px solid #e8e8e8;
   border-radius: 8px;
   padding: 8px 14px;
-  margin-bottom: 16px;
   max-width: 320px;
-
   i {
     font-size: 14px;
     color: #999;
   }
-
   input {
     border: none;
     background: transparent;
@@ -82,11 +84,9 @@
     font-size: 13px;
     color: #1a1a1a;
     width: 100%;
-
     &::placeholder { color: #aaa; }
   }
 }
-
 .btn-sort {
   display: inline-flex;
   align-items: center;
@@ -99,18 +99,14 @@
   text-transform: inherit;
   letter-spacing: inherit;
   cursor: pointer;
-
   i { font-size: 13px; }
 }
-
 .state-msg {
   font-size: 13.5px;
   color: #999;
   padding: 20px 0;
-
   &.error { color: #c0392b; }
 }
-
 .card.table-card {
   background: #fff;
   border: 1px solid #e8e8e8;
@@ -118,17 +114,14 @@
   padding: 0;
   overflow: hidden;
 }
-
 table {
   width: 100%;
   border-collapse: collapse;
-
   th, td {
     text-align: left;
     padding: 12px 16px;
     font-size: 13px;
   }
-
   thead th {
     color: #666;
     font-weight: 600;
@@ -138,18 +131,14 @@ table {
     border-bottom: 1px solid #eee;
     background: #fafafa;
   }
-
   tbody tr {
     border-bottom: 1px solid #f1f1f1;
-
     &:last-child { border-bottom: none; }
   }
-
   td {
     color: #1a1a1a;
   }
 }
-
 .badge {
   display: inline-block;
   font-size: 11.5px;
@@ -158,18 +147,15 @@ table {
   border-radius: 999px;
   background: #fde8e8;
   color: #c0392b;
-
   &.on {
     background: #e1f5ec;
     color: #1b8a5a;
   }
 }
-
 .actions-cell {
   text-align: right;
   white-space: nowrap;
 }
-
 .btn-delete {
   display: inline-flex;
   align-items: center;
@@ -182,11 +168,9 @@ table {
   color: #c0392b;
   cursor: pointer;
   transition: background 0.2s;
-
   &:hover { background: #fde8e8; }
   &:disabled { opacity: 0.6; cursor: not-allowed; }
 }
-
 .confirm-row {
   display: inline-flex;
   align-items: center;
@@ -194,7 +178,6 @@ table {
   font-size: 12.5px;
   color: #1a1a1a;
 }
-
 .btn-confirm-yes, .btn-confirm-no {
   border: none;
   border-radius: 6px;
@@ -203,21 +186,16 @@ table {
   font-weight: 600;
   cursor: pointer;
 }
-
 .btn-confirm-yes {
   background: #c0392b;
   color: #fff;
-
   &:hover { background: #a82f24; }
 }
-
 .btn-confirm-no {
   background: #f0f0f0;
   color: #1a1a1a;
-
   &:hover { background: #e4e4e4; }
 }
-
 .row-error {
   margin-top: 6px;
   font-size: 11.5px;
