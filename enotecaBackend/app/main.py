@@ -19,10 +19,15 @@ ALLOWED_ORIGINS = [
     "https://enoteca-backend.whitebush-b41f9777.westeurope.azurecontainerapps.io"
 ]
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info(f"Avvio {settings.app_name} v{settings.app_version}")
+    # Preload modelli NLP al'avvio per evitare cold start sulla prima richiesta OCR
+    from app.service.text_processing_service import _load_spacy_model, _load_keybert_model
+    logger.info("Caricamento modelli NLP in corso...")
+    _load_spacy_model()
+    _load_keybert_model()
+    logger.info("Modelli NLP caricati")
     yield
     logger.info("Shutdown applicazione")
 

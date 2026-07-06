@@ -19,6 +19,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Modello italiano usato da spaCy per la Named Entity Recognition sul testo OCR (text_processing_service)
 RUN python -m spacy download it_core_news_sm
 
+# Prefetch del modello sentence-transformers usato da KeyBERT: viene scaricato una volta
+# in fase di build e "cotto" nell'immagine, così a runtime non serve alcuna chiamata di rete
+# verso HuggingFace (niente cold-start lento, niente rischio rate-limit/timeout in produzione)
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')"
+
 # Copia il codice sorgente
 COPY ./app ./app
 COPY alembic.ini .
