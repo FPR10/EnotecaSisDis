@@ -10,6 +10,7 @@ Uso:
 Il record creato avrà azure_oid fittizio — una volta configurato Azure Entra,
 al primo login Azure il record viene aggiornato automaticamente con l'OID reale
 (la ricerca avviene per email come fallback, oppure si elimina e si ricrea).
+Ok
 """
 import asyncio
 import uuid
