@@ -4,11 +4,8 @@ Tutta la validazione (es. email) viene gestita automaticamente da Pydantic
 """
 
 from datetime import datetime
-
 from typing import Optional
-
 from pydantic import BaseModel, EmailStr
-
 from app.entity.user_entity import UserRole
 
 class UserOut (BaseModel):

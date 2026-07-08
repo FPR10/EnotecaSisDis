@@ -8,12 +8,18 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.entity.user_entity import User
 
+from datetime import datetime, timezone
+
 class UserRepository:
 
     def __init__(self, session: AsyncSession):
         self.session = session
 
     async def find_by_id(self, user_id: str) -> Optional[User]:
+        """
+        Cerca un utente per l'id interno memorizzato.
+        Posso usare get perchè id è key del db 
+        """
         return await self.session.get(User, user_id)
 
     async def find_by_azure_id(self, azure_oid: str) -> Optional[User]:
@@ -33,11 +39,10 @@ class UserRepository:
 
     async def save(self, user: User) -> User:
         self.session.add(user)
-        await self.session.flush()
+        await self.session.flush() #forzo la sincronizzazione con il db
         await self.session.refresh(user)
         return user
 
     async def update_last_login(self, user: User) -> None:
-        from datetime import datetime, timezone
         user.last_login = datetime.now(timezone.utc)
         await self.session.flush()

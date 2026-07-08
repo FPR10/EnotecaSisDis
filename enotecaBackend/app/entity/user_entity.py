@@ -5,7 +5,7 @@ Con Azure Entra:
   - Le credenziali (password) sono gestite interamente da Azure
   - Il DB conserva solo i dati applicativi: ruolo, last_login, is_active
   - L'identificatore univoco è azure_oid (Object ID di Azure)
-  - hashed_password rimane nel modello per compatibilità SQLAlchemy ma è sempre ""
+  - hashed_password rimane nel modello per compatibilità SQLAlchemy ma è sempre "", appunto perchè la gestione delle credenziali è demandata ad Azure
 """
 import uuid
 from datetime import datetime

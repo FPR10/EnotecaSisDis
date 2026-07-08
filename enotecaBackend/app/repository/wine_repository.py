@@ -17,17 +17,15 @@ class WineRepository:
         self.session = session
         
         
-    '''
-    OPERAZIONI DI LETTURA
-    '''
+# OPERAZIONI DI LETTURA
     
-    #Ricerca vino tramite id
-    # con Optional gestisco il caso in cui è NONE perchè il vino non c'è
     async def find_by_id (self, wine_id: str) -> Optional[Wine]:
+        """
+        Ricerca vino teamite id (chiave primaria). Optional perchè il vino potrebbe non esserci.
+        """
         return await self.session.get(Wine, wine_id)
     
     
-    #Ricerca vini in base ai filtri
     async def find_all(self, filters: WineFilter, skip: int = 0, limit: int = 20) -> list[Wine]:
         """
         Restituisce vini con filtri applicati.
@@ -51,8 +49,9 @@ class WineRepository:
             query = query.where(Wine.prezzo <= filters.prezzo_max)
         if filters.popolarita_min:
             query = query.where(Wine.popolarita >= filters.popolarita_min)
+        #Campo di ricerca testuale libera 
         if filters.q:
-            # Ricerca testuale su nome, produttore e vitigno
+            # Ricerca su nome, produttore e vitigno
             pattern = f"%{filters.q}%"
             query = query.where(
                 or_(
@@ -79,9 +78,8 @@ class WineRepository:
         return list(result.scalars().all())
 
 
-    '''
-    OPERAZIONI DI LETTURA PER FRONTEND
-    '''
+# OPERAZIONI DI LETTURA DI INFORMAZIONI PER FRONTEND
+
     async def get_regioni_by_tipo(self, tipo: TipoVino) -> list[str]:
         """Restituisce le regioni distinte per un dato tipo"""
         
@@ -104,11 +102,8 @@ class WineRepository:
         return result.scalar_one()
     
     
-    '''
-    OPERAZIONI DI WRITE (solo per utente ADMIN)
-    
-    Gestiamo le operazionid salvataggio, modifica ed eliminazione
-    '''
+# OPERAZIONI DI WRITE (ADMIN): salvataggio, modifica (non usata) ed eliminazione
+
     async def save(self, wine: Wine) -> Wine:
         self.session.add(wine)
         await self.session.flush()   #sincronizzo le modifiche in memoria con il database, senza fare commit.
