@@ -42,8 +42,8 @@ class OcrService:
 
     async def extract_text(self, image_bytes: bytes) -> str:
         """
-        Esegue il la lettura dell'immagine dell'etichetta
-        e restituisce il testo individuato (una riga per ogni riga rilevata).
+        Esegue la lettura dell'immagine dell'etichetta
+        e restituisce il testo (una riga per ogni riga rilevata).
 
         Il client è sincrono: l'analisi viene eseguita in un thread
         separato per non bloccare l'event loop di FastAPI.

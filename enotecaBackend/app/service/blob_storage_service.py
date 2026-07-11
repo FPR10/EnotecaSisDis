@@ -1,11 +1,9 @@
 """
 Blob Storage service — upload di file su Azure Blob Storage.
 
-Due usi nel sistema:
-  - immagini etichette dei vini (container "etichette"): l'URL del blob viene
-    salvato in Wine.immagine_etichetta, al posto del file nel database
-  - audit dei file CSV/JSON caricati per l'import massivo (container "import-audit"):
-    conserva il file originale per controllo o reimportazione futura
+Utilizzato per:
+- immagini etichette dei vini (URL del blob viene salvato in Wine.immagine_etichetta, al posto del file reale)
+- audit dei file CSV/JSON caricati per l'import massivo
 """
 
 import asyncio
@@ -20,7 +18,7 @@ from app.config.settings import get_settings
 
 logger = get_logger(__name__)
 
-_CONTENT_TYPES = {
+tipi_file = {
     "jpg": "image/jpeg",
     "jpeg": "image/jpeg",
     "png": "image/png",
@@ -36,7 +34,7 @@ class BlobStorageServiceError(Exception):
 
 class BlobStorageService:
     """
-    Wrapper su Azure Blob Storage. Il client SDK è sincrono: le chiamate vengono
+    Wrapper su Azure Blob Storage. Il client (da SDK) è sincrono: le chiamate vengono
     eseguite in un thread separato per non bloccare l'event loop di FastAPI.
     """
 
@@ -68,7 +66,7 @@ class BlobStorageService:
 
     async def _upload(self, container: str, nome_blob: str, contenuto: bytes, estensione: str) -> str:
         blob_client = self._client.get_blob_client(container=container, blob=nome_blob)
-        content_settings = ContentSettings(content_type=_CONTENT_TYPES.get(estensione, "application/octet-stream"))
+        content_settings = ContentSettings(content_type=tipi_file.get(estensione, "application/octet-stream"))
 
         try:
             await asyncio.to_thread(

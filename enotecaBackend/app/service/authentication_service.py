@@ -1,10 +1,5 @@
 """
-Authentication service — sincronizzazione utenti Azure Entra e gestione profilo.
-
-La validazione del token (firma JWT, JWKS, claims) resta nella dependency FastAPI
-in app.config.security; questo service si occupa invece della logica di business
-sul record locale dell'utente: creazione al primo accesso, risincronizzazione dei
-dati di profilo e recupero per id/email.
+Authentication service — sincronizzazione utenti con Azure Entra.
 """
 
 from typing import Optional
@@ -29,17 +24,14 @@ class AuthenticationService:
     def __init__(self, user_repository: UserRepository) -> None:
         self.user_repository = user_repository
 
-    async def sincronizza_da_azure(
-        self,
-        *,
-        azure_oid: str,
-        email: str,
-        nome: Optional[str],
-        ruolo: UserRole,
-    ) -> User:
+    async def sincronizza_da_azure(self,*,azure_oid: str,email: str,nome: Optional[str],ruolo: UserRole) -> User:
         """
-        Crea l'utente al primo accesso; altrimenti risincronizza email, nome e
-        ruolo (possono cambiare lato Azure) e aggiorna last_login.
+        PRIMO ACCESSO:
+        - crea l'utente
+        
+        UTENTE GIA' REGISTRATO:
+        - risincronzizazione di email, nome e ruolo + aggiornamento del last_login
+       
         """
         if not azure_oid:
             raise AuthenticationServiceError("Azure Object ID mancante")

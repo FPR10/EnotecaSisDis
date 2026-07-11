@@ -1,8 +1,8 @@
 """
 Pairing service — abbinamento cibo-vino.
 
-Basandosi su un piatto descritto dall'utente, viene interrogato un LLM (Groq, modello LLama) per
-individuare, tra i vini nel catalogo, quelli più adatti ad accompagnarlo.
+Basandosi sul piatto descritto dall'utente, viene interrogato un LLM (Groq, modello LLama) per
+individuare, tra i vini nel catalogo, quelli più adatti come abbinamento.
 Ci si basa sulle caratteristiche organolettiche del vino (colore, profumo, gusto, vitigno, tipo, denominazione).
 """
 
@@ -61,7 +61,7 @@ class PairingService:
 
     @staticmethod
     def _descrivi_vino(wine: Wine) -> str:
-        """Riga sintetica del vino (per il catalogo nel prompt): id e caratteristiche organolettiche."""
+        """Genera una riga compatta con ID e principali caratteristiche del vino per il catalogo nel prompt."""
         caratteristiche = wine.caratteristiche_organolettiche or {}
         dettagli_vino = [f"tipo {wine.tipo.value}"]
         if wine.vitigno:
@@ -94,7 +94,7 @@ class PairingService:
         risposta_grezza = await self._chiedi_abbinamento_a_groq(cibo, candidati)
         suggerimenti = self._estrai_suggerimenti(risposta_grezza)
 
-        risultati = self._risolvi_vini_suggeriti(suggerimenti, candidati)
+        risultati = self._valida_vini_suggeriti(suggerimenti, candidati)
         if not risultati:
             raise PairingServiceError("Nessun vino del catalogo individuato nella risposta di Groq")
 
@@ -146,18 +146,22 @@ class PairingService:
             logger.error(f"Groq: risposta non interpretabile come JSON: {contenuto!r}")
             raise PairingServiceError("Risposta di Groq non interpretabile") from exception
 
-    def _risolvi_vini_suggeriti(
+    def _valida_vini_suggeriti(
         self, suggerimenti: list[dict], candidati: list[Wine]
     ) -> list[tuple[Wine, str]]:
-        """Associa ogni suggerimento al vino reale del catalogo, scartando eventuali allucinazioni."""
-        vini_per_id = {wine.id: wine for wine in candidati}
+        """Associa ogni suggerimento al vino reale del catalogo, scartando eventuali allucinazioni del LLM ."""
+        vini_per_id = {}
+        
+        for wine in candidati:
+            vini_per_id[wine.id]=wine
+            
         risultati: list[tuple[Wine, str]] = []
         for voce in suggerimenti:
             wine_id = voce.get("wine_id")
             if not isinstance(wine_id, str):
-                continue  # id mancante o malformato: probabile allucinazione del modello
+                continue  # id mancante o malformato: allucinazione del modello
             wine = vini_per_id.get(wine_id)
             if wine is None:
-                continue  # id non presente nel catalogo: probabile allucinazione del modello
+                continue  # id non presente nel catalogo: allucinazione del modello
             risultati.append((wine, voce.get("motivazione", "")))
         return risultati
