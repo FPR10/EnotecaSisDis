@@ -18,24 +18,11 @@ from app.config.settings import get_settings
 settings = get_settings()
 
 
-# ============================================================
-# ENGINE DATABASE
-# ============================================================
-#
-# L'engine rappresenta il punto di accesso al database.
-# Gestisce:
-#   - connessioni
-#   - pool di connessioni
-#   - comunicazione con MySQL
-#
-# In questo caso usiamo:
-#   MySQL + driver asincrono aiomysql
-#
+#Database engine - punto di accesso al DB (MySQL)
 engine = create_async_engine(
     settings.database_url,
 
-    # Controlla che una connessione sia ancora valida
-    # prima di riutilizzarla.
+    #Check connessione valida
     pool_pre_ping=True,
 
     # Se debug=True mostra tutte le query SQL nel terminale.
@@ -44,34 +31,19 @@ engine = create_async_engine(
     # Numero massimo di connessioni mantenute aperte.
     pool_size=10,
 
-    # Connessioni extra temporanee se il pool è pieno.
+    # Max numero di connessioni mantenute se il pool è pieno
     max_overflow=20,
 
-    # Ricrea automaticamente le connessioni dopo 1 ora.
-    # Utile perché MySQL chiude connessioni inattive.
+    # Ricrea automaticamente le connessioni dopo 1 ora (MySQL chiude l connessioni inattive)
     pool_recycle=3600,
 )
 
 
-# ============================================================
-# SESSION FACTORY
-# ============================================================
-#
-# Una Session rappresenta una "conversazione"
-# con il database.
-#
-# Tramite la Session possiamo:
-#   - eseguire query
-#   - inserire dati
-#   - modificare dati
-#   - eliminare dati
-#
-# async_sessionmaker è una fabbrica che genera
-# nuove sessioni quando servono.
-#
+
+#Sessione (per inserimento, modifica, eliminazione ed esecuzione di query)
 AsyncSessionLocal = async_sessionmaker(
 
-    # Associa le sessioni all'engine creato sopra.
+    # Associa le sessioni all'engine creato 
     bind=engine,
 
     # Tipo di sessione: asincrona.
@@ -80,7 +52,6 @@ AsyncSessionLocal = async_sessionmaker(
     # Dopo commit gli oggetti restano utilizzabili.
     expire_on_commit=False,
 
-    # Il commit verrà eseguito manualmente.
     autocommit=False,
 
     # SQLAlchemy non invia automaticamente
@@ -89,59 +60,20 @@ AsyncSessionLocal = async_sessionmaker(
 )
 
 
-# ============================================================
-# CLASSE BASE ORM
-# ============================================================
-#
-# Tutte le entità del database erediteranno da Base.
-#
-# Esempio:
-#
-# class Wine(Base):
-#     __tablename__ = "wines"
-#
-# class User(Base):
-#     __tablename__ = "users"
-#
-# SQLAlchemy usa questa classe per raccogliere
-# i metadati di tutte le tabelle.
-#
+# Classe Base (tutte le entity del DB eriditano da Base)
 class Base(DeclarativeBase):
     pass
 
 
-# ============================================================
-# FASTAPI DATABASE DEPENDENCY
-# ============================================================
-#
-# Questa funzione viene utilizzata con:
-#
-# db: AsyncSession = Depends(get_db)
-#
-# FastAPI:
-#   1. apre una sessione
-#   2. la passa al controller
-#   3. esegue commit se tutto va bene
-#   4. esegue rollback se c'è un errore
-#   5. chiude la sessione
-#
+
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
 
-    # Crea una nuova sessione.
+    # Crea una nuova sessione
     async with AsyncSessionLocal() as session:
 
         try:
 
-            # Consegna la sessione al controller.
-            #
-            # Esempio:
-            #
-            # @router.get("/wines")
-            # async def get_wines(
-            #     db: AsyncSession = Depends(get_db)
-            # ):
-            #     ...
-            #
+            #Collegamento sessione-controller
             yield session
 
             # Se il controller termina senza errori,

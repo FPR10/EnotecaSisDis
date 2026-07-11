@@ -20,7 +20,7 @@ async def cerca_vini(
     limit: int = 20,
     wine_service: WineService = Depends(get_wine_service),
 ) -> WinePageOut:
-    """Lista vini del catalogo, filtrabile e paginata. Consultazione pubblica."""
+    """Lista vini del catalogo. Consultazione pubblica."""
     vini, totale = await wine_service.cerca_vini(filtri, skip=skip, limit=limit)
     return WinePageOut(
         items=[WineOut.model_validate(vino) for vino in vini],

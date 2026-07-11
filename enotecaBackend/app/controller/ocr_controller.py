@@ -1,7 +1,6 @@
-"""OCR controller — riconoscimento del vino a partire dalla foto dell'etichetta. Consultazione pubblica.
+"""OCR controller — riconoscimento del vino a partire dalla foto dell'etichetta. Utilizzo pubblico senza autenticazione.
 
-Pipeline: OcrService (Azure AI Vision) estrae il testo dall'immagine,
-TextProcessingService (spaCy + KeyBERT + RapidFuzz) lo confronta col catalogo.
+Pipeline delle chiamate implementate: OCRService (Azure AI vision) estrae il testo dall'immagine, TextProcessingService trova le corrispondenze nel catalogo
 """
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
@@ -15,11 +14,10 @@ router = APIRouter()
 
 
 @router.post("/etichetta", response_model=OcrSearchOut)
-async def riconosci_etichetta(
-    immagine: UploadFile,
-    ocr_service: OcrService = Depends(get_ocr_service),
+async def riconosci_etichetta(immagine: UploadFile, ocr_service: OcrService = Depends(get_ocr_service),
     text_processing_service: TextProcessingService = Depends(get_text_processing_service),
 ) -> OcrSearchOut:
+    
     """Estrae il testo dalla foto di un'etichetta e individua il vino corrispondente nel catalogo."""
     contenuto = await immagine.read()
     try:

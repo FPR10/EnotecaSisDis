@@ -10,10 +10,7 @@ router = APIRouter()
 
 
 @router.post("/abbinamento", response_model=AbbinamentoOut)
-async def abbina_cibo_vino(
-    dati: AbbinamentoCiboIn,
-    pairing_service: PairingService = Depends(get_pairing_service),
-) -> AbbinamentoOut:
+async def abbina_cibo_vino(dati: AbbinamentoCiboIn, pairing_service: PairingService = Depends(get_pairing_service)) -> AbbinamentoOut:
     """Suggerisce i vini del catalogo più adatti al piatto descritto."""
     try:
         risultati = await pairing_service.suggerisci_vini(dati.cibo)

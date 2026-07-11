@@ -22,27 +22,19 @@ def get_user_repository(db: AsyncSession = Depends(get_db)) -> UserRepository:
     return UserRepository(db)
 
 
-def get_wine_service(
-    wine_repository: WineRepository = Depends(get_wine_repository),
-) -> WineService:
+def get_wine_service(wine_repository: WineRepository = Depends(get_wine_repository)) -> WineService:
     return WineService(wine_repository)
 
 
-def get_authentication_service(
-    user_repository: UserRepository = Depends(get_user_repository),
-) -> AuthenticationService:
+def get_authentication_service(user_repository: UserRepository = Depends(get_user_repository)) -> AuthenticationService:
     return AuthenticationService(user_repository)
 
 
-def get_pairing_service(
-    wine_repository: WineRepository = Depends(get_wine_repository),
-) -> PairingService:
+def get_pairing_service( wine_repository: WineRepository = Depends(get_wine_repository),) -> PairingService:
     return PairingService(wine_repository)
 
 
-def get_text_processing_service(
-    wine_repository: WineRepository = Depends(get_wine_repository),
-) -> TextProcessingService:
+def get_text_processing_service(wine_repository: WineRepository = Depends(get_wine_repository),) -> TextProcessingService:
     return TextProcessingService(wine_repository)
 
 
