@@ -27,7 +27,7 @@ async def riconosci_etichetta(immagine: UploadFile, ocr_service: OcrService = De
     finally:
         ocr_service.close()
 
-    corrispondenze = await text_processing_service.match_wines(testo_estratto)
+    corrispondenze = await text_processing_service.abbina_vini(testo_estratto)
     return OcrSearchOut(
         extracted_text=testo_estratto,
         results=[WineOut.model_validate(match.wine) for match in corrispondenze],

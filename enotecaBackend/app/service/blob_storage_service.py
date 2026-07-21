@@ -81,6 +81,9 @@ class BlobStorageService:
 
         return blob_client.url
 
+    """
+    Metodi di utilità
+    """
     @staticmethod
     def _estensione(nome_file: str, default: str) -> str:
         return nome_file.rsplit(".", 1)[-1].lower() if nome_file and "." in nome_file else default

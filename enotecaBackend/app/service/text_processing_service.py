@@ -4,16 +4,13 @@ In questa classe viene effettuata l'analisi del testo OCR e matching con il cata
 
 Flusso: ocr_service.py -> text_processing_service.py -> wine_repository.py
 
-Tecniche impiegate:
-    - Pulizia  : rimozione del testo legale/boilerplate ("denominazione di origine
-                 controllata e garantita", "imbottigliato da", ...) prima di ogni analisi,
-                 per evitare che venga scambiato per un'entità o inquini il fuzzy matching
-    - Gazetteer: le stringhe del catalogo (produttore, denominazione, vitigno, ...) vengono
-                 cercate direttamente nel testo ripulito (fuzzy substring matching), invece
-                 di affidarsi solo a un NER "open domain"
-    - spaCy    : riconoscimento delle entità nominate nel testo (produttore,denominazione, luoghi) presente sull'etichetta
-    - KeyBERT  : individuazione delle parole/frasi chiave più rilevanti, a complemento delle entità riconosciute da spaCy
-    - RapidFuzz: confronto fuzzy fra le informazioni estratte e il catalogo vini, per identificare automaticamente il prodotto
+Viene eseguita:
+- Pulizia ed eliminazione del testo inutile PRIMA di ogni analisi
+
+Si usano:
+- spaCy: riconoscimento delle entità nominate nel testo (produttore,denominazione, luoghi) presente sull'etichetta
+- KeyBERT  : individuazione delle parole/frasi chiave più rilevanti, a complemento delle entità riconosciute da spaCy
+- RapidFuzz: confronto fuzzy fra le informazioni estratte e il catalogo vini, per identificare automaticamente il prodotto
 """
 
 import re
@@ -43,10 +40,7 @@ _RELEVANT_ENTITY_LABELS = {"PER", "ORG", "LOC", "MISC"}
 # Sotto questa soglia (score RapidFuzz 0-100) la corrispondenza è considerata irrilevante
 _MATCH_SCORE_THRESHOLD = 60.0
 
-# Frasi legali/boilerplate ricorrenti sulle etichette di vino italiane: non sono
-# informazioni distintive del prodotto e, se lasciate nel testo, vengono scambiate
-# da spaCy per entità (ORG/LOC/MISC) e generano falsi positivi nel fuzzy matching
-# (es. "denominazione di origine controllata" compare in decine di vini diversi).
+# Frasi sulle etichette di vino italiane: generano confusione nel fuzzy matching
 _BOILERPLATE_PATTERNS = [
     r"denominazione\s+di\s+origine\s+controllata(\s+e\s+garantita)?",
     r"indicazione\s+geografica\s+tipica",
@@ -67,22 +61,21 @@ _BOILERPLATE_PATTERNS = [
 ]
 _BOILERPLATE_RE = re.compile("|".join(_BOILERPLATE_PATTERNS), re.IGNORECASE)
 
-# Lunghezza minima di un valore di catalogo perché sia utile come termine gazetteer
+# Lunghezza minima di un valore di catalogo perché sia utile come termine di ricerca
 # (evita di usare come termine di ricerca stringhe troppo corte e poco distintive)
-_GAZETTEER_MIN_TERM_LENGTH = 3
+_CATALOGO_LUNGHEZZA_MIN_TERMINE = 3
 
 # Soglia (score RapidFuzz 0-100) sopra la quale un termine di catalogo è considerato
 # presente nel testo OCR ripulito
-_GAZETTEER_MATCH_THRESHOLD = 85.0
+_CATALOGO_SOGLIA_MATCH = 85.0
 
-# I modelli NLP sono pesanti da caricare: una sola istanza per processo
 @lru_cache 
-def _load_spacy_model() -> "spacy.language.Language":
+def _carica_modello_spacy() -> "spacy.language.Language":
     return spacy.load(_SPACY_MODEL)
 
 
 @lru_cache
-def _load_keybert_model() -> KeyBERT:
+def _carica_modello_keybert() -> KeyBERT:
     return KeyBERT(model=_KEYBERT_MODEL)
 
 
@@ -100,11 +93,11 @@ class TextProcessingService:
 
     def __init__(self, wine_repository: WineRepository):
         self.wine_repository = wine_repository
-        self._nlp = _load_spacy_model()
-        self._keybert = _load_keybert_model()
+        self._nlp = _carica_modello_spacy()
+        self._keybert = _carica_modello_keybert()
 
     @staticmethod
-    def clean_ocr_text(text: str) -> str:
+    def pulisci_testo_ocr(text: str) -> str:
         """
         Rimuove dal testo OCR le frasi legali/boilerplate note (denominazioni, diciture
         di imbottigliamento, allergeni, gradazione, ...) prima di passarlo a NLP e matching,
@@ -118,12 +111,12 @@ class TextProcessingService:
                 cleaned_lines.append(cleaned)
         return "\n".join(cleaned_lines)
 
-    def extract_entities(self, text: str) -> list[str]:
+    def estrai_entita(self, text: str) -> list[str]:
         """spaCy: individua le entità nominate nel testo (produttore, azienda, luoghi)."""
         doc = self._nlp(text)
         return [ent.text for ent in doc.ents if ent.label_ in _RELEVANT_ENTITY_LABELS]
 
-    def extract_keywords(self, text: str, top_n: int = 10) -> list[str]:
+    def estrai_parole_chiave(self, text: str, top_n: int = 10) -> list[str]:
         """KeyBERT: individua le parole/frasi chiave più rilevanti nel testo OCR."""
         if not text.strip():
             return []
@@ -136,8 +129,8 @@ class TextProcessingService:
         return [keyword for keyword, _score in pairs]
 
     @staticmethod
-    def _gazetteer_terms(candidates: list[Wine]) -> set[str]:
-        """Valori distinti del catalogo (produttore, denominazione, vitigno, ...) usabili come gazetteer."""
+    def _termini_noti_catalogo(candidates: list[Wine]) -> set[str]:
+        """Valori distinti del catalogo (produttore, denominazione, vitigno, ...) usabili come vocabolario di ricerca."""
         terms: set[str] = set()
         for wine in candidates:
             for field in (
@@ -148,11 +141,11 @@ class TextProcessingService:
                 wine.denominazione,
                 wine.regione,
             ):
-                if field and len(field.strip()) >= _GAZETTEER_MIN_TERM_LENGTH:
+                if field and len(field.strip()) >= _CATALOGO_LUNGHEZZA_MIN_TERMINE:
                     terms.add(field.strip())
         return terms
 
-    def _extract_gazetteer_matches(self, cleaned_text: str, candidates: list[Wine]) -> list[str]:
+    def _cerca_termini_catalogo_nel_testo(self, cleaned_text: str, candidates: list[Wine]) -> list[str]:
         """
         Cerca direttamente nel testo OCR ripulito le stringhe del catalogo (fuzzy substring
         matching), invece di lasciare che un NER "open domain" indovini cosa è rilevante:
@@ -164,19 +157,19 @@ class TextProcessingService:
         text_lower = cleaned_text.lower()
         return [
             term
-            for term in self._gazetteer_terms(candidates)
-            if fuzz.partial_ratio(term.lower(), text_lower) >= _GAZETTEER_MATCH_THRESHOLD
+            for term in self._termini_noti_catalogo(candidates)
+            if fuzz.partial_ratio(term.lower(), text_lower) >= _CATALOGO_SOGLIA_MATCH
         ]
 
-    def _extract_search_terms(self, cleaned_text: str, candidates: list[Wine]) -> list[str]:
+    def _estrai_termini_ricerca(self, cleaned_text: str, candidates: list[Wine]) -> list[str]:
         """
         Combina i termini di catalogo trovati nel testo (gazetteer), le entità (spaCy)
         e le parole chiave (KeyBERT) nei termini di ricerca, senza duplicati.
         """
         terms = (
-            self._extract_gazetteer_matches(cleaned_text, candidates)
-            + self.extract_entities(cleaned_text)
-            + self.extract_keywords(cleaned_text)
+            self._cerca_termini_catalogo_nel_testo(cleaned_text, candidates)
+            + self.estrai_entita(cleaned_text)
+            + self.estrai_parole_chiave(cleaned_text)
         )
         seen: set[str] = set()
         unique_terms = []
@@ -188,7 +181,7 @@ class TextProcessingService:
         return unique_terms
 
     @staticmethod
-    def _wine_search_blob(wine: Wine) -> str:
+    def _blob_ricerca_vino(wine: Wine) -> str:
         """Concatena i campi del vino rilevanti per il confronto testuale con l'etichetta."""
         fields = [
             wine.nome,
@@ -200,7 +193,7 @@ class TextProcessingService:
         ]
         return " ".join(field for field in fields if field)
 
-    async def match_wines(self, ocr_text: str, limit: int = 5) -> list[WineMatch]:
+    async def abbina_vini(self, ocr_text: str, limit: int = 5) -> list[WineMatch]:
         """
         Individua i vini del catalogo che corrispondono al testo OCR dell'etichetta.
 
@@ -222,12 +215,12 @@ class TextProcessingService:
         if not candidates:
             return []
 
-        cleaned_text = self.clean_ocr_text(ocr_text)
-        search_terms = self._extract_search_terms(cleaned_text, candidates)
+        cleaned_text = self.pulisci_testo_ocr(ocr_text)
+        search_terms = self._estrai_termini_ricerca(cleaned_text, candidates)
         # se gazetteer/spaCy/KeyBERT non individuano nulla di saliente, confronta col testo ripulito intero
         queries = search_terms or [cleaned_text]
 
-        blobs = {wine.id: self._wine_search_blob(wine) for wine in candidates}
+        blobs = {wine.id: self._blob_ricerca_vino(wine) for wine in candidates}
         best_scores: dict[str, float] = {}
         for query in queries:
             for _blob, score, wine_id in process.extract(
